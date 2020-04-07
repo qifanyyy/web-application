@@ -15,8 +15,9 @@ CREATE TABLE stars(
 );
 
 CREATE TABLE stars_in_movies(
-    starId VARCHAR(10) NOT NULL,
-    movieId VARCHAR(10) NOT NULL,
+    starId VARCHAR(10),
+    movieId VARCHAR(10),
+    PRIMARY KEY (starId, movieId),
     FOREIGN KEY (starId) REFERENCES stars(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (movieId) REFERENCES movies(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -27,8 +28,9 @@ CREATE TABLE genres(
 );
 
 CREATE TABLE genres_in_movies(
-    genreId INTEGER NOT NULL,
-    movieId VARCHAR(10) NOT NULL,
+    genreId INTEGER,
+    movieId VARCHAR(10),
+    PRIMARY KEY (genreId, movieId),
     FOREIGN KEY (genreId) REFERENCES genres(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (movieId) REFERENCES movies(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
