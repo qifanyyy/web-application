@@ -71,7 +71,6 @@ public class MoviesServlet extends HttpServlet {
                     movie_genre += genre_rs.getString("name");
                 }
 
-                query = "SELECT name FROM stars_in_movies, stars WHERE movieId = \""+ movie_id + "\" AND id = starID LIMIT 3;";
                 query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = \""+ movie_id + "\" AND id = starID LIMIT 3;";
 
                 // Declare our statement and Perform the query
