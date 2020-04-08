@@ -24,20 +24,22 @@ function handleMovieResult(resultData) {
     for (let i = 0; i < resultData.length; i++) {
 
         // Concatenate the html tags with resultData jsonObject
-        let rowHTML = '<tr><th><a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'// Add a link to single-movie.html with id passed with GET url parameter
-            + resultData[i]["movie_title"] + // display movie_title for the link text
-            "</a></th><th>" + resultData[i]["movie_year"] + "</th><th>" + resultData[i]["movie_director"] + "</th><th>" + resultData[i]["movie_genre"] + "</th><th>";
-        let starData = JSON.parse(resultData[i]["movie_star"]);
+        let rowHTML = '<tr><th><a href="single-movie.html?id=' + resultData[i]['movieId'] + '">'// Add a link to single-movie.html with id passed with GET url parameter
+            + resultData[i]["movieTitle"] + // display movie_title for the link text
+            "</a></th><th>" + resultData[i]["movieYear"] + "</th><th>" + resultData[i]["movieDirector"] + "</th><th>" +
+            resultData[i]["movieGenres"] + "</th><th>";
+        console.log(resultData[i]["movieStars"]);
+        let starData = resultData[i]['movieStars'];
         // Iterate through starData, no more than 3 entries
         for (let i = 0; i < starData.length; i++) {
-            if (i != 0) rowHTML += ", ";
+            if (i !== 0) rowHTML += ", ";
             rowHTML +=
             // Add a link to single-star.html with id passed with GET url parameter
-            '<a href="single-star.html?id=' + starData[i]["star_id"] + '">'
-            + starData[i]["star_name"] +     // display star name for the link text
+            '<a href="single-star.html?id=' + starData[i]["starId"] + '">'
+            + starData[i]["starName"] +     // display star name for the link text
             '</a>';
         }
-        rowHTML += "</th><th>" + resultData[i]["movie_rating"] + "</th></tr>";
+        rowHTML += "</th><th>" + resultData[i]["movieRating"] + "</th></tr>";
 
         // Append the row created to the table body, which will refresh the page
         movieTableBodyElement.append(rowHTML);
