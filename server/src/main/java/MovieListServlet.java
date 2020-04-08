@@ -24,28 +24,49 @@ public class MovieListServlet extends HttpServlet {
         resp.setContentType("application/json");
         PrintWriter out = resp.getWriter();
 
-        try {
-            Connection connection = dataSource.getConnection();
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT * FROM movies LIMIT 20");
+        try (Connection connection = dataSource.getConnection();
+            Statement movieRecordQueryStatement = connection.createStatement();
+            Statement genreQueryStatement = connection.createStatement();
+            Statement starQueryStatement = connection.createStatement()
+        ) {
+            String movieRecordQuery = "SELECT * FROM (ratings JOIN movies m ON ratings.movieId = m.id) " +
+                    "ORDER BY rating DESC LIMIT 20";
+            ResultSet movieRecordResultSet = movieRecordQueryStatement.executeQuery(movieRecordQuery);
 
             JsonArray movieList = new JsonArray();
 
-            while (resultSet.next()) {
+            while (movieRecordResultSet.next()) {
                 JsonObject movieRecord = new JsonObject();
-                movieRecord.addProperty("movieId", resultSet.getString("id"));
-                movieRecord.addProperty("movieTitle", resultSet.getString("title"));
-                movieRecord.addProperty("movieYear", resultSet.getString("year"));
-                movieRecord.addProperty("movieDirector", resultSet.getString("director"));
+                String movieId = movieRecordResultSet.getString("id");
+                movieRecord.addProperty("movieId", movieId);
+                movieRecord.addProperty("movieTitle", movieRecordResultSet.getString("title"));
+                movieRecord.addProperty("movieYear", movieRecordResultSet.getString("year"));
+                movieRecord.addProperty("movieDirector", movieRecordResultSet.getString("director"));
+                movieRecord.addProperty("movieRating", movieRecordResultSet.getString("rating"));
+
+                String genreQuery = "SELECT * FROM (genres JOIN genres_in_movies gim ON genres.id = gim.genreId) " +
+                        "WHERE movieId = '" + movieId + "' LIMIT 3";
+                ResultSet genreResultSet = genreQueryStatement.executeQuery(genreQuery);
+                JsonArray movieGenres = new JsonArray();
+                while (genreResultSet.next()) {
+                    movieGenres.add(genreResultSet.getString("name"));
+                }
+                movieRecord.add("movieGenres", movieGenres);
+
+                String starQuery = "SELECT * FROM (stars JOIN stars_in_movies sim ON stars.id = sim.starId) " +
+                        "WHERE movieId = '" + movieId + "' LIMIT 3";
+                ResultSet starResultSet = starQueryStatement.executeQuery(starQuery);
+                JsonArray movieStars = new JsonArray();
+                while (starResultSet.next()) {
+                    movieStars.add(starResultSet.getString("name"));
+                }
+                movieRecord.add("movieStars", movieStars);
+
                 movieList.add(movieRecord);
             }
 
             out.write(movieList.toString());
             resp.setStatus(200);
-
-            resultSet.close();
-            statement.close();
-            connection.close();
         } catch (Exception e) {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("errorMessage", e.getMessage());
