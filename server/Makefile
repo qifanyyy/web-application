@@ -1,4 +1,4 @@
-TOM_CAT_HOME="/home/ubuntu/tomcat"
+TOM_CAT_HOME=/home/ubuntu/tomcat
 
 clean:
 	rm -rf ./target
