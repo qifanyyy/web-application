@@ -1,8 +1,6 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,13 +9,13 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.sql.ResultSet;
 
 // Declaring a WebServlet called SingleStarServlet, which maps to url "/api/single-star"
 @WebServlet(name = "SingleStarServlet", urlPatterns = "/api/single-star")
 public class SingleStarServlet extends HttpServlet {
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 3L;
 
 	// Create a dataSource which registered in web.xml
 	@Resource(name = "jdbc/moviedb")
@@ -28,7 +26,7 @@ public class SingleStarServlet extends HttpServlet {
 	 *      response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws IOException {
 
 		response.setContentType("application/json"); // Response mime type
 
@@ -42,47 +40,30 @@ public class SingleStarServlet extends HttpServlet {
 			// Get a connection from dataSource
 			Connection dbcon = dataSource.getConnection();
 
-			// Construct a query with parameter represented by "?"
-			String query = "SELECT * from stars as s, stars_in_movies as sim, movies as m where m.id = sim.movieId and sim.starId = s.id and s.id = ?";
-
 			// Declare our statement
-			PreparedStatement statement = dbcon.prepareStatement(query);
+			Statement statement = dbcon.createStatement();
 
-			// Set the parameter represented by "?" in the query to the id we get from url,
-			// num 1 indicates the first "?" in the query
-			statement.setString(1, id);
+			// Construct a query with parameter represented by "?"
+			String query = "SELECT * from stars, stars_in_movies, movies WHERE movies.id = movieId AND starId = stars.id AND stars.id = '" + id + "';";
 
 			// Perform the query
-			ResultSet rs = statement.executeQuery();
+			ResultSet rs = statement.executeQuery(query);
 
 			JsonArray jsonArray = new JsonArray();
 
 			// Iterate through each row of rs
 			while (rs.next()) {
-
-				String starId = rs.getString("starId");
-				String starName = rs.getString("name");
-				String starDob = rs.getString("birthYear");
-
-				String movieId = rs.getString("movieId");
-				String movieTitle = rs.getString("title");
-				String movieYear = rs.getString("year");
-				String movieDirector = rs.getString("director");
-
 				// Create a JsonObject based on the data we retrieve from rs
-
 				JsonObject jsonObject = new JsonObject();
-				jsonObject.addProperty("star_id", starId);
-				jsonObject.addProperty("star_name", starName);
-				jsonObject.addProperty("star_dob", starDob);
-				jsonObject.addProperty("movie_id", movieId);
-				jsonObject.addProperty("movie_title", movieTitle);
-				jsonObject.addProperty("movie_year", movieYear);
-				jsonObject.addProperty("movie_director", movieDirector);
-
+				jsonObject.addProperty("star_id", rs.getString("starId"));
+				jsonObject.addProperty("star_name", rs.getString("name"));
+				jsonObject.addProperty("star_dob", rs.getString("birthYear"));
+				jsonObject.addProperty("movie_id", rs.getString("movieId"));
+				jsonObject.addProperty("movie_title", rs.getString("title"));
+				jsonObject.addProperty("movie_year", rs.getString("year"));
+				jsonObject.addProperty("movie_director", rs.getString("director"));
 				jsonArray.add(jsonObject);
 			}
-			
             // write JSON string to output
             out.write(jsonArray.toString());
             // set response status to 200 (OK)
@@ -101,7 +82,5 @@ public class SingleStarServlet extends HttpServlet {
 			response.setStatus(500);
 		}
 		out.close();
-
 	}
-
 }

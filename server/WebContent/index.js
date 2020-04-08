@@ -24,20 +24,9 @@ function handleMovieResult(resultData) {
     for (let i = 0; i < resultData.length; i++) {
 
         // Concatenate the html tags with resultData jsonObject
-        let rowHTML = "";
-        rowHTML += "<tr>";
-        rowHTML +=
-            "<th>" +
-            // Add a link to single-movie.html with id passed with GET url parameter
-            '<a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
-            + resultData[i]["movie_title"] +     // display movie_title for the link text
-            '</a>' +
-            "</th>";
-        rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["movie_director"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["movie_genre"] + "</th>";
-
-        rowHTML += "<th>"
+        let rowHTML = '<tr><th><a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'// Add a link to single-movie.html with id passed with GET url parameter
+            + resultData[i]["movie_title"] + // display movie_title for the link text
+            "</a></th><th>" + resultData[i]["movie_year"] + "</th><th>" + resultData[i]["movie_director"] + "</th><th>" + resultData[i]["movie_genre"] + "</th><th>";
         let starData = JSON.parse(resultData[i]["movie_star"]);
         // Iterate through starData, no more than 3 entries
         for (let i = 0; i < starData.length; i++) {
@@ -48,10 +37,7 @@ function handleMovieResult(resultData) {
             + starData[i]["star_name"] +     // display star name for the link text
             '</a>';
         }
-        rowHTML += "</th>";
-
-        rowHTML += "<th>" + resultData[i]["movie_rating"] + "</th>";
-        rowHTML += "</tr>";
+        rowHTML += "</th><th>" + resultData[i]["movie_rating"] + "</th></tr>";
 
         // Append the row created to the table body, which will refresh the page
         movieTableBodyElement.append(rowHTML);
