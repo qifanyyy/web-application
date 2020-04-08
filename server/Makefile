@@ -1,9 +1,6 @@
 TOM_CAT_HOME=/home/ubuntu/tomcat
 
-all:
-	clean
-	build
-	deploy
+all: clean build deploy
 
 clean:
 	${TOM_CAT_HOME}/bin/shutdown.sh
