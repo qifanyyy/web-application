@@ -1,8 +1,11 @@
 TOM_CAT_HOME="/home/ubuntu/tomcat"
 
+clean:
+	rm -rf ./target
+	rm -rf "${TOM_CAT_HOME}/webapps/cs122b-server"
+
 build: pom.xml
 	git pull
-	rm -rf ./target
 	mvn package
 
 deploy: target/cs122b-server.war
