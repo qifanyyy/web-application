@@ -55,11 +55,15 @@ public class MoviesServlet extends HttpServlet {
                 String movie_year = rs.getString("year");
                 String movie_director = rs.getString("director");
                 String movie_genre = "";
-                String movie_star = "";
+                JsonArray movie_star = new JsonArray();
                 String movie_rating = rs.getString("rating");
 
                 query = "SELECT name FROM genres_in_movies, genres WHERE movieId = \""+ movie_id + "\" AND id = genreID;";
+
+                // Declare our statement and Perform the query
                 ResultSet genre_rs = dbcon.createStatement().executeQuery(query);
+
+                // Iterate through each row of rs
                 while (genre_rs.next()) {
                     if (movie_genre != "") {
                         movie_genre += ", ";
@@ -68,12 +72,20 @@ public class MoviesServlet extends HttpServlet {
                 }
 
                 query = "SELECT name FROM stars_in_movies, stars WHERE movieId = \""+ movie_id + "\" AND id = starID LIMIT 3;";
+                query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = \""+ movie_id + "\" AND id = starID LIMIT 3;";
+
+                // Declare our statement and Perform the query
                 ResultSet star_rs = dbcon.createStatement().executeQuery(query);
+
+                // Iterate through each row of rs
                 while (star_rs.next()) {
-                    if (movie_star != "") {
-                        movie_star += ", ";
-                    }
-                    movie_star += star_rs.getString("name");
+                    String star_id = star_rs.getString("starId");
+                    String star_name = star_rs.getString("name");
+                    // Create a JsonObject based on the data we retrieve from rs
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("star_id", star_id);
+                    jsonObject.addProperty("star_name", star_name);
+                    movie_star.add(jsonObject);
                 }
 
 
@@ -84,7 +96,7 @@ public class MoviesServlet extends HttpServlet {
                 jsonObject.addProperty("movie_year", movie_year);
                 jsonObject.addProperty("movie_director", movie_director);
                 jsonObject.addProperty("movie_genre", movie_genre);
-                jsonObject.addProperty("movie_star", movie_star);
+                jsonObject.addProperty("movie_star", movie_star.toString());
                 jsonObject.addProperty("movie_rating", movie_rating);
 
                 jsonArray.add(jsonObject);

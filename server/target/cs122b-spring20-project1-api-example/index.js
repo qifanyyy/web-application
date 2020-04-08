@@ -20,7 +20,7 @@ function handleMovieResult(resultData) {
     // Find the empty table body by id "movie_table_body"
     let movieTableBodyElement = jQuery("#movie_table_body");
 
-    // Iterate through resultData, no more than 10 entries
+    // Iterate through resultData, no more than 20 entries
     for (let i = 0; i < resultData.length; i++) {
 
         // Concatenate the html tags with resultData jsonObject
@@ -36,7 +36,20 @@ function handleMovieResult(resultData) {
         rowHTML += "<th>" + resultData[i]["movie_year"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_director"] + "</th>";
         rowHTML += "<th>" + resultData[i]["movie_genre"] + "</th>";
-        rowHTML += "<th>" + resultData[i]["movie_star"] + "</th>";
+
+        rowHTML += "<th>"
+        let starData = JSON.parse(resultData[i]["movie_star"]);
+        // Iterate through starData, no more than 3 entries
+        for (let i = 0; i < starData.length; i++) {
+            if (i != 0) rowHTML += ", ";
+            rowHTML +=
+            // Add a link to single-star.html with id passed with GET url parameter
+            '<a href="single-star.html?id=' + starData[i]["star_id"] + '">'
+            + starData[i]["star_name"] +     // display star name for the link text
+            '</a>';
+        }
+        rowHTML += "</th>";
+
         rowHTML += "<th>" + resultData[i]["movie_rating"] + "</th>";
         rowHTML += "</tr>";
 
