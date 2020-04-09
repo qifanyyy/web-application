@@ -2,14 +2,14 @@
 
 cs122b-spring20-team-12 created by GitHub Classroom
 
-## `createtable.sql`
+## Create Database
 
 ```bash
 mysql -umytestuser -p < createtable.sql
 mysql -umytestuser -p moviedb < movie-data.sql
 ```
 
-## `server`
+## Server
 
 See [server/README.md](./server/README.md).
 
