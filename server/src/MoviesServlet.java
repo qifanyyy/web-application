@@ -24,8 +24,8 @@ public class MoviesServlet extends HttpServlet {
     private DataSource dataSource;
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-        response.setContentType("application/json"); // Response mime type
+        response.setContentType("application/json; charset=UTF-8"); // Response mime type
+        response.setCharacterEncoding("UTF-8");
 
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
