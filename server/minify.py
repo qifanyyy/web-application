@@ -6,7 +6,7 @@ html_minify_cmd = 'html-minifier --collapse-whitespace --remove-comments --remov
     '--remove-redundant-attributes --remove-script-type-attributes --remove-tag-whitespace --use-short-doctype ' + \
     '{} -o {}'
 clean_css_cmd = 'cleancss -O2 {} -o {}'
-uglify_js_cmd = 'uglifyjs {} -o {} --compress --mangle --drop_console'
+uglify_js_cmd = 'uglifyjs {} -o {} --compress --mangle'
 
 
 def _get_output_file_name(input_file: Path) -> Path:
