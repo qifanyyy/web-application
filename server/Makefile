@@ -7,8 +7,9 @@ clean:
 	rm -rf ./target
 	rm -rf "${TOM_CAT_HOME}/webapps/cs122b-server"
 
-build: pom.xml
+build:
 	git pull
+	python minify.py --deploy
 	mvn package
 
 deploy: target/cs122b-server.war
