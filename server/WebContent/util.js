@@ -18,3 +18,10 @@ function getParameterByName(target) {
     // Return the decoded parameter value
     return decodeURIComponent(results[2].replace(/\+/g, " "));
 }
+
+function jsonErrorMsgHandler(json) {
+    console.error(json['errorMessage']);
+    if (json['stackTrace']) {
+        console.error(json['stackTrace']);
+    }
+}

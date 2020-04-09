@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -42,42 +43,43 @@ public class SingleMovieServlet extends HttpServlet {
 
 			// Declare our statement
 			Statement statement = dbcon.createStatement();
-
 			// Construct a query with parameter represented by "?"
-			String query = "SELECT * FROM movies, ratings WHERE id = ratings.movieId AND id ='" + id +"';";
+			String query = "SELECT * FROM movies WHERE id ='" + id +"'";
 
 			// Perform the query
 			ResultSet rs = statement.executeQuery(query);
 
-			rs.next();
+			if (!rs.next()) {
+				JsonObject object = new JsonObject();
+				object.addProperty("errorMessage", "movie with id '" + id + "' not found");
+				out.write(object.toString());
+				response.setStatus(404);
+				statement.close();
+				dbcon.close();
+				out.close();
+				return;
+			}
 
-  			String movie_genre = "";
-
- 			query = "SELECT name FROM genres_in_movies, genres WHERE movieId = '"+ id + "' AND id = genreID;";
+			JsonArray movieGenres = new JsonArray();
+ 			query = "SELECT name FROM genres_in_movies, genres WHERE movieId = '"+ id + "' AND id = genreID";
 
      		// Declare our statement
  			Statement genre_statement = dbcon.createStatement();
-
  			// Perform the query
  			ResultSet genre_rs = genre_statement.executeQuery(query);
 
  			// Iterate through each row of rs
  			while (genre_rs.next()) {
- 				if (movie_genre != "") movie_genre += ", ";
- 				movie_genre += genre_rs.getString("name");
+				movieGenres.add(genre_rs.getString("name"));
  			}
  			genre_rs.close();
  			genre_statement.close();
 
-
-
 			query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '"+ id + "' AND id = starID;";
-
 			JsonArray movie_star = new JsonArray();
 
 			// Declare our statement
 			Statement star_statement = dbcon.createStatement();
-
 			// Perform the query
 			ResultSet star_rs = star_statement.executeQuery(query);
 
@@ -94,15 +96,25 @@ public class SingleMovieServlet extends HttpServlet {
 			star_rs.close();
 			star_statement.close();
 
-
 			// Create a JsonObject based on the data we retrieve from rs
 			JsonObject jsonObject = new JsonObject();
 			jsonObject.addProperty("movie_title", rs.getString("title"));
 			jsonObject.addProperty("movie_year", rs.getString("year"));
 			jsonObject.addProperty("movie_director", rs.getString("director"));
-			jsonObject.addProperty("movie_genre", movie_genre);
-			jsonObject.addProperty("movie_star", movie_star.toString());
-			jsonObject.addProperty("movie_rating", rs.getString("rating"));
+			jsonObject.add("movie_genre", movieGenres);
+			jsonObject.add("movie_star", movie_star);
+
+			Statement ratingStatement = dbcon.createStatement();
+			ResultSet ratingResult = ratingStatement.executeQuery("SELECT rating FROM " +
+					"(ratings JOIN movies m on ratings.movieId = m.id) WHERE m.id = '" + id + "'");
+
+			if (ratingResult.next()) {
+				jsonObject.addProperty("movie_rating", ratingResult.getString("rating"));
+			} else {
+				jsonObject.add("movie_rating", null);
+			}
+			ratingResult.close();
+			ratingStatement.close();
 
 			// write JSON string to output
 			out.write(jsonObject.toString());
@@ -114,9 +126,7 @@ public class SingleMovieServlet extends HttpServlet {
 			dbcon.close();
 		} catch (Exception e) {
 			// write error message JSON object to output
-			JsonObject jsonObject = new JsonObject();
-			jsonObject.addProperty("errorMessage", e.getMessage());
-			out.write(jsonObject.toString());
+			out.write(Util.exception2Json(e).toString());
 
 			// set reponse status to 500 (Internal Server Error)
 			response.setStatus(500);

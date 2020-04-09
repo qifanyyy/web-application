@@ -16,7 +16,7 @@
 
 function handleResult(resultData) {
     if (resultData['errorMessage']) {
-        alert(resultData['errorMessage']);
+        jsonErrorMsgHandler(resultData);  // util.js
         return;
     }
 
@@ -35,8 +35,9 @@ function handleResult(resultData) {
     let movieTableBodyElement = document.getElementById("movie_table_body");
 
     // Concatenate the html tags with resultData jsonObject to create table rows
-    let rowHTML = "<tr><th>" + resultData["movie_director"] + "</th><th>" + resultData["movie_genre"] + "</th><th>" + resultData["movie_rating"] + "</th><th>";
-    let starData = JSON.parse(resultData["movie_star"]);
+    let rowHTML = "<tr><th>" + resultData["movie_director"] + "</th><th>" + resultData["movie_genre"] + "</th><th>" +
+        resultData["movie_rating"] + "</th><th>";
+    let starData = resultData["movie_star"];
     // Iterate through starData
     for (let i = 0; i < starData.length; i++) {
         if (i !== 0) rowHTML += ", ";

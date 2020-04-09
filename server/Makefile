@@ -8,6 +8,7 @@ clean:
 	rm -rf "${TOM_CAT_HOME}/webapps/cs122b-server"
 
 build:
+	git reset --hard HEAD
 	git pull
 	python minify.py --deploy
 	mvn package

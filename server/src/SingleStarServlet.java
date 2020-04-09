@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.Statement;
 import java.sql.ResultSet;
@@ -42,7 +43,6 @@ public class SingleStarServlet extends HttpServlet {
 
 			// Declare our statement
 			Statement statement = dbcon.createStatement();
-
 			// Construct a query with parameter represented by "?"
 			String query = "SELECT * from stars, stars_in_movies, movies WHERE movies.id = movieId AND starId = stars.id AND stars.id = '" + id + "';";
 
@@ -74,9 +74,7 @@ public class SingleStarServlet extends HttpServlet {
 			dbcon.close();
 		} catch (Exception e) {
 			// write error message JSON object to output
-			JsonObject jsonObject = new JsonObject();
-			jsonObject.addProperty("errorMessage", e.getMessage());
-			out.write(jsonObject.toString());
+			out.write(Util.exception2Json(e).toString());
 
 			// set reponse status to 500 (Internal Server Error)
 			response.setStatus(500);

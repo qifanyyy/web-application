@@ -95,13 +95,7 @@ public class MoviesServlet extends HttpServlet {
         } catch (Exception e) {
         	
 			// write error message JSON object to output
-			JsonObject jsonObject = new JsonObject();
-			jsonObject.addProperty("errorMessage", e.getMessage());
-            StringWriter stringWriter = new StringWriter();
-            PrintWriter printWriter = new PrintWriter(stringWriter);
-            e.printStackTrace(printWriter);
-			jsonObject.addProperty("stackTrace", stringWriter.toString());
-			out.write(jsonObject.toString());
+			out.write(Util.exception2Json(e).toString());
 
 			// set reponse status to 500 (Internal Server Error)
 			response.setStatus(500);

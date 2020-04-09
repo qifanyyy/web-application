@@ -17,7 +17,7 @@
 
 function handleResult(resultData) {
     if (resultData['errorMessage']) {
-        alert(resultData['errorMessage']);
+        jsonErrorMsgHandler(resultData);  // util.js
         return;
     }
 
@@ -38,7 +38,8 @@ function handleResult(resultData) {
 
     // Concatenate the html tags with resultData jsonObject to create table rows
     for (let i = 0; i < resultData.length; i++) {
-        let rowHTML = '<tr><th><a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'// Add a link to single-movie.html with id passed with GET url parameter
+        // Add a link to single-movie.html with id passed with GET url parameter
+        let rowHTML = '<tr><th><a href="single-movie.html?id=' + resultData[i]['movie_id'] + '">'
             + resultData[i]["movie_title"] + // display movie_title for the link text
             "</a></th><th>" + resultData[i]["movie_year"] + "</th><th>" + resultData[i]["movie_director"] + "</th></tr>";
 
