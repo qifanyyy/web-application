@@ -42,12 +42,12 @@ function handleResult(resultData) {
 
     // populate the movie info h3
     // find the empty h3 body by id "movie_info"
-    let pageTitleElement = jQuery("#title_info");
+    let pageTitleElement = document.getElementById("title_info");
     let movieInfoElement = jQuery("#movie_info");
 
     // append two html <p> created to the h3 body, which will refresh the page
     let title = resultData["movie_title"] + " (" + resultData["movie_year"] + ")";
-    pageTitleElement.append(title);
+    pageTitleElement.innerText += title;
     movieInfoElement.append(title);
 
     console.log("handleResult: populating movie table from resultData");
@@ -61,7 +61,7 @@ function handleResult(resultData) {
     let starData = JSON.parse(resultData["movie_star"]);
     // Iterate through starData
     for (let i = 0; i < starData.length; i++) {
-        if (i != 0) rowHTML += ", ";
+        if (i !== 0) rowHTML += ", ";
         rowHTML +=
             // Add a link to single-star.html with id passed with GET url parameter
             '<a href="single-star.html?id=' + starData[i]["star_id"] + '">'
