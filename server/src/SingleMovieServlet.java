@@ -44,7 +44,8 @@ public class SingleMovieServlet extends HttpServlet {
 			// Declare our statement
 			Statement statement = dbcon.createStatement();
 			// Construct a query with parameter represented by "?"
-			String query = "SELECT * FROM movies WHERE id ='" + id +"'";
+			String query = "SELECT * FROM (movies LEFT OUTER JOIN ratings r on movies.id = r.movieId) " +
+					"WHERE movies.id ='" + id +"'";
 
 			// Perform the query
 			ResultSet rs = statement.executeQuery(query);
@@ -103,18 +104,7 @@ public class SingleMovieServlet extends HttpServlet {
 			jsonObject.addProperty("movie_director", rs.getString("director"));
 			jsonObject.add("movie_genre", movieGenres);
 			jsonObject.add("movie_star", movie_star);
-
-			Statement ratingStatement = dbcon.createStatement();
-			ResultSet ratingResult = ratingStatement.executeQuery("SELECT rating FROM " +
-					"(ratings JOIN movies m on ratings.movieId = m.id) WHERE m.id = '" + id + "'");
-
-			if (ratingResult.next()) {
-				jsonObject.addProperty("movie_rating", ratingResult.getString("rating"));
-			} else {
-				jsonObject.add("movie_rating", null);
-			}
-			ratingResult.close();
-			ratingStatement.close();
+			jsonObject.addProperty("movie_rating", rs.getString("rating"));
 
 			// write JSON string to output
 			out.write(jsonObject.toString());
