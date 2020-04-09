@@ -2,5 +2,5 @@
 
 ## Deploy on AWS
 
-See `Makefile`.
+See [`Makefile`](./Makefile).
 
