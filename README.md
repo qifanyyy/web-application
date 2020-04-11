@@ -17,5 +17,7 @@ See [server/README.md](./server/README.md).
 
 ### Project 1
 
+Each of the member contributes approximately same amount of work to the repository.
+
 - https://youtu.be/gOmATkxsDes
 - https://drive.google.com/file/d/18nEbfqveqkul2HjDjRrNMgDTht2SCMOQ/view?usp=sharing (backup, need UCI Gmail account)
