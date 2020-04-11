@@ -13,3 +13,9 @@ mysql -umytestuser -p moviedb < movie-data.sql
 
 See [server/README.md](./server/README.md).
 
+## Demo
+
+### Project 1
+
+- https://youtu.be/gOmATkxsDes
+- https://drive.google.com/file/d/18nEbfqveqkul2HjDjRrNMgDTht2SCMOQ/view?usp=sharing (backup, need UCI Gmail account)
