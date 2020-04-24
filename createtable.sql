@@ -5,13 +5,15 @@ CREATE TABLE movies(
     id VARCHAR(10) PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     year INTEGER NOT NULL,
-    director VARCHAR(100) NOT NULL
+    director VARCHAR(100) NOT NULL,
+    INDEX (id, title(10))
 );
 
 CREATE TABLE stars(
     id VARCHAR(10) PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
-    birthYear INTEGER
+    birthYear INTEGER,
+    INDEX (id, name(10))
 );
 
 CREATE TABLE stars_in_movies(
@@ -24,7 +26,8 @@ CREATE TABLE stars_in_movies(
 
 CREATE TABLE genres(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(32) NOT NULL
+    name VARCHAR(32) NOT NULL,
+    INDEX (id, name(10))
 );
 
 CREATE TABLE genres_in_movies(
@@ -50,7 +53,8 @@ CREATE TABLE customers(
     address VARCHAR(200) NOT NULL,
     email VARCHAR(50) NOT NULL,
     password VARCHAR(20) NOT NULL,
-    FOREIGN KEY (ccId) REFERENCES creditcards(id) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY (ccId) REFERENCES creditcards(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    INDEX (id, email)
 );
 
 CREATE TABLE sales(

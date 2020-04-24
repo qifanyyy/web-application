@@ -9,17 +9,22 @@
 <body>
 <div id="root">
     <h1 class="h1">Sign in to Fabflix</h1>
-    <form action="/api/login" accept-charset="UTF-8" method="post" class="border rounded">
+    <div class="border border-danger rounded" id="err-msg-wrapper">
+        <p id="err-msg">Placeholder</p>
+    </div>
+    <form id="login-form" action="#" accept-charset="UTF-8" method="post" class="border rounded">
         <label class="font-weight-bold">
             Email address
-            <input class="border rounded" type="email">
+            <input class="border rounded" type="email" name="email" required>
         </label>
         <label class="font-weight-bold">
             Password
-            <input class="border rounded" type="password">
+            <input class="border rounded" type="password" name="password" required>
         </label>
         <input class="border rounded font-weight-bold" id="login-submit" type="submit" value="Log in">
     </form>
 </div>
+<script src="util.js"></script>
+<script src="index.js"></script>
 </body>
 </html>

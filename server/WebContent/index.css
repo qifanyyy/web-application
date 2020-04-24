@@ -41,3 +41,17 @@ label {
 body {
     background-color: #f9f9f9;
 }
+
+#err-msg-wrapper {
+    background-color: #ffdce0;
+    padding: 10px 20px;
+    margin: 10px 0;
+    width: 340px;
+    display: none;
+}
+
+#err-msg {
+    margin: 0;
+    padding: 0;
+    color: #86181d;
+}
