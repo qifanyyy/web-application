@@ -7,7 +7,7 @@ function handleResult(resultData) {
     }
 
     if (resultData['status'] === 'success') {
-        window.location.replace('movie-list.html')
+        window.location.replace('index.html')
         return
     }
 
