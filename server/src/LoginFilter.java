@@ -12,34 +12,26 @@ public class LoginFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        allowedURIs.add("index.html");
-        allowedURIs.add("index.css");
-        allowedURIs.add("index.js");
-        allowedURIs.add("util.js");
+        allowedURIs.add("/index.html");
+        allowedURIs.add("/index.css");
+        allowedURIs.add("/index.js");
+        allowedURIs.add("/util.js");
         allowedURIs.add("/api/login");
+        allowedURIs.add("/favicon.ico");
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
-        Customer customer;
-        if ((customer = (Customer) ((HttpServletRequest) servletRequest).getSession().getAttribute("customer")) == null) {
-            servletRequest.getServletContext().log("LoginFilter: not login");
+
+        HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
+        HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+
+        httpRequest.getSession().getServletContext().log(httpRequest.getRequestURI());
+        if (allowedURIs.contains(httpRequest.getRequestURI()) || httpRequest.getSession().getAttribute("customer") != null) {
+            filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            servletRequest.getServletContext().log("LoginFilter: Customer(id=" + customer.id + ",firstName=" + customer.firstName + ")");
+            httpResponse.sendRedirect("/index.html");
         }
-
-        filterChain.doFilter(servletRequest, servletResponse);
-
-//        if (allowedURIs.contains(httpRequest.getRequestURI())) {
-//            filterChain.doFilter(servletRequest, servletResponse);
-//            return;
-//        }
-//
-//        if (httpRequest.getSession().getAttribute("customer") == null) {
-//            httpResponse.sendRedirect("index.html");
-//        } else {
-//            filterChain.doFilter(servletRequest, servletResponse);
-//        }
     }
 }
