@@ -1,3 +1,5 @@
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 
 public class Customer {
@@ -9,10 +11,11 @@ public class Customer {
         this.firstName = firstName;
     }
 
-    public JsonObject toJSON() {
+    public static JsonElement toJSON(Customer customer) {
+        if (customer == null) return JsonNull.INSTANCE;
         JsonObject ret = new JsonObject();
-        ret.addProperty("id", id);
-        ret.addProperty("firstName", firstName);
+        ret.addProperty("id", customer.id);
+        ret.addProperty("firstName", customer.id);
         return ret;
     }
 }

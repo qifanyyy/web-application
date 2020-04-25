@@ -90,7 +90,7 @@ public class MoviesServlet extends HttpServlet {
             }
 
             ret.add("movies", moviesArray);
-            ret.add("customer", ((Customer) request.getSession().getAttribute("customer")).toJSON());
+            ret.add("customer", Customer.toJSON((Customer) request.getSession().getAttribute("customer")));
 
             // write JSON string to output
             out.write(ret.toString());

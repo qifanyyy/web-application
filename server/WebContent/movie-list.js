@@ -20,7 +20,7 @@ function handleMovieResult(resultData) {
     let movieTableBody = document.getElementById('movie_table_body');
     let movieArray = resultData['movies'];
     let customer = resultData['customer'];
-    document.getElementById('customer-first-name').innerText += customer['firstName'];
+    document.getElementById('customer-first-name').innerText = `Welcome, ${customer['firstName']}`;
 
     // Iterate through resultData, no more than 20 entries
     for (let i = 0; i < movieArray.length; i++) {
