@@ -14,8 +14,8 @@ public class LoginFilter implements Filter {
     public void init(FilterConfig filterConfig) throws ServletException {
         allowedURIs.add("/index.html");
         allowedURIs.add("/index.css");
-        allowedURIs.add("/index.js");
-        allowedURIs.add("/util.js");
+        allowedURIs.add("/js/index.js");
+        allowedURIs.add("/js/util.js");
         allowedURIs.add("/api/login");
         allowedURIs.add("/favicon.ico");
     }
