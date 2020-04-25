@@ -57,7 +57,7 @@ public class LoginServlet extends HttpServlet {
             // write error message JSON object to output
             out.write(Util.exception2Json(e).toString());
 
-            // set reponse status to 500 (Internal Server Error)
+            // set response status to 500 (Internal Server Error)
             response.setStatus(500);
         }
         out.close();

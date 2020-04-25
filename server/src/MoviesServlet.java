@@ -40,6 +40,7 @@ public class MoviesServlet extends HttpServlet {
             // Perform the query
             ResultSet movieResultSet = movieStatement.executeQuery(query);
 
+            JsonObject ret = new JsonObject();
             JsonArray moviesArray = new JsonArray();
 
             // Iterate through each row of rs
@@ -87,9 +88,12 @@ public class MoviesServlet extends HttpServlet {
                 jsonObject.addProperty("movieRating", movieResultSet.getString("rating"));
                 moviesArray.add(jsonObject);
             }
-            
+
+            ret.add("movies", moviesArray);
+            ret.add("customer", ((Customer) request.getSession().getAttribute("customer")).toJSON());
+
             // write JSON string to output
-            out.write(moviesArray.toString());
+            out.write(ret.toString());
             // set response status to 200 (OK)
             response.setStatus(200);
         } catch (Exception e) {

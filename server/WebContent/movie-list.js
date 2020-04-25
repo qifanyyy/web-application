@@ -18,27 +18,27 @@ function handleMovieResult(resultData) {
     // Find the empty table body by id "movie_table_body"
     // let movieTableBodyElement = jQuery("#movie_table_body");
     let movieTableBody = document.getElementById('movie_table_body');
+    let movieArray = resultData['movies'];
+    let customer = resultData['customer'];
+    document.getElementById('customer-first-name').innerText += customer['firstName'];
 
     // Iterate through resultData, no more than 20 entries
-    for (let i = 0; i < resultData.length; i++) {
+    for (let i = 0; i < movieArray.length; i++) {
 
         // Concatenate the html tags with resultData jsonObject
-        let rowHTML = '<tr><th><a href=' + resultData[i]['movieId'] + '"single-movie.html?id=">'// Add a link to single-movie.html with id passed with GET url parameter
-            + resultData[i]["movieTitle"] + // display movie_title for the link text
-            "</a></th><th>" + resultData[i]["movieYear"] + "</th><th>" + resultData[i]["movieDirector"] + "</th><th>" +
-            resultData[i]["movieGenres"] + "</th><th>";
+        let rowHTML = `<tr>
+<th><a href="single-movie.html?id=${movieArray[i]['movieId']}">${movieArray[i]["movieTitle"]}</a></th>
+<th>${movieArray[i]["movieYear"]}</th>
+<th>${movieArray[i]["movieDirector"]}</th>
+<th>${movieArray[i]["movieGenres"]}</th><th>`;
 
-        let starData = resultData[i]['movieStars'];
+        let starData = movieArray[i]['movieStars'];
         // Iterate through starData, no more than 3 entries
         for (let i = 0; i < starData.length; i++) {
             if (i !== 0) rowHTML += ", ";
-            rowHTML +=
-            // Add a link to single-star.html with id passed with GET url parameter
-            '<a href=' + starData[i]["starId"] + '"single-star.html?id=">'
-            + starData[i]["starName"] +     // display star name for the link text
-            '</a>';
+            rowHTML += `<a href="single-star.html?id=${starData[i]["starId"]}">${starData[i]["starName"]}</a>`;
         }
-        rowHTML += "</th><th>" + resultData[i]["movieRating"] + "</th></tr>";
+        rowHTML += `</th><th>${movieArray[i]["movieRating"]}</th></tr>`;
 
         // Append the row created to the table body, which will refresh the page
         // movieTableBodyElement.append(rowHTML);
