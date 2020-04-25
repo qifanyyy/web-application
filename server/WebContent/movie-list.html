@@ -19,13 +19,12 @@
     <!-- Note the url does not contain a "/" in the beginning, which means the url is relative to current path
          otherwise the url is relative to the root path-->
     <link rel="stylesheet" type="text/css" href="movie-list.css">
-    <script src="movie-list.js"></script>
     <title>Fabflix</title>
 </head>
 <body>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand pr-2" href="#"><span class="h1">Fabflix</span></a>
+    <a class="navbar-brand pr-2" href="main-page.html"><span class="h1">Fabflix</span></a>
     <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
             <a class="nav-link" href="#"><span class="h5">Movie List</span> <span class="sr-only">(current)</span></a>
@@ -56,5 +55,7 @@
     <!-- Again, id "movie_table_body" is useful for jQuery to find this html element -->
     <tbody id=movie_table_body></tbody>
 </table>
+<script src="util.js"></script>
+<script src="movie-list.js"></script>
 </body>
 </html>

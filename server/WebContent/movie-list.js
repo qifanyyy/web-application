@@ -14,13 +14,20 @@
  * @param resultData jsonObject
  */
 function handleMovieResult(resultData) {
+    if (resultData['errorMessage']) {
+        jsonErrorMsgHandler(resultData);  // util.js
+        return;
+    }
+
     // Populate the movie table
     // Find the empty table body by id "movie_table_body"
     // let movieTableBodyElement = jQuery("#movie_table_body");
     let movieTableBody = document.getElementById('movie_table_body');
     let movieArray = resultData['movies'];
     let customer = resultData['customer'];
-    document.getElementById('customer-first-name').innerText = `Welcome, ${customer['firstName']}`;
+    if (customer !== null) {
+        document.getElementById('customer-first-name').innerText = `Welcome, ${customer['firstName']}`;
+    }
 
     // Iterate through resultData, no more than 20 entries
     for (let i = 0; i < movieArray.length; i++) {
