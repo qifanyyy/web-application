@@ -19,7 +19,7 @@ public class LoginServlet extends HttpServlet {
     private DataSource dataSource;
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8"); // Response mime type
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
@@ -42,6 +42,7 @@ public class LoginServlet extends HttpServlet {
                         userResultSet.getInt("id"),
                         userResultSet.getString("firstName")
                 );
+                System.out.println("username: " + customer);
                 req.getSession().setAttribute("customer", customer);
                 jsonObject.addProperty("status", "success");
                 JsonObject customerJSON = new JsonObject();

@@ -11,27 +11,34 @@ public class LoginFilter implements Filter {
     private final Set<String> allowedURIs = new HashSet<>();
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        allowedURIs.add("/index.html");
-        allowedURIs.add("/index.css");
-        allowedURIs.add("/js/index.js");
-        allowedURIs.add("/js/util.js");
+    public void init(FilterConfig filterConfig) {
+        allowedURIs.add("login.html");
+        allowedURIs.add("/css/login.css");
+        allowedURIs.add("/js/login.js");
         allowedURIs.add("/api/login");
-        allowedURIs.add("/favicon.ico");
     }
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
-
+        Customer customer;
         HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
         HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
 
-        httpRequest.getSession().getServletContext().log(httpRequest.getRequestURI());
-        if (allowedURIs.contains(httpRequest.getRequestURI()) || httpRequest.getSession().getAttribute("customer") != null) {
+        // Check if this URL is allowed to access without logging in
+        if (this.isUrlAllowedWithoutLogin(httpRequest.getRequestURI())) {
+            // Keep default action: pass along the filter chain
             filterChain.doFilter(servletRequest, servletResponse);
-        } else {
-            httpResponse.sendRedirect("/index.html");
+            return;
         }
+
+        if (httpRequest.getSession().getAttribute("customer") == null) {
+            httpResponse.sendRedirect("login.html");
+        } else {
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
+    }
+    private boolean isUrlAllowedWithoutLogin(String requestURI) {
+        return allowedURIs.stream().anyMatch(requestURI.toLowerCase()::endsWith);
     }
 }
