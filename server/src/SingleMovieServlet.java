@@ -44,9 +44,8 @@ public class SingleMovieServlet extends HttpServlet {
             // Declare our statement
             Statement statement = dbcon.createStatement();
             // Construct a query with parameter represented by "?"
-            String query = "SELECT * FROM (movies LEFT OUTER JOIN ratings r on movies.id = r.movieId) " +
-                    "WHERE movies.id ='" + id + "'";
-
+            String query = "SELECT * FROM (movies LEFT OUTER JOIN ratings r on movies.id = r.movieId) " + "WHERE movies.id ='" + id + "'";
+            System.out.println("query: " + query);
             // Perform the query
             ResultSet rs = statement.executeQuery(query);
 

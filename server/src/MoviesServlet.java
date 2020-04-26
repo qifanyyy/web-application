@@ -84,8 +84,7 @@ public class MoviesServlet extends HttpServlet {
                     movieGenres.add(genreResultSet.getString("name"));
                 }
 
-                query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '" + movieId +
-                        "' AND id = starID LIMIT 3";
+                query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '" + movieId + "' AND id = starID LIMIT 3";
 
                 JsonArray movieStar = new JsonArray();
 
