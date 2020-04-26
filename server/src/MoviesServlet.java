@@ -74,7 +74,7 @@ public class MoviesServlet extends HttpServlet {
                 String movieId = movieResultSet.getString("id");
                 JsonArray movieGenres = new JsonArray();
 
-                query = "SELECT name FROM genres_in_movies, genres WHERE movieId = '" + movieId + "' AND id = genreID";
+                query = "SELECT name FROM genres_in_movies, genres WHERE movieId = '" + movieId + "' AND id = genreID ORDER BY name LIMIT 3";
 
                 // Perform the query
                 ResultSet genreResultSet = genreStatement.executeQuery(query);
