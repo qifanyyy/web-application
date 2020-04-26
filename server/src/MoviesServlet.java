@@ -44,7 +44,7 @@ public class MoviesServlet extends HttpServlet {
             boolean t = (!title.equals("")), y = (year.length() == 4), s = (!star.equals("")), d = (!director.equals(""));
             if (alnum.equals("*")) query += "ratings WHERE movies.id = ratings.movieId AND movies.title REGEXP '^[^a-z0-9]'";
             else if (!alnum.equals("null")) query += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '"+alnum+"%'";
-            else if (!genre.equals("")) query += "genres_in_movies, genres , ratings WHERE movies.id = ratings.movieId AND movies.id= genres_in_movies.movieid AND genres_in_movies.genreId= genres.id AND name LIKE '"+genre+"'";
+            else if (!genre.equals("null")) query += "genres_in_movies, genres , ratings WHERE movies.id = ratings.movieId AND movies.id= genres_in_movies.movieid AND genres_in_movies.genreId= genres.id AND name LIKE '"+genre+"'";
             else if (!t && !y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId";
             else if ( t && !y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '%"+title+"%'";
             else if (!t &&  y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"'";
@@ -84,7 +84,7 @@ public class MoviesServlet extends HttpServlet {
                     movieGenres.add(genreResultSet.getString("name"));
                 }
 
-                query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '" + movieId + "' AND id = starID LIMIT 3";
+                query = "select stars_in_movies.starId, stars.name,table2.c from stars_in_movies, (SELECT stars_in_movies.starId as a, COUNT(*) as c FROM stars_in_movies GROUP BY stars_in_movies.starId ) table2, stars  where table2.a= stars_in_movies.starId AND stars.id= stars_in_movies.starId AND movieId = '"+movieId+"' ORDER BY c DESC, stars.name ASC LIMIT 3;";
 
                 JsonArray movieStar = new JsonArray();
 
