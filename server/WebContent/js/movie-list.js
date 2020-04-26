@@ -57,7 +57,7 @@ function handleMovieResult(resultData) {
  * Once this .js is loaded, following scripts will be executed by the browser
  */
 
-fetch('api/movies', {
+fetch(`api/movies?id=${getParameterByName('id')}`, {  // getParameterByName defined in util.js
     headers: {
         'content-type': 'application/json;charset=UTF-8'
     },

@@ -22,10 +22,11 @@ public class MoviesServlet extends HttpServlet {
     @Resource(name = "jdbc/moviedb")
     private DataSource dataSource;
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8"); // Response mime type
         response.setCharacterEncoding("UTF-8");
-
+        String id = request.getParameter("id");
+        System.out.println("id: " + id);
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 

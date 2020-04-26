@@ -43,9 +43,8 @@ function handleResult(resultData) {
         if (i !== 0) rowHTML += ", ";
         rowHTML +=
             // Add a link to single-star.html with id passed with GET url parameter
-            '<a href=' + starData[i]["star_id"] + '"single-star.html?id=">'
-            + starData[i]["star_name"] +     // display star name for the link text
-            '</a>';
+            '<a href=single-star.html?id=' + starData[i]["star_id"] + '>'
+            + starData[i]["star_name"] + '</a>';
     }
     rowHTML += "</th></tr>";
 
