@@ -20,11 +20,11 @@ function handleResult(resultData) {
     }).then(response => response.json(), error => console.error(error)).then(json => handleResult(json))
 
     for (let i = 0; i < 10; ++i) {
-        document.getElementById('title-numeric-star').innerHTML += `<li>${i}</li>`
+        document.getElementById('title-numeric-star').innerHTML += `<li><a href="movie-list.html?alnum=${i}">${i}</a></li>`
     }
-    document.getElementById('title-numeric-star').innerHTML += '<li>*</li>'
+    document.getElementById('title-numeric-star').innerHTML += '<li><a href="movie-list.html?alnum=*">*</a></li>'
 
     for (let i = 0; i < 26; ++i) {
-        document.getElementById('title-uppercase').innerHTML += `<li>${String.fromCharCode(i + 'A'.charCodeAt(0))}</li>`
+        document.getElementById('title-uppercase').innerHTML += `<li><a href="movie-list.html?alnum=${String.fromCharCode(i + 'A'.charCodeAt(0))}">${String.fromCharCode(i + 'A'.charCodeAt(0))}</a></li>`
     }
 })()

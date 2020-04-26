@@ -30,6 +30,7 @@ public class MoviesServlet extends HttpServlet {
         String director = request.getParameter("director");
         String star = request.getParameter("star");
         String genre = request.getParameter("genre");
+        String alnum = request.getParameter("alnum");
 
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
@@ -41,7 +42,8 @@ public class MoviesServlet extends HttpServlet {
         ) {
             String query="SELECT * FROM movies, ";
             boolean t = (!title.equals("")), y = (year.length() == 4), s = (!star.equals("")), d = (!director.equals(""));
-            if (!genre.equals("")) query += "genres_in_movies, genres , ratings WHERE movies.id = ratings.movieId AND movies.id= genres_in_movies.movieid AND genres_in_movies.genreId= genres.id AND name LIKE '"+genre+"'";
+            if (!alnum.equals("")) query += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '"+alnum+"%'";
+            else if (!genre.equals("")) query += "genres_in_movies, genres , ratings WHERE movies.id = ratings.movieId AND movies.id= genres_in_movies.movieid AND genres_in_movies.genreId= genres.id AND name LIKE '"+genre+"'";
             else if (!t && !y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId";
             else if ( t && !y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '%"+title+"%'";
             else if (!t &&  y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"'";
@@ -58,7 +60,7 @@ public class MoviesServlet extends HttpServlet {
             else if ( t &&  y &&  s && !d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
             else if ( t &&  y && !s &&  d) query += "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'";
             else if ( t &&  y &&  s &&  d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%"+director+"%' AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
-            query+= " ORDER BY -title  LIMIT 100";
+            query+= " ORDER BY title  LIMIT 100";
             System.out.println("query: " + query);
             // Perform the query
             ResultSet movieResultSet = movieStatement.executeQuery(query);
