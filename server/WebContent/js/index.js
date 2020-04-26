@@ -6,7 +6,7 @@ function handleResult(resultData) {
 
     let i = 0;
     for (let genre of resultData) {
-        document.getElementById(`genre-list${i}`).innerHTML += `<li>${genre['name']}</li>`
+        document.getElementById(`genre-list${i}`).innerHTML += `<li><a href="movie-list.html?genre=${genre['name']}">${genre['name']}</a></li>`
         i = i < 4 ? i + 1 : 0;
     }
 }
@@ -25,7 +25,6 @@ function handleResult(resultData) {
     document.getElementById('title-numeric-star').innerHTML += '<li>*</li>'
 
     for (let i = 0; i < 26; ++i) {
-        document.getElementById('title-lowercase').innerHTML += `<li>${String.fromCharCode(i + 'a'.charCodeAt(0))}</li>`
         document.getElementById('title-uppercase').innerHTML += `<li>${String.fromCharCode(i + 'A'.charCodeAt(0))}</li>`
     }
 })()

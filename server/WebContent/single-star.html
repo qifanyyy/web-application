@@ -9,20 +9,17 @@
     <title>Fabflix - </title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="fabflix-nav">
     <a class="navbar-brand pr-2" href="index.html"><span class="h1">Fabflix</span></a>
-    <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-            <a class="nav-link" href="movie-list.html"><span class="h5">Movie List</span></a>
-        </li>
-        <li class="nav-item active">
-            <a class="nav-link" href="#"><span class="h5" id="star-name">Movie Star</span> <span class="sr-only">(current)</span></a>
-        </li>
-    </ul>
-    <form class="form-inline my-2 my-lg-0">
-        <input aria-label="Search" class="form-control mr-sm-2" placeholder="Search" type="search">
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-    </form>
+    <span>
+        <form class="form-inline my-2 my-lg-0" action="./movie-list.html" method="get">
+            <input name="title" aria-label="Search" class="form-control mr-sm-2" placeholder="Title" type="search">
+            <input name="year" aria-label="Search" class="form-control mr-sm-2" placeholder="Year" type="search">
+            <input name="director" aria-label="Search" class="form-control mr-sm-2" placeholder="Director" type="search">
+            <input name="star" aria-label="Search" class="form-control mr-sm-2" placeholder="Star" type="search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </span>
 </nav>
 
 <div id="star_info"></div>

@@ -2,12 +2,27 @@
     "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>404 Error - Page Not Found</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>404 Error - Page Not Found</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="fabflix-nav">
+    <a class="navbar-brand pr-2" href="index.html"><span class="h1">Fabflix</span></a>
+    <span>
+        <form class="form-inline my-2 my-lg-0" action="./movie-list.html" method="get">
+            <input name="title" aria-label="Search" class="form-control mr-sm-2" placeholder="Title" type="search">
+            <input name="year" aria-label="Search" class="form-control mr-sm-2" placeholder="Year" type="search">
+            <input name="director" aria-label="Search" class="form-control mr-sm-2" placeholder="Director" type="search">
+            <input name="star" aria-label="Search" class="form-control mr-sm-2" placeholder="Star" type="search">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </span>
+</nav>
+<div>
     <center>
         <h1>Sorry, the page you requested were not found.</h1>
-    </center>
+    </center>>
+</div>
 </body>
 </html>
