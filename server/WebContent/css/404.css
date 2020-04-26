@@ -1,0 +1,37 @@
+h1{
+    color: green;
+}
+body{
+    background-color: #f4f4f4;
+    align-item: center;
+
+}
+.img-container {
+    width: 80%;
+    max-width: 1000px;
+    max-height: 500px;
+    min-width: 600px;
+    background-color: white;
+    font-size: 0;
+    box-shadow: 0 0 50px 0 rgba(146, 146, 146, 0.63);
+    display: flex;
+    position: fixed;
+    top: 25%;
+    left: 25%;
+  }
+
+.img-container .textbox .error {
+    font-size: 50px;
+    color: black;
+    font-weight: bolder;
+    text-align: left;
+
+    padding-left: 10px;
+}
+.img-container .textbox .message {
+    font-size: 40px;
+    color: black;
+    font-weight: bolder;
+    text-align: left;
+    padding-left: 10px;
+}

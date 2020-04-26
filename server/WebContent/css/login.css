@@ -14,12 +14,19 @@ form {
 }
 
 h1 {
-    padding: 40px;
+    padding-top: 150px;
+}
+
+h2 {
+    padding-top: 80px;
+    padding-bottom: 100px;
+    text-align:center;
 }
 
 input {
     display: block;
     width: 300px;
+
 }
 
 input[type="submit"] {
@@ -39,7 +46,8 @@ label {
 }
 
 body {
-    background-color: #f9f9f9;
+    background-image: linear-gradient(to right, #c7c7c7, #ffffff);
+
 }
 
 #err-msg-wrapper {
@@ -55,3 +63,24 @@ body {
     padding: 0;
     color: #86181d;
 }
+.login_box .email{
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 0;
+    padding: 10px;
+    border-bottom: 1px solid rgb(158, 157, 157);
+    font-size: 15px;
+    outline: none;
+}
+.login_box .password{
+    display: block;
+    width: 100%;
+    margin-bottom: 20px;
+    border: 0;
+    padding: 10px;
+    border-bottom: 1px solid rgb(163, 162, 162);
+    font-size: 15px;
+    outline: none;
+}
+

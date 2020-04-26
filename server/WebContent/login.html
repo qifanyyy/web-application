@@ -8,20 +8,20 @@
 </head>
 <body>
 <div id="root">
-    <h1 class="h1">Sign in to Fabflix</h1>
+    <h1 class="h1"></h1>
     <div class="border border-danger rounded" id="err-msg-wrapper">
         <p id="err-msg"></p>
     </div>
     <form accept-charset="UTF-8" action="#" class="border rounded" id="login-form" method="post">
-        <label class="font-weight-bold">
-            Email address
-            <input class="border rounded" name="email" required type="email">
-        </label>
-        <label class="font-weight-bold">
-            Password
-            <input class="border rounded" name="password" required type="password">
-        </label>
+        <h2>
+            Sign in to Fabflix
+        </h2>
+        <div class="login_box">
+        <input class="email" name="email" placeholder="email" required type="email">
+
+        <input class="password" name="password" placeholder="password" required type="password">
         <input class="border rounded font-weight-bold" id="login-submit" type="submit" value="Log in">
+        </div>
     </form>
 </div>
 <script src="./js/login.js"></script>
