@@ -1,5 +1,6 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,11 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Arrays;
 
 // Declaring a WebServlet called MoviesServlet, which maps to url "/api/movies"
 @WebServlet(name = "MoviesServlet", urlPatterns = "/api/movies")
@@ -48,7 +47,7 @@ public class MoviesServlet extends HttpServlet {
                 String movieId = movieResultSet.getString("id");
                 JsonArray movieGenres = new JsonArray();
 
-                query = "SELECT name FROM genres_in_movies, genres WHERE movieId = '"+ movieId + "' AND id = genreID";
+                query = "SELECT name FROM genres_in_movies, genres WHERE movieId = '" + movieId + "' AND id = genreID";
 
                 // Perform the query
                 ResultSet genreResultSet = genreStatement.executeQuery(query);
@@ -58,7 +57,7 @@ public class MoviesServlet extends HttpServlet {
                     movieGenres.add(genreResultSet.getString("name"));
                 }
 
-                query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '"+ movieId +
+                query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '" + movieId +
                         "' AND id = starID LIMIT 3";
 
                 JsonArray movieStar = new JsonArray();
@@ -97,12 +96,12 @@ public class MoviesServlet extends HttpServlet {
             // set response status to 200 (OK)
             response.setStatus(200);
         } catch (Exception e) {
-        	
-			// write error message JSON object to output
-			out.write(Util.exception2Json(e).toString());
 
-			// set reponse status to 500 (Internal Server Error)
-			response.setStatus(500);
+            // write error message JSON object to output
+            out.write(Util.exception2Json(e).toString());
+
+            // set reponse status to 500 (Internal Server Error)
+            response.setStatus(500);
         }
         out.close();
     }

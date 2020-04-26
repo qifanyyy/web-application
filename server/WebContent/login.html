@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Fabflix</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="./css/login.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/login.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div id="root">
@@ -12,14 +12,14 @@
     <div class="border border-danger rounded" id="err-msg-wrapper">
         <p id="err-msg">Placeholder</p>
     </div>
-    <form id="login-form" action="#" accept-charset="UTF-8" method="post" class="border rounded">
+    <form accept-charset="UTF-8" action="#" class="border rounded" id="login-form" method="post">
         <label class="font-weight-bold">
             Email address
-            <input class="border rounded" type="email" name="email" required>
+            <input class="border rounded" name="email" required type="email">
         </label>
         <label class="font-weight-bold">
             Password
-            <input class="border rounded" type="password" name="password" required>
+            <input class="border rounded" name="password" required type="password">
         </label>
         <input class="border rounded font-weight-bold" id="login-submit" type="submit" value="Log in">
     </form>

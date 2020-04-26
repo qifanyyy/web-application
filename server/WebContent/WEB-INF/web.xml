@@ -7,6 +7,11 @@
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
 
+    <error-page>
+        <error-code>404</error-code>
+        <location>/404.html</location>
+    </error-page>
+
     <!-- Register the DataSource which defined in META-INF/context.xml-->
     <resource-ref>
         <description>MySQL DataSource example</description>

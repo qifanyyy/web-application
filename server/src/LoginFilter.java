@@ -38,6 +38,7 @@ public class LoginFilter implements Filter {
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }
+
     private boolean isUrlAllowedWithoutLogin(String requestURI) {
         return allowedURIs.stream().anyMatch(requestURI.toLowerCase()::endsWith);
     }
