@@ -99,12 +99,16 @@ public class MoviesServlet extends HttpServlet {
                     }
                 }
                 Collections.sort(list, Comparator.comparing(Star::getCount).thenComparing(Star::getName));
-
-
-                System.out.println(list);
+                
                 JsonArray movieStar = new JsonArray();
-                for (int i = 0; i < list.size(); i++) {
-                    System.out.println(list.get(i));
+                for (int i = 0; i < Math.min(list.size(), 3); i++) {
+                    String star_id = list.get(i).getId();
+                    String star_name = list.get(i).getName();
+                    // Create a JsonObject based on the data we retrieve from rs
+                    JsonObject jsonObject = new JsonObject();
+                    jsonObject.addProperty("starId", star_id);
+                    jsonObject.addProperty("starName", star_name);
+                    movieStar.add(jsonObject);
                 }
                 while (starResultSet.next()) {
                     String star_id = starResultSet.getString("starId");
