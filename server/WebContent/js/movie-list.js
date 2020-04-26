@@ -28,7 +28,6 @@ function handleMovieResult(resultData) {
     if (customer !== null) {
         document.getElementById('customer-first-name').innerText = `Welcome, ${customer['firstName']}`;
     }
-
     // Iterate through resultData, no more than 20 entries
     for (let i = 0; i < movieArray.length; i++) {
 
@@ -50,14 +49,19 @@ function handleMovieResult(resultData) {
         // Append the row created to the table body, which will refresh the page
         // movieTableBodyElement.append(rowHTML);
         movieTableBody.innerHTML += rowHTML;
+
     }
+    if(movieTableBody.innerHTML == ""){
+        movieTableBody.innerHTML="<tr><th>No Result</th><th></th><th></th><th></th><th></th><th></th></tr>";
+    }
+
 }
 
 /**
  * Once this .js is loaded, following scripts will be executed by the browser
  */
 
-fetch(`api/movies?title=${getParameterByName('title')}?year=${getParameterByName('year')}?director=${getParameterByName('director')}?star=${getParameterByName('star')}`, {  // getParameterByName defined in util.js
+fetch(`api/movies?title=${getParameterByName('title')}&year=${getParameterByName('year')}&director=${getParameterByName('director')}&star=${getParameterByName('star')}`, {  // getParameterByName defined in util.js
     headers: {
         'content-type': 'application/json;charset=UTF-8'
     },
