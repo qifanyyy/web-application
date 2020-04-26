@@ -2,11 +2,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,12 +28,49 @@ public class MoviesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8"); // Response mime type
         response.setCharacterEncoding("UTF-8");
-        String title = request.getParameter("title");
-        String year = request.getParameter("year");
+        String title    = request.getParameter("title");
+        String year     = request.getParameter("year");
         String director = request.getParameter("director");
-        String star = request.getParameter("star");
-        String genre = request.getParameter("genre");
-        String alnum = request.getParameter("alnum");
+        String star     = request.getParameter("star");
+        String genre    = request.getParameter("genre");
+        String alnum    = request.getParameter("alnum");
+        String sort     = request.getParameter("sort");
+        String page     = request.getParameter("page");
+
+        HttpSession session = request.getSession();
+        String sessionId = session.getId();
+        System.out.println("sessionId: " + sessionId);
+        boolean t = !title.equals("")    && !title.equals(null)    && !title.equals("null"),
+                y = year.length() == 4   && !year.equals(null)     && !year.equals("null"),
+                s = !star.equals("")     && !star.equals(null)     && !star.equals("null"),
+                d = !director.equals("") && !director.equals(null) && !director.equals("null"),
+                a = !alnum.equals("")    && !alnum.equals(null)    && !alnum.equals("null"),
+                g = !genre.equals("")    && !genre.equals(null)    &&!genre.equals("null");
+
+        if (!t && !y && !s && !d && !a && !g){
+            title    = (String) session.getAttribute("title");
+            year     = (String) session.getAttribute("year");
+            director = (String) session.getAttribute("director");
+            star     = (String) session.getAttribute("star");
+            genre    = (String) session.getAttribute("genre");
+            alnum    = (String) session.getAttribute("alnum");
+            
+            t = !title.equals("")    && !title.equals(null)    && !title.equals("null");
+            y = year.length() == 4   && !year.equals(null)     && !year.equals("null");
+            s = !star.equals("")     && !star.equals(null)     && !star.equals("null");
+            d = !director.equals("") && !director.equals(null) && !director.equals("null");
+            a = !alnum.equals("")    && !alnum.equals(null)    && !alnum.equals("null");
+            g = !genre.equals("")    && !genre.equals(null)    &&!genre.equals("null");
+        } else {
+            session.setAttribute("title", title);
+            session.setAttribute("year", year);
+            session.setAttribute("director", director);
+            session.setAttribute("star", star);
+            session.setAttribute("genre", genre);
+            session.setAttribute("alnum", alnum);
+        }
+
+
 
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
@@ -45,11 +82,11 @@ public class MoviesServlet extends HttpServlet {
              Statement countStatement = connection.createStatement();
         ) {
             String query="SELECT * FROM movies, ";
-            boolean t = (!title.equals("")), y = (year.length() == 4), s = (!star.equals("")), d = (!director.equals(""));
+
             if (alnum.equals("*")) query += "ratings WHERE movies.id = ratings.movieId AND movies.title REGEXP '^[^a-z0-9]'";
-            else if (!alnum.equals("null")) query += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '"+alnum+"%'";
-            else if (!genre.equals("null")) query += "genres_in_movies, genres , ratings WHERE movies.id = ratings.movieId AND movies.id= genres_in_movies.movieid AND genres_in_movies.genreId= genres.id AND name LIKE '"+genre+"'";
-            else if (!t && !y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId";
+            else if (a) query += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '"+alnum+"%'";
+            else if (g) query += "genres_in_movies, genres , ratings WHERE movies.id = ratings.movieId AND movies.id= genres_in_movies.movieid AND genres_in_movies.genreId= genres.id AND name LIKE '"+genre+"'";
+            else if (!t && !y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId"; // delete
             else if ( t && !y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '%"+title+"%'";
             else if (!t &&  y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"'";
             else if (!t && !y && !s &&  d) query += "ratings WHERE movies.id = ratings.movieId AND movies.director LIKE '%"+director+"%'";
@@ -99,7 +136,7 @@ public class MoviesServlet extends HttpServlet {
                     }
                 }
                 Collections.sort(list, Comparator.comparing(Star::getCount).thenComparing(Star::getName));
-                
+
                 JsonArray movieStar = new JsonArray();
                 for (int i = 0; i < Math.min(list.size(), 3); i++) {
                     String star_id = list.get(i).getId();
