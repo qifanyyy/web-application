@@ -25,8 +25,14 @@ public class MoviesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8"); // Response mime type
         response.setCharacterEncoding("UTF-8");
-        String id = request.getParameter("id");
-        System.out.println("id: " + id);
+        String title = request.getParameter("title");
+        String year = request.getParameter("year");
+        String director = request.getParameter("director");
+        String star = request.getParameter("star");
+        System.out.println("title: " + title);
+        System.out.println("year: " + year);
+        System.out.println("director: " + director);
+        System.out.println("star: " + star);
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
