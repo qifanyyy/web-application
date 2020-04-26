@@ -13,6 +13,9 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 // Declaring a WebServlet called MoviesServlet, which maps to url "/api/movies"
 @WebServlet(name = "MoviesServlet", urlPatterns = "/api/movies")
@@ -38,7 +41,8 @@ public class MoviesServlet extends HttpServlet {
         try (Connection connection = dataSource.getConnection();
              Statement movieStatement = connection.createStatement();
              Statement genreStatement = connection.createStatement();
-             Statement starStatement = connection.createStatement()
+             Statement starStatement = connection.createStatement();
+             Statement countStatement = connection.createStatement();
         ) {
             String query="SELECT * FROM movies, ";
             boolean t = (!title.equals("")), y = (year.length() == 4), s = (!star.equals("")), d = (!director.equals(""));
@@ -84,14 +88,24 @@ public class MoviesServlet extends HttpServlet {
                     movieGenres.add(genreResultSet.getString("name"));
                 }
 
-                query = "select stars_in_movies.starId, stars.name,table2.c from stars_in_movies, (SELECT stars_in_movies.starId as a, COUNT(*) as c FROM stars_in_movies GROUP BY stars_in_movies.starId ) table2, stars  where table2.a= stars_in_movies.starId AND stars.id= stars_in_movies.starId AND movieId = '"+movieId+"' ORDER BY c DESC, stars.name ASC LIMIT 3;";
-
-                JsonArray movieStar = new JsonArray();
-
-                // Perform the query
+                query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '"+movieId+"' AND id = starID";
                 ResultSet starResultSet = starStatement.executeQuery(query);
+                ArrayList<Star> list = new ArrayList<>();
+                while (starResultSet.next()) {
+                    query = "SELECT COUNT(*) FROM stars_in_movies WHERE Starid = '"+ starResultSet.getString("starId") +"'";
+                    ResultSet countResultSet = countStatement.executeQuery(query);
+                    while (countResultSet.next()) {
+                        list.add(new Star(starResultSet.getString("name"), starResultSet.getString("starId"), Integer.parseInt(countResultSet.getString("COUNT(*)"))));
+                    }
+                }
+                Collections.sort(list, Comparator.comparing(Star::getCount).thenComparing(Star::getName));
 
-                // Iterate through each row of rs
+
+                System.out.println(list);
+                JsonArray movieStar = new JsonArray();
+                for (int i = 0; i < list.size(); i++) {
+                    System.out.println(list.get(i));
+                }
                 while (starResultSet.next()) {
                     String star_id = starResultSet.getString("starId");
                     String star_name = starResultSet.getString("name");
