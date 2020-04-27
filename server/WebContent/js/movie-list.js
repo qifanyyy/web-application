@@ -55,6 +55,10 @@ function handleMovieResult(resultData) {
         movieTableBody.innerHTML="<tr><th>No Result</th><th></th><th></th><th></th><th></th><th></th></tr>";
     }
 
+    for (let i = 1; i < 10; ++i) {
+        document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}">${i}</a></li>`
+    }
+
 }
 
 /**
