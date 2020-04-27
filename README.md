@@ -24,6 +24,8 @@ Each of the member contributes approximately same amount of work to the reposito
 
 ## project 2
 
+Substring matching design:
+
 We use LIKE in 18 mysql query of MoviesServlet.java from line 46 to 63.
 - In line 46, I use movies.title LIKE "alnum%" to include the movies that starts with single alphanumerical (0,1,2,3..A,B,C...X,Y,Z) characters
 - In line 47, I use name LIKE '"+genre+"'" to search for the movies that belong to certain genres
@@ -43,4 +45,11 @@ We use LIKE in 18 mysql query of MoviesServlet.java from line 46 to 63.
 - In line 62, when ( t &&  y && !s &&  d), I use movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'" to search for movies that include certain characters in title, director and year
 - In line 63, when ( t &&  y &&  s &&  d), I use movies.director LIKE '%"+director+"%' AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'" to search for movies that include certain characters in title, star, director and year
 
+## Team contribution
+Qifan Yu
+- Main page browse and search 
+- Movie List page, jump function and Single Pages 
 
+Tongjie Wang
+- Login page
+- Shopping cart page, Payment Page, Place Order Action
