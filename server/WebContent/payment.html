@@ -17,15 +17,18 @@
 <div id="payment-info-wrapper">
     <p id="total-price" class="h2 font-weight-bold"></p>
     <form id="payment-form">
+        <div class="border border-danger rounded" id="err-msg-wrapper">
+            <p id="err-msg"></p>
+        </div>
         <label for="card-firstName">Card Holder First Name</label>
-        <input class="form-control" id="card-firstName" name="firstName" type="text" required>
+        <input class="form-control" id="card-firstName" name="firstName" type="text" required />
         <label for="card-lastName">Card Holder Last Name</label>
-        <input class="form-control" id="card-lastName" name="lastName" type="text" required>
+        <input class="form-control" id="card-lastName" name="lastName" type="text" required />
         <label for="card-id">Credit Card Number</label>
-        <input class="form-control" id="card-id" name="id" type="text" required>
+        <input class="form-control" id="card-id" name="id" type="text" required />
         <label for="card-expiration">Expiration Date</label>
-        <input class="form-control" id="card-expiration" name="expiration" type="date" required>
-        <input class="btn btn-primary" type="submit" value="Place Order">
+        <input class="form-control" id="card-expiration" name="expiration" min="1900-01-01" max="2099-12-31" type="date" required />
+        <input id="place-order-btn" class="btn btn-primary" type="submit" value="Place Order">
     </form>
 </div>
 <table class="table table-striped table-bordered" id="cart_table">

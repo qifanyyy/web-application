@@ -27,7 +27,7 @@ public class LoginServlet extends HttpServlet {
         String password = req.getParameter("password");
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement emailStatement = connection.prepareStatement("SELECT * FROM customers WHERE email = ?");
+             PreparedStatement emailStatement = connection.prepareStatement("SELECT * FROM customers WHERE email = ?")
         ) {
             emailStatement.setString(1, email);
             ResultSet userResultSet = emailStatement.executeQuery();

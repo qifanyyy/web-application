@@ -20,6 +20,40 @@ function displayCartTable(json) {
     document.getElementById('total-price').innerText = `Total Price: $${total}`
 }
 
-fetch('api/cart')
-    .then(response => response.json(), reason => console.error(reason))
-    .then(json => displayCartTable(json))
+(function () {
+    const placeOrderBtn = document.getElementById('place-order-btn')
+    placeOrderBtn.addEventListener('click', ev => {
+        const form = document.getElementById('payment-form')
+        if (!form.checkValidity())
+            return
+        ev.preventDefault()
+        const payloadBody = new URLSearchParams(new FormData(form))
+        const errMsg = document.getElementById('err-msg')
+        const errMsgWrapper = document.getElementById('err-msg-wrapper')
+        fetch('api/payment', {
+            method: 'POST',
+            body: payloadBody
+        }).then(response => response.json(), reason => {
+            errMsg.innerText = reason
+            errMsgWrapper.style.display = 'block'
+        })
+            .then(json => {
+                if (json['status'] === 'success') {
+                    window.location.replace('payment-confirmation.html')
+                    return
+                }
+                errMsg.innerText = json['errorMessage']
+                errMsgWrapper.style.display = 'block'
+                jsonErrorMsgHandler(json)
+            }, reason => {
+                errMsg.innerText = reason
+                errMsgWrapper.style.display = 'block'
+            })
+    })
+
+    // document.getElementById('card-expiration').setAttribute('min', new Date().toISOString().split('T')[0])
+
+    fetch('api/cart')
+        .then(response => response.json(), reason => console.error(reason))
+        .then(json => displayCartTable(json))
+})()
