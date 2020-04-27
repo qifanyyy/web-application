@@ -1,7 +1,7 @@
 public class Star {
-    private String name;
-    private int count;
-    private String id;
+    private final String name;
+    private final int count;
+    private final String id;
 
     public Star(String name, String id, int count) {
         this.name = name;
