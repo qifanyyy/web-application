@@ -14,9 +14,7 @@ mysql -umytestuser -p moviedb < add-quantity-to-sales.sql
 
 See [server/README.md](./server/README.md).
 
-## Demo
-
-### Project 1
+## Project 1
 
 Each of the member contributes approximately same amount of work to the repository.
 
@@ -46,7 +44,8 @@ We use LIKE in 18 mysql query of MoviesServlet.java from line 46 to 63.
 - In line 62, when ( t &&  y && !s &&  d), I use movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'" to search for movies that include certain characters in title, director and year
 - In line 63, when ( t &&  y &&  s &&  d), I use movies.director LIKE '%"+director+"%' AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'" to search for movies that include certain characters in title, star, director and year
 
-## Team contribution
+### Project 2 Team contribution
+
 Qifan Yu
 - Main page browse and search 
 - Movie List page, jump function and Single Pages 
