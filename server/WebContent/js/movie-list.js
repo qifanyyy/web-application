@@ -12,10 +12,15 @@
 function addMovieToCart(movie, btn) {
     const reqBody = movieObjectToURLSearchParams(movie)
 
-    fetch('/api/cart', {
+    fetch('api/cart', {
         method: 'POST',
         body: reqBody
-    }).then(async response => response.json(), reason => console.error(reason)).then(json => {
+    }).then(async response => response.json(), reason => {
+        btn.classList.remove('btn-outline-primary')
+        btn.classList.add('btn-outline-danger')
+        btn.innerText = 'Failed'
+        console.error(reason)
+    }).then(json => {
         if (json['status'] !== 'success') {
             btn.classList.remove('btn-outline-primary')
             btn.classList.add('btn-outline-danger')
