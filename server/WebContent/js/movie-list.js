@@ -46,7 +46,7 @@ function handleMovieResult(resultData) {
         }
         rowHTML += `</th><th>${movieArray[i]["movieRating"]}</th></tr>`;
 
-        // Append the row created to the table body, which will refresh the page 
+        // Append the row created to the table body, which will refresh the page
         // movieTableBodyElement.append(rowHTML);
         movieTableBody.innerHTML += rowHTML;
 
