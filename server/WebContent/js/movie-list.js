@@ -61,7 +61,7 @@ function handleMovieResult(resultData) {
  * Once this .js is loaded, following scripts will be executed by the browser
  */
 
-fetch(`api/movies?title=${getParameterByName('title')}&year=${getParameterByName('year')}&director=${getParameterByName('director')}&star=${getParameterByName('star')}&genre=${getParameterByName('genre')}&alnum=${getParameterByName('alnum')}&sort=${getParameterByName('sort')}&page=${getParameterByName('page')}`, {  // getParameterByName defined in util.js
+fetch(`api/movies?title=${getParameterByName('title')}&year=${getParameterByName('year')}&director=${getParameterByName('director')}&star=${getParameterByName('star')}&genre=${getParameterByName('genre')}&alnum=${getParameterByName('alnum')}&sort=${getParameterByName('sort')}&page=${getParameterByName('page')}&display=${getParameterByName('display')}`, {  // getParameterByName defined in util.js
     headers: {
         'content-type': 'application/json;charset=UTF-8'
     },

@@ -28,31 +28,47 @@ public class MoviesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8"); // Response mime type
         response.setCharacterEncoding("UTF-8");
-        String title    = request.getParameter("title");
-        String year     = request.getParameter("year");
-        String director = request.getParameter("director");
-        String star     = request.getParameter("star");
-        String genre    = request.getParameter("genre");
-        String alnum    = request.getParameter("alnum");
-        String sort     = request.getParameter("sort");
-        String page     = request.getParameter("page");
+        String title       = request.getParameter("title");
+        String year        = request.getParameter("year");
+        String director    = request.getParameter("director");
+        String star        = request.getParameter("star");
+        String genre       = request.getParameter("genre");
+        String alnum       = request.getParameter("alnum");
+        String sort        = request.getParameter("sort");
+        String page        = request.getParameter("page");
+        String display     = request.getParameter("display");
 
         HttpSession session = request.getSession();
         String sessionId = session.getId();
 
         String sort2 = (String) session.getAttribute("sort");
+        String order = (String) session.getAttribute("order");
+        String sort_sec = ", rating";
+
         boolean t  = !title.equals("")    && !title.equals(null)    && !title.equals("null"),
                 y  = year.length() == 4   && !year.equals(null)     && !year.equals("null"),
                 s  = !star.equals("")     && !star.equals(null)     && !star.equals("null"),
                 d  = !director.equals("") && !director.equals(null) && !director.equals("null"),
                 a  = !alnum.equals("")    && !alnum.equals(null)    && !alnum.equals("null"),
                 g  = !genre.equals("")    && !genre.equals(null)    && !genre.equals("null"),
+                p  = !page.equals("")     && !page.equals(null)     && !page.equals("null"),
+                di = !display.equals("")  && !display.equals(null)  && !display.equals("null"),
                 st = !sort.equals("")     && !sort.equals(null)     && !sort.equals("null"),
                 ss = sort2 != null;
 
-        String order = (String) session.getAttribute("order");
-        if (order == null) order = " ASC";
+        if (!p) {
+            String spage = (String) session.getAttribute("page");
+            if (spage == null) spage = "1";
+            page = spage;
+        }
 
+        if (!di) {
+            String sdisplay = (String) session.getAttribute("display");
+            if (sdisplay == null) sdisplay = "25";
+            display = sdisplay;
+        }
+
+        if (order == null) order = " ASC";
 
         if (st){
             if (sort.equals(sort2)) {
@@ -61,10 +77,15 @@ public class MoviesServlet extends HttpServlet {
             }
         } else if (ss) sort = sort2;
         else sort = "title";
+
         session.setAttribute("order", order);
         session.setAttribute("sort", sort);
+        session.setAttribute("page", page);
+        session.setAttribute("display", display);
 
-        String sort_sec = ", rating";
+
+        System.out.println(page);
+        System.out.println(display);
 
 
         if (sort.equals("rating")) sort_sec = ", title";
@@ -94,7 +115,6 @@ public class MoviesServlet extends HttpServlet {
             session.setAttribute("genre", genre);
             session.setAttribute("alnum", alnum);
         }
-
 
 
         // Output stream to STDOUT
@@ -127,7 +147,7 @@ public class MoviesServlet extends HttpServlet {
             else if ( t &&  y &&  s && !d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
             else if ( t &&  y && !s &&  d) query += "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'";
             else if ( t &&  y &&  s &&  d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%"+director+"%' AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
-            query+= " ORDER BY " + orderby + "  LIMIT 100";
+            query+= " ORDER BY " + orderby + "  LIMIT "+ display + " OFFSET "+Integer.toString((Integer.parseInt(page) - 1)*Integer.parseInt(display));
             System.out.println("query: " + query);
             // Perform the query
             ResultSet movieResultSet = movieStatement.executeQuery(query);
