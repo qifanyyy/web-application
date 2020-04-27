@@ -44,11 +44,12 @@ function updatePaymentFormWhenSuccess() {
 (function () {
     const placeOrderBtn = document.getElementById('place-order-btn')
     placeOrderBtn.addEventListener('click', ev => {
+        const form = document.getElementById('payment-form')
+        if (!form.checkValidity()) {
+            return
+        }
         ev.target.value = 'Please wait...'
         ev.target.disabled = true
-        const form = document.getElementById('payment-form')
-        if (!form.checkValidity())
-            return
         ev.preventDefault()
         const payloadBody = new URLSearchParams(new FormData(form))
         const errMsg = document.getElementById('err-msg')
