@@ -18,7 +18,7 @@ function handleResult(resultData) {
     <td>${cartItem['movieTitle']}</td>
     <td>${cartItem['quantity']}</td>
     <td>$2</td>
-    <td>${subTotal += 2 * cartItem['quantity']}</td>
+    <td>$${subTotal += 2 * cartItem['quantity']}</td>
 </tr>`
 
         tableBody.innerHTML += row

@@ -1,3 +1,5 @@
+import com.google.gson.JsonObject;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,20 +21,27 @@ public class CartServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        CartItem cartItem = new CartItem(
-                req.getParameter("movieId"),
-                req.getParameter("movieTitle"),
-                Integer.parseInt(req.getParameter("quantity"))
-        );
-        HttpSession session;
-        Map<String, CartItem> cart;
-        synchronized (session = req.getSession()) {
-            cart = (Map<String, CartItem>) session.getAttribute("cart");
-            modifyCart(cart, cartItem, session);
-        }
-
         PrintWriter out = resp.getWriter();
-        out.write(CartItem.cartToJSON(cart).toString());
+        try {
+            CartItem cartItem = new CartItem(
+                    req.getParameter("movieId"),
+                    req.getParameter("movieTitle"),
+                    Integer.parseInt(req.getParameter("quantity"))
+            );
+            HttpSession session;
+            Map<String, CartItem> cart;
+            synchronized (session = req.getSession()) {
+                cart = (Map<String, CartItem>) session.getAttribute("cart");
+                modifyCart(cart, cartItem, session);
+            }
+            JsonObject ret = new JsonObject();
+            ret.addProperty("status", "success");
+            out.write(ret.toString());
+            resp.setStatus(200);
+        } catch (Exception e) {
+            out.write(Util.exception2Json(e).toString());
+            resp.setStatus(500);
+        }
         out.close();
     }
 

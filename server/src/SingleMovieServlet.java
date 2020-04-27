@@ -98,6 +98,7 @@ public class SingleMovieServlet extends HttpServlet {
 
             // Create a JsonObject based on the data we retrieve from rs
             JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("movie_id", rs.getString("id"));
             jsonObject.addProperty("movie_title", rs.getString("title"));
             jsonObject.addProperty("movie_year", rs.getString("year"));
             jsonObject.addProperty("movie_director", rs.getString("director"));

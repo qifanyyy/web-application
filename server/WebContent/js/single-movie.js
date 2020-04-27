@@ -9,12 +9,48 @@
  *      3. Populate the data to correct html elements.
  */
 
+function addMovieToCart(movie) {
+    const cartItem = {
+        movieId: movie['movie_id'],
+        movieTitle: movie['movie_title'],
+        quantity: 1
+    }
+    const reqBody = movieObjectToURLSearchParams(cartItem)
+    const add2CartButton = document.getElementById('add-shopping-cart')
+
+    fetch('/api/cart', {
+        method: 'POST',
+        body: reqBody
+    }).then(async response => response.json(), reason => console.error(reason)).then(json => {
+        if (json['status'] !== 'success') {
+            add2CartButton.classList.remove('btn-primary')
+            add2CartButton.classList.add('btn-outline-danger')
+            add2CartButton.innerText = 'Oops! Something goes wrong...'
+            jsonErrorMsgHandler(json)
+        } else {
+            add2CartButton.classList.remove('btn-primary')
+            add2CartButton.classList.add('btn-outline-primary')
+            add2CartButton.innerText = 'Added'
+        }
+    })
+    add2CartButton.innerText = 'Adding...'
+    add2CartButton.disabled = true
+}
+
+function prepareAddToShoppingCartButton(movie) {
+    const add2CartButton = document.getElementById('add-shopping-cart')
+    add2CartButton.addEventListener('click', () => {
+        addMovieToCart(movie)
+    })
+}
+
 /**
  * Handles the data returned by the API, read the jsonObject and populate data into html elements
  * @param resultData jsonObject
  */
 
 function handleResult(resultData) {
+    let movie = {...resultData}
     if (resultData['errorMessage']) {
         jsonErrorMsgHandler(resultData);  // util.js
         return;
@@ -50,6 +86,7 @@ function handleResult(resultData) {
 
     // Append the row created to the table body, which will refresh the page
     movieTableBodyElement.innerHTML += rowHTML;
+    prepareAddToShoppingCartButton(movie)
 }
 
 /**
@@ -57,17 +94,19 @@ function handleResult(resultData) {
  */
 
 // Makes the HTTP GET request and registers on success callback function handleResult
-fetch(`api/single-movie?id=${getParameterByName('id')}`, {  // getParameterByName defined in util.js
-    headers: {
-        'content-type': 'application/json;charset=UTF-8'
-    },
-    method: 'GET'
-}).then(response => response.json(), error => console.error(error)).then(json => {
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        handleResult(json);
-    } else {
-        window.addEventListener('DOMContentLoaded', e => handleResult(json));
-    }
-})
+(function() {
+    fetch(`api/single-movie?id=${getParameterByName('id')}`, {  // getParameterByName defined in util.js
+        headers: {
+            'content-type': 'application/json;charset=UTF-8'
+        },
+        method: 'GET'
+    }).then(response => response.json(), error => console.error(error)).then(json => {
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            handleResult(json);
+        } else {
+            window.addEventListener('DOMContentLoaded', e => handleResult(json));
+        }
+    })
 
-setUpOnCheckout()
+    setUpOnCheckout()
+})()

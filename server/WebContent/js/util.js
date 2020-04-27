@@ -31,3 +31,12 @@ function setUpOnCheckout() {
         window.location.href = 'cart.html'
     })
 }
+
+function movieObjectToURLSearchParams(movie) {
+    let formData = new FormData()
+    for (let key of Object.keys(movie)) {
+        console.log(key)
+        formData.append(key, movie[key])
+    }
+    return new URLSearchParams(formData)
+}
