@@ -20,7 +20,7 @@
     margin: 10px 20px;
 }
 
-#proceed-to-checkout[disabled] {
+#proceed-to-payment[disabled] {
     cursor: not-allowed;
 }
 

@@ -20,7 +20,7 @@ function updateItemQuantity(movieId, movieTitle, btn) {
 
     const reqBody = movieObjectToURLSearchParams(itemInfo)
 
-    fetch('/api/cart', {
+    fetch('api/cart', {
         method: 'POST',
         body: reqBody
     }).then(async response => response.json(), reason => console.error(reason)).then(json => {
@@ -33,7 +33,7 @@ function updateItemQuantity(movieId, movieTitle, btn) {
 }
 
 function removeItem(movieId, movieTitle) {
-    fetch('/api/cart', {
+    fetch('api/cart', {
         method: 'POST',
         body: movieObjectToURLSearchParams({
             movieId: movieId,
@@ -62,7 +62,7 @@ function handleResult(resultData) {
         return
     }
 
-    document.getElementById('proceed-to-checkout').disabled = false
+    document.getElementById('proceed-to-payment').disabled = false
     let subTotal = 0
 
     for (let cartItem of resultData) {
@@ -93,7 +93,11 @@ function handleResult(resultData) {
 }
 
 (getCart = function() {
-    fetch('/api/cart')
+    fetch('api/cart')
         .then(response => response.json(), reason => console.error(reason))
         .then(json => handleResult(json))
 })()
+
+document.getElementById('proceed-to-payment').addEventListener('click', ev => {
+    window.location.href = 'payment.html'
+})

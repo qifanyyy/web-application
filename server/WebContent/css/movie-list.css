@@ -108,3 +108,7 @@ body {
 #customer-first-name {
     display: none;
 }
+
+#checkout-btn {
+    margin-left: 5px;
+}

@@ -59,3 +59,7 @@
 #title-wrapper ul {
     list-style-type: none;
 }
+
+#checkout-btn {
+    margin-left: 5px;
+}
