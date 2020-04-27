@@ -13,7 +13,7 @@ function addMovieToCart(movie) {
     const cartItem = {
         movieId: movie['movie_id'],
         movieTitle: movie['movie_title'],
-        quantity: 1
+        increment: 1
     }
     const reqBody = movieObjectToURLSearchParams(cartItem)
     const add2CartButton = document.getElementById('add-shopping-cart')

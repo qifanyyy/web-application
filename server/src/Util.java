@@ -14,4 +14,11 @@ public class Util {
         jsonObject.addProperty("stackTrace", stringWriter.toString());
         return jsonObject;
     }
+
+    public static JsonObject makeGeneralErrorJsonObject(String errorMessage) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("status", "failed");
+        jsonObject.addProperty("errorMessage", errorMessage);
+        return jsonObject;
+    }
 }
