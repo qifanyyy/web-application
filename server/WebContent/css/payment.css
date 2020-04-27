@@ -1,0 +1,40 @@
+#payment-info-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#total-price {
+    margin: 10px 20px;
+    font-weight: bold;
+}
+
+#title-area {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#title-area > span {
+    font-size: 23px;
+}
+
+#payment-form {
+    margin: 70px 20px;
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+
+#payment-form > input[type="submit"] {
+    margin-top: 20px;
+}
+
+#payment-form > label {
+    margin-top: 10px;
+}
+
+#payment-form > label[for="card-firstName"] {
+    margin-top: 0;
+}
