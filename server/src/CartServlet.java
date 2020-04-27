@@ -14,6 +14,8 @@ import java.util.Map;
 public class CartServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("application/json; charset=UTF-8"); // Response mime type
+        resp.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();
         out.write(CartItem.cartToJSON((Map<String, CartItem>) req.getSession().getAttribute("cart")).toString());
         out.close();
@@ -21,6 +23,8 @@ public class CartServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setContentType("application/json; charset=UTF-8"); // Response mime type
+        resp.setCharacterEncoding("UTF-8");
         PrintWriter out = resp.getWriter();
         String movieId = req.getParameter("movieId");
         String movieTitle = req.getParameter("movieTitle");

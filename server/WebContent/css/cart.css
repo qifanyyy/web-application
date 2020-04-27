@@ -23,3 +23,14 @@
 #proceed-to-checkout[disabled] {
     cursor: not-allowed;
 }
+
+.quantity-field {
+    width: 100px;
+    display: inline;
+}
+
+.remove-item-from-cart {
+    margin-left: 5px;
+    display: inline;
+    margin-top: -3px;
+}
