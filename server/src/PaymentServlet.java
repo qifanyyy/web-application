@@ -13,8 +13,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
-import java.time.format.DateTimeParseException;
 import java.util.Map;
+import java.util.TimeZone;
 
 @WebServlet(name = "PaymentServlet", urlPatterns = "/api/payment")
 public class PaymentServlet extends HttpServlet {
@@ -23,6 +23,7 @@ public class PaymentServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String id = req.getParameter("id");
@@ -32,17 +33,6 @@ public class PaymentServlet extends HttpServlet {
             resp.setStatus(400);
             PrintWriter out = resp.getWriter();
             out.write(Util.makeGeneralErrorJsonObject("missing payment parameters").toString());
-            out.close();
-            return;
-        }
-
-        LocalDate expirationDate;
-        try {
-            expirationDate = LocalDate.parse(expiration);
-        } catch (DateTimeParseException e) {
-            resp.setStatus(400);
-            PrintWriter out = resp.getWriter();
-            out.write(Util.makeGeneralErrorJsonObject("invalid date format").toString());
             out.close();
             return;
         }
@@ -57,15 +47,24 @@ public class PaymentServlet extends HttpServlet {
             creditCardIdStatement.setString(1, id);
             ResultSet resultSet = creditCardIdStatement.executeQuery();
 
-            if (!resultSet.next() ||
-                    !firstName.equals(resultSet.getString("firstName")) ||
-                    !lastName.equals(resultSet.getString("lastName")) ||
-                    // NOTE: I don't know why I have to add one day manually, but that's how jdbc works on my machine
-                    !expirationDate.equals(resultSet.getDate("expiration").toLocalDate().plusDays(1))) {
+            try {
+                if (!resultSet.next() ||
+                        !firstName.equals(resultSet.getString("firstName")) ||
+                        !lastName.equals(resultSet.getString("lastName")) ||
+                        !java.sql.Date.valueOf(expiration).equals(resultSet.getDate("expiration"))) {
 
+                    resp.setStatus(400);
+                    PrintWriter out = resp.getWriter();
+                    out.write(Util.makeGeneralErrorJsonObject("invalid credentials").toString());
+                    System.out.println("received: firstName=" + firstName + ",lastName=" + lastName + ",expiration=" + expiration);
+                    System.out.println("expected: firstName=" + resultSet.getString("firstName") + ",lastName=" + resultSet.getString("lastName") + ",expiration=" + resultSet.getDate("expiration"));
+                    out.close();
+                    return;
+                }
+            } catch (IllegalArgumentException e) {
                 resp.setStatus(400);
                 PrintWriter out = resp.getWriter();
-                out.write(Util.makeGeneralErrorJsonObject("invalid credentials").toString());
+                out.write(Util.exception2Json(e).toString());
                 out.close();
                 return;
             }
