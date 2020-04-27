@@ -68,4 +68,6 @@ fetch(`api/single-movie?id=${getParameterByName('id')}`, {  // getParameterByNam
     } else {
         window.addEventListener('DOMContentLoaded', e => handleResult(json));
     }
-});
+})
+
+setUpOnCheckout()

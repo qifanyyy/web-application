@@ -21,6 +21,7 @@ public class CartServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         CartItem cartItem = new CartItem(
                 req.getParameter("movieId"),
+                req.getParameter("movieTitle"),
                 Integer.parseInt(req.getParameter("quantity"))
         );
         HttpSession session;

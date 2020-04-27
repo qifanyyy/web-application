@@ -7,10 +7,12 @@ import java.util.Map;
 
 public class CartItem {
     public String movieId;
+    public String movieTitle;
     public int quantity;
 
-    public CartItem(String movieId, int quantity) {
+    public CartItem(String movieId, String movieTitle, int quantity) {
         this.movieId = movieId;
+        this.movieTitle = movieTitle;
         this.quantity = quantity;
     }
 
@@ -18,6 +20,7 @@ public class CartItem {
         if (cartItem == null) return JsonNull.INSTANCE;
         JsonObject ret = new JsonObject();
         ret.addProperty("movieId", cartItem.movieId);
+        ret.addProperty("movieTitle", cartItem.movieTitle);
         ret.addProperty("quantity", cartItem.quantity);
         return ret;
     }

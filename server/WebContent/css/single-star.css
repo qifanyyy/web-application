@@ -1,15 +1,3 @@
-#movie_info {
-    margin-right: 20px;
-}
-
-#add-shopping-cart {
-    margin-left: 20px;
-}
-
-#price-info {
-    margin-left: 10px;
-}
-
 #fabflix-nav {
     display: flex;
     flex-direction: row;
@@ -25,4 +13,8 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+#star_info {
+    margin: 10px 20px;
 }

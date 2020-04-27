@@ -51,7 +51,7 @@ function handleMovieResult(resultData) {
         movieTableBody.innerHTML += rowHTML;
 
     }
-    if(movieTableBody.innerHTML == ""){
+    if(movieTableBody.innerHTML === ""){
         movieTableBody.innerHTML="<tr><th>No Result</th><th></th><th></th><th></th><th></th><th></th></tr>";
     }
 
@@ -68,23 +68,22 @@ function handleMovieResult(resultData) {
 
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
-function myFunction() {
-    document.getElementById("myDropdown").classList.toggle("show");
-}
+document.getElementById('dropdown-btn-page-number').addEventListener('click', ev => {
+    document.getElementById("myDropdown").classList.toggle("show")
+})
 
 // Close the dropdown if the user clicks outside of it
-window.onclick = function(event) {
-    if (!event.target.matches('.dropbtn')) {
-        var dropdowns = document.getElementsByClassName("dropdown-content");
-        var i;
-        for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
+window.addEventListener('click', ev => {
+    if (!ev.target.matches('.dropbtn')) {
+        let dropdowns = document.getElementsByClassName("dropdown-content");
+        for (let i = 0; i < dropdowns.length; i++) {
+            let openDropdown = dropdowns[i];
             if (openDropdown.classList.contains('show')) {
                 openDropdown.classList.remove('show');
             }
         }
     }
-}
+})
 
 
 fetch(`api/movies?title=${getParameterByName('title')}&year=${getParameterByName('year')}&director=${getParameterByName('director')}&star=${getParameterByName('star')}&genre=${getParameterByName('genre')}&alnum=${getParameterByName('alnum')}&sort=${getParameterByName('sort')}&page=${getParameterByName('page')}&display=${getParameterByName('display')}`, {  // getParameterByName defined in util.js
@@ -99,3 +98,5 @@ fetch(`api/movies?title=${getParameterByName('title')}&year=${getParameterByName
         window.addEventListener('DOMContentLoaded', e => handleMovieResult(json));
     }
 });
+
+setUpOnCheckout()

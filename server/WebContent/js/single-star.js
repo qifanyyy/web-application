@@ -64,4 +64,6 @@ fetch(`api/single-star?id=${getParameterByName('id')}`, {  // getParameterByName
     } else {
         window.addEventListener('DOMContentLoaded', e => handleResult(json));
     }
-});
+})
+
+setUpOnCheckout()

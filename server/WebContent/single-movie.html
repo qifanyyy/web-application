@@ -9,8 +9,10 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="fabflix-nav">
-    <a class="navbar-brand pr-2" href="index.html"><span class="h1">Fabflix</span></a>
-    <span id="movie_info"></span>
+    <span id="title-area">
+        <a class="navbar-brand pr-2" href="index.html"><span class="h1">Fabflix</span></a>
+        <span id="movie_info"></span>
+    </span>
     <span>
         <form class="form-inline my-2 my-lg-0" action="./movie-list.html" method="get">
             <input name="title" aria-label="Search" class="form-control mr-sm-2" placeholder="Title" type="search">
@@ -19,17 +21,18 @@
             <input name="star" aria-label="Search" class="form-control mr-sm-2" placeholder="Star" type="search">
             <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
         </form>
+        <button id="checkout-btn" class="btn btn-primary">Checkout</button>
     </span>
 </nav>
 
 <table class="table table-striped table-bordered" id="movie_table">
     <thead class="thead-dark">
-    <tr>
-        <th>Director</th>
-        <th>Genres</th>
-        <th>Rating</th>
-        <th>Stars</th>
-    </tr>
+        <tr>
+            <th>Director</th>
+            <th>Genres</th>
+            <th>Rating</th>
+            <th>Stars</th>
+        </tr>
     </thead>
     <tbody id=movie_table_body></tbody>
 </table>

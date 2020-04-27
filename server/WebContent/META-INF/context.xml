@@ -5,7 +5,7 @@
     <!-- Defines a Data Source Connecting to localhost moviedb-->
     <Resource name="jdbc/moviedb"
               auth="Container"
-              driverClassName="com.mysql.jdbc.Driver"
+              driverClassName="com.mysql.cj.jdbc.Driver"
               type="javax.sql.DataSource"
               username="mytestuser"
               password="mypassword"

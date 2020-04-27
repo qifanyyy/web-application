@@ -26,4 +26,8 @@ function jsonErrorMsgHandler(json) {
     }
 }
 
-
+function setUpOnCheckout() {
+    document.getElementById('checkout-btn').addEventListener('click', ev => {
+        window.location.href = 'cart.html'
+    })
+}
