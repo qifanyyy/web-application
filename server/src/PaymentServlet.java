@@ -1,3 +1,4 @@
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
@@ -47,7 +48,12 @@ public class PaymentServlet extends HttpServlet {
         }
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement creditCardIdStatement = connection.prepareStatement("SELECT * FROM creditcards WHERE id = ?")) {
+             PreparedStatement creditCardIdStatement = connection.prepareStatement("SELECT * FROM creditcards WHERE id = ?");
+             PreparedStatement insertIntoSaleStatement = connection.prepareStatement(
+                     // TODO: write to real sales table
+                     "INSERT INTO sales_test (customerId, movieId, saleDate, quantity) VALUES (?, ?, ?, ?)",
+                     PreparedStatement.RETURN_GENERATED_KEYS
+             )) {
             creditCardIdStatement.setString(1, id);
             ResultSet resultSet = creditCardIdStatement.executeQuery();
 
@@ -67,25 +73,35 @@ public class PaymentServlet extends HttpServlet {
             Customer customer = (Customer) req.getSession().getAttribute("customer");
             @SuppressWarnings("unchecked")
             Map<String, CartItem> cart = (Map<String, CartItem>) req.getSession().getAttribute("cart");
-            PreparedStatement insertIntoSaleStatement = connection.prepareStatement(
-                    "INSERT INTO sales_test (customerId, movieId, saleDate) VALUES (?, ?, ?)"
-            );
+
             insertIntoSaleStatement.setInt(1, customer.id);
             insertIntoSaleStatement.setDate(3, java.sql.Date.valueOf(LocalDate.now()));
+            JsonObject ret = new JsonObject();
+            ret.addProperty("status", "success");
+            JsonArray sales = new JsonArray();
 
             for (String movieId : cart.keySet()) {
+                JsonObject singleSale = new JsonObject();
+                CartItem cartItem = cart.get(movieId);
                 insertIntoSaleStatement.setString(2, movieId);
-                insertIntoSaleStatement.execute();
+                insertIntoSaleStatement.setInt(4, cartItem.quantity);
+                insertIntoSaleStatement.executeUpdate();
+                ResultSet generatedIds = insertIntoSaleStatement.getGeneratedKeys();
+                generatedIds.next();
+                singleSale.addProperty("saleId", generatedIds.getInt("GENERATED_KEY"));
+                singleSale.addProperty("movieId", movieId);
+                singleSale.addProperty("movieTitle", cartItem.movieTitle);
+                singleSale.addProperty("quantity", cartItem.quantity);
+                sales.add(singleSale);
             }
 
             synchronized (req.getSession()) {
                 cart.clear();
             }
 
+            ret.add("sales", sales);
             resp.setStatus(200);
             PrintWriter out = resp.getWriter();
-            JsonObject ret = new JsonObject();
-            ret.addProperty("status", "success");
             out.write(ret.toString());
             out.close();
         } catch (Exception e) {

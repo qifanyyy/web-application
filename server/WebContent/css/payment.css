@@ -59,3 +59,11 @@
     align-items: center;
     justify-content: space-between;
 }
+
+#sale-id-header {
+    display: none;
+}
+
+input[disabled] {
+    cursor: not-allowed;
+}
