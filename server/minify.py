@@ -17,8 +17,9 @@ def _get_output_file_name(input_file: Path) -> Path:
 
 if __name__ == '__main__':
     for f in filter(
-            lambda x: x.suffix in {'.html', '.css', '.js'} and '.min' not in set(x.suffixes),
-            sorted(Path('./WebContent').iterdir())
+            lambda x: x.suffix in {'.html', '.css', '.js'} and '.min' not in set(x.suffixes) and x.is_file(),
+            sorted(Path('./WebContent').iterdir()) + sorted(Path('./WebContent/js').iterdir()) + \
+                sorted(Path('./WebContent/css').iterdir())
     ):
         print('minifying {}'.format(f.name))
         f = f.absolute()
