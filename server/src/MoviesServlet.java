@@ -78,7 +78,6 @@ public class MoviesServlet extends HttpServlet {
         else sort = "title";
 
 
-        System.out.println("page:"+page);
         if (page.equals("0")) page = "1";
         session.setAttribute("order", order);
         session.setAttribute("sort", sort);
@@ -144,84 +143,97 @@ public class MoviesServlet extends HttpServlet {
             else if ( t &&  y &&  s && !d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
             else if ( t &&  y && !s &&  d) query += "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'";
             else if ( t &&  y &&  s &&  d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%"+director+"%' AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
-            query+= " ORDER BY " + orderby + "  LIMIT "+ display + " OFFSET "+Integer.toString((Integer.parseInt(page) - 1)*Integer.parseInt(display));
+            query+= " ORDER BY " + orderby + "  LIMIT "+ display + " OFFSET "+Integer.toString((Integer.parseInt(page) - 1) * Integer.parseInt(display));
             System.out.println("query: " + query);
-            // Perform the query
-            ResultSet movieResultSet = movieStatement.executeQuery(query);
+
+            String squery = (String) session.getAttribute("query");
 
             JsonObject ret = new JsonObject();
-            JsonArray moviesArray = new JsonArray();
 
-            // Iterate through each row of rs
-            while (movieResultSet.next()) {
-                String movieId = movieResultSet.getString("id");
-                JsonArray movieGenres = new JsonArray();
 
-                query = "SELECT name FROM genres_in_movies, genres WHERE movieId = '" + movieId + "' AND id = genreID ORDER BY name LIMIT 3";
-
+            if (!query.equals(squery))
+            {
+                session.setAttribute("query", query);
                 // Perform the query
-                ResultSet genreResultSet = genreStatement.executeQuery(query);
-
+                ResultSet movieResultSet = movieStatement.executeQuery(query);
+                JsonArray moviesArray = new JsonArray();
                 // Iterate through each row of rs
-                while (genreResultSet.next()) {
-                    movieGenres.add(genreResultSet.getString("name"));
-                }
+                while (movieResultSet.next()) {
+                    String movieId = movieResultSet.getString("id");
+                    JsonArray movieGenres = new JsonArray();
 
+                    query = "SELECT name FROM genres_in_movies, genres WHERE movieId = '" + movieId + "' AND id = genreID ORDER BY name LIMIT 3";
 
+                    // Perform the query
+                    ResultSet genreResultSet = genreStatement.executeQuery(query);
 
-
-                query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '"+movieId+"' AND id = starID";
-                ResultSet starResultSet = starStatement.executeQuery(query);
-                ArrayList<Star> list = new ArrayList<>();
-                while (starResultSet.next()) {
-                    query = "SELECT COUNT(*) FROM stars_in_movies WHERE Starid = '"+ starResultSet.getString("starId") +"'";
-                    ResultSet countResultSet = countStatement.executeQuery(query);
-                    while (countResultSet.next()) {
-                        list.add(new Star(starResultSet.getString("name"), starResultSet.getString("starId"), Integer.parseInt(countResultSet.getString("COUNT(*)"))));
+                    // Iterate through each row of rs
+                    while (genreResultSet.next()) {
+                        movieGenres.add(genreResultSet.getString("name"));
                     }
-                }
-                Collections.sort(list, Comparator.comparing(Star::getCount).thenComparing(Star::getName));
 
 
-                JsonArray movieStar = new JsonArray();
-                for (int i = 0; i < Math.min(list.size(), 3); i++) {
-                    String star_id = list.get(i).getId();
-                    String star_name = list.get(i).getName();
+
+
+                    query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '"+movieId+"' AND id = starID";
+                    ResultSet starResultSet = starStatement.executeQuery(query);
+                    ArrayList<Star> list = new ArrayList<>();
+                    while (starResultSet.next()) {
+                        query = "SELECT COUNT(*) FROM stars_in_movies WHERE Starid = '"+ starResultSet.getString("starId") +"'";
+                        ResultSet countResultSet = countStatement.executeQuery(query);
+                        while (countResultSet.next()) {
+                            list.add(new Star(starResultSet.getString("name"), starResultSet.getString("starId"), Integer.parseInt(countResultSet.getString("COUNT(*)"))));
+                        }
+                    }
+                    Collections.sort(list, Comparator.comparing(Star::getCount).thenComparing(Star::getName));
+
+
+                    JsonArray movieStar = new JsonArray();
+                    for (int i = 0; i < Math.min(list.size(), 3); i++) {
+                        String star_id = list.get(i).getId();
+                        String star_name = list.get(i).getName();
+                        // Create a JsonObject based on the data we retrieve from rs
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("starId", star_id);
+                        jsonObject.addProperty("starName", star_name);
+                        movieStar.add(jsonObject);
+                    }
+                    while (starResultSet.next()) {
+                        String star_id = starResultSet.getString("starId");
+                        String star_name = starResultSet.getString("name");
+                        // Create a JsonObject based on the data we retrieve from rs
+                        JsonObject jsonObject = new JsonObject();
+                        jsonObject.addProperty("starId", star_id);
+                        jsonObject.addProperty("starName", star_name);
+                        movieStar.add(jsonObject);
+                    }
+
                     // Create a JsonObject based on the data we retrieve from rs
                     JsonObject jsonObject = new JsonObject();
-                    jsonObject.addProperty("starId", star_id);
-                    jsonObject.addProperty("starName", star_name);
-                    movieStar.add(jsonObject);
-                }
-                while (starResultSet.next()) {
-                    String star_id = starResultSet.getString("starId");
-                    String star_name = starResultSet.getString("name");
-                    // Create a JsonObject based on the data we retrieve from rs
-                    JsonObject jsonObject = new JsonObject();
-                    jsonObject.addProperty("starId", star_id);
-                    jsonObject.addProperty("starName", star_name);
-                    movieStar.add(jsonObject);
+                    jsonObject.addProperty("movieId", movieId);
+                    jsonObject.addProperty("movieTitle", movieResultSet.getString("title"));
+                    jsonObject.addProperty("movieYear", movieResultSet.getString("year"));
+                    jsonObject.addProperty("movieDirector", movieResultSet.getString("director"));
+                    jsonObject.add("movieGenres", movieGenres);
+                    jsonObject.add("movieStars", movieStar);
+                    jsonObject.addProperty("movieRating", movieResultSet.getString("rating"));
+                    moviesArray.add(jsonObject);
+
+
                 }
 
-                // Create a JsonObject based on the data we retrieve from rs
-                JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("movieId", movieId);
-                jsonObject.addProperty("movieTitle", movieResultSet.getString("title"));
-                jsonObject.addProperty("movieYear", movieResultSet.getString("year"));
-                jsonObject.addProperty("movieDirector", movieResultSet.getString("director"));
-                jsonObject.add("movieGenres", movieGenres);
-                jsonObject.add("movieStars", movieStar);
-                jsonObject.addProperty("movieRating", movieResultSet.getString("rating"));
-
-                moviesArray.add(jsonObject);
+                JsonObject jpage = new JsonObject();
+                jpage.addProperty("page", page);
+                ret.add("movies", moviesArray);
+                ret.add("customer", Customer.toJSON((Customer) request.getSession().getAttribute("customer")));
+                ret.add("page", jpage);
+                session.setAttribute("ret", ret);
             }
-            JsonObject jpage = new JsonObject();
-            jpage.addProperty("page", page);
-
-            ret.add("movies", moviesArray);
-            ret.add("customer", Customer.toJSON((Customer) request.getSession().getAttribute("customer")));
-            ret.add("page", jpage);
-
+            else
+            {
+                ret = (JsonObject) session.getAttribute("ret");
+                System.out.println("cached");
+            }
             // write JSON string to output
             out.write(ret.toString());
             // set response status to 200 (OK)
