@@ -56,7 +56,15 @@ function handleMovieResult(resultData) {
 <th><a href="single-movie.html?id=${movieArray[i]['movieId']}">${movieArray[i]["movieTitle"]}</a></th>
 <th>${movieArray[i]["movieYear"]}</th>
 <th>${movieArray[i]["movieDirector"]}</th>
-<th>${movieArray[i]["movieGenres"]}</th><th>`;
+<th>`;
+
+        let genreData = movieArray[i]['movieGenres'];
+        // Iterate through starData, no more than 3 entries
+        for (let i = 0; i < genreData.length; i++) {
+            if (i !== 0) rowHTML += ", ";
+            rowHTML += `<a href="movie-list.html?genre=${genreData[i]}">${genreData[i]}</a>`;
+        }
+        rowHTML += '</th><th>';
 
         let starData = movieArray[i]['movieStars'];
         // Iterate through starData, no more than 3 entries
