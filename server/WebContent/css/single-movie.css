@@ -26,7 +26,8 @@
     flex-direction: row;
     align-items: center;
 }
-h2{
-    padding-top: 8px;
-    font-size: 18.72px;
+
+
+#checkout-btn {
+    margin-left: 5px;
 }

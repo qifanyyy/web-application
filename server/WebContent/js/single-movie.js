@@ -18,10 +18,15 @@ function addMovieToCart(movie) {
     const reqBody = movieObjectToURLSearchParams(cartItem)
     const add2CartButton = document.getElementById('add-shopping-cart')
 
-    fetch('/api/cart', {
+    fetch('api/cart', {
         method: 'POST',
         body: reqBody
-    }).then(async response => response.json(), reason => console.error(reason)).then(json => {
+    }).then(async response => response.json(), reason => {
+        add2CartButton.classList.remove('btn-primary')
+        add2CartButton.classList.add('btn-outline-danger')
+        add2CartButton.innerText = 'Oops! Something goes wrong...'
+        console.error(reason)
+    }).then(json => {
         if (json['status'] !== 'success') {
             add2CartButton.classList.remove('btn-primary')
             add2CartButton.classList.add('btn-outline-danger')
