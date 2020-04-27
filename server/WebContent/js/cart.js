@@ -59,6 +59,7 @@ function handleResult(resultData) {
     tableBody.innerHTML = ''
     if (resultData.length === 0) {
         document.body.innerHTML += `<p id="cart-is-empty-prompt"><em>Cart is empty~</em></p>`
+        document.getElementById('proceed-to-payment').disabled = true
         return
     }
 
