@@ -7,6 +7,7 @@ cs122b-spring20-team-12 created by GitHub Classroom
 ```bash
 mysql -umytestuser -p < createtable.sql
 mysql -umytestuser -p moviedb < movie-data.sql
+mysql -umytestuser -p moviedb < add-quantity-to-sales.sql
 ```
 
 ## Server
