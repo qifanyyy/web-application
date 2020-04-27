@@ -55,7 +55,6 @@ public class MoviesServlet extends HttpServlet {
                 di = !display.equals("")  && !display.equals(null)  && !display.equals("null"),
                 st = !sort.equals("")     && !sort.equals(null)     && !sort.equals("null"),
                 ss = sort2 != null;
-
         if (!p) {
             String spage = (String) session.getAttribute("page");
             if (spage == null) spage = "1";
@@ -78,15 +77,13 @@ public class MoviesServlet extends HttpServlet {
         } else if (ss) sort = sort2;
         else sort = "title";
 
+
+        System.out.println("page:"+page);
+        if (page.equals("0")) page = "1";
         session.setAttribute("order", order);
         session.setAttribute("sort", sort);
         session.setAttribute("page", page);
         session.setAttribute("display", display);
-
-
-        System.out.println(page);
-        System.out.println(display);
-
 
         if (sort.equals("rating")) sort_sec = ", title";
 
@@ -214,9 +211,12 @@ public class MoviesServlet extends HttpServlet {
 
                 moviesArray.add(jsonObject);
             }
+            JsonObject jpage = new JsonObject();
+            jpage.addProperty("page", page);
 
             ret.add("movies", moviesArray);
             ret.add("customer", Customer.toJSON((Customer) request.getSession().getAttribute("customer")));
+            ret.add("page", jpage);
 
             // write JSON string to output
             out.write(ret.toString());

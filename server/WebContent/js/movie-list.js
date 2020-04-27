@@ -50,9 +50,11 @@ function handleMovieResult(resultData) {
     let movieTableBody = document.getElementById('movie_table_body');
     let movieArray = resultData['movies'];
     let customer = resultData['customer'];
+    let page = resultData['page']['page'];
     if (customer !== null) {
         document.getElementById('customer-first-name').innerText = `Welcome, ${customer['firstName']}`;
     }
+
     // Iterate through resultData, no more than 20 entries
     for (let i = 0; i < movieArray.length; i++) {
 
@@ -93,9 +95,18 @@ data-movie-title="${movieArray[i]["movieTitle"]}"
         movieTableBody.innerHTML="<tr><th>No Result</th><th></th><th></th><th></th><th></th><th></th></tr>";
     }
 
+    document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${parseInt(page)-1}"><-Pervious</a></li>`;
     for (let i = 1; i < 10; ++i) {
-        document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}">${i}</a></li>`
+
+        if (page != i) {
+            document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}">${i}</a></li>`;
+        }
+        else
+        {
+            document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}"><b>${i}</b></a></li>`;
+        }
     }
+    document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${parseInt(page)+1}">Next-></a></li>`;
 
     for (let btn of document.querySelectorAll('.movie-list-add-to-cart-btn')) {
         btn.addEventListener('click', ev => {
