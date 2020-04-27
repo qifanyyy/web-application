@@ -167,6 +167,9 @@ public class MoviesServlet extends HttpServlet {
                     movieGenres.add(genreResultSet.getString("name"));
                 }
 
+
+
+
                 query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '"+movieId+"' AND id = starID";
                 ResultSet starResultSet = starStatement.executeQuery(query);
                 ArrayList<Star> list = new ArrayList<>();
@@ -178,6 +181,7 @@ public class MoviesServlet extends HttpServlet {
                     }
                 }
                 Collections.sort(list, Comparator.comparing(Star::getCount).thenComparing(Star::getName));
+
 
                 JsonArray movieStar = new JsonArray();
                 for (int i = 0; i < Math.min(list.size(), 3); i++) {

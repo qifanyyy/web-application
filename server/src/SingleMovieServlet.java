@@ -12,6 +12,9 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 // Declaring a WebServlet called SingleMovieServlet, which maps to url "/api/single-movie"
 @WebServlet(name = "SingleMovieServlet", urlPatterns = "/api/single-movie")
@@ -75,25 +78,38 @@ public class SingleMovieServlet extends HttpServlet {
             genre_rs.close();
             genre_statement.close();
 
-            query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '" + id + "' AND id = starID;";
+            Statement star_statement = dbcon.createStatement();
+            Statement countStatement = dbcon.createStatement();
+
+            query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '"+ id +"' AND id = starID";
+            ResultSet starResultSet = star_statement.executeQuery(query);
+            ArrayList<Star> list = new ArrayList<>();
+            while (starResultSet.next()) {
+                query = "SELECT COUNT(*) FROM stars_in_movies WHERE Starid = '"+ starResultSet.getString("starId") +"'";
+                ResultSet countResultSet = countStatement.executeQuery(query);
+                while (countResultSet.next()) {
+                    list.add(new Star(starResultSet.getString("name"), starResultSet.getString("starId"), Integer.parseInt(countResultSet.getString("COUNT(*)"))));
+                }
+            }
+            Collections.sort(list, Comparator.comparing(Star::getCount).thenComparing(Star::getName));
+
+
             JsonArray movie_star = new JsonArray();
 
             // Declare our statement
-            Statement star_statement = dbcon.createStatement();
-            // Perform the query
-            ResultSet star_rs = star_statement.executeQuery(query);
+
 
             // Iterate through each row of rs
-            while (star_rs.next()) {
-                String star_id = star_rs.getString("starId");
-                String star_name = star_rs.getString("name");
+            for (int i = 0; i < list.size(); i++) {
+                String star_id = list.get(i).getId();
+                String star_name = list.get(i).getName();
                 // Create a JsonObject based on the data we retrieve from rs
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("star_id", star_id);
                 jsonObject.addProperty("star_name", star_name);
                 movie_star.add(jsonObject);
             }
-            star_rs.close();
+            starResultSet.close();
             star_statement.close();
 
             // Create a JsonObject based on the data we retrieve from rs
