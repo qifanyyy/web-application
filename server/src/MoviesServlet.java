@@ -39,13 +39,38 @@ public class MoviesServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         String sessionId = session.getId();
-        System.out.println("sessionId: " + sessionId);
-        boolean t = !title.equals("")    && !title.equals(null)    && !title.equals("null"),
-                y = year.length() == 4   && !year.equals(null)     && !year.equals("null"),
-                s = !star.equals("")     && !star.equals(null)     && !star.equals("null"),
-                d = !director.equals("") && !director.equals(null) && !director.equals("null"),
-                a = !alnum.equals("")    && !alnum.equals(null)    && !alnum.equals("null"),
-                g = !genre.equals("")    && !genre.equals(null)    &&!genre.equals("null");
+
+        String sort2 = (String) session.getAttribute("sort");
+        boolean t  = !title.equals("")    && !title.equals(null)    && !title.equals("null"),
+                y  = year.length() == 4   && !year.equals(null)     && !year.equals("null"),
+                s  = !star.equals("")     && !star.equals(null)     && !star.equals("null"),
+                d  = !director.equals("") && !director.equals(null) && !director.equals("null"),
+                a  = !alnum.equals("")    && !alnum.equals(null)    && !alnum.equals("null"),
+                g  = !genre.equals("")    && !genre.equals(null)    && !genre.equals("null"),
+                st = !sort.equals("")     && !sort.equals(null)     && !sort.equals("null"),
+                ss = sort2 != null;
+
+        String order = (String) session.getAttribute("order");
+        if (order == null) order = " ASC";
+
+
+        if (st){
+            if (sort.equals(sort2)) {
+                if (order.equals(" ASC")) order = " DESC";
+                else order = " ASC";
+            }
+        } else if (ss) sort = sort2;
+        else sort = "title";
+        session.setAttribute("order", order);
+        session.setAttribute("sort", sort);
+
+        String sort_sec = ", rating";
+
+
+        if (sort.equals("rating")) sort_sec = ", title";
+
+        String orderby = sort + order + sort_sec;
+
 
         if (!t && !y && !s && !d && !a && !g){
             title    = (String) session.getAttribute("title");
@@ -54,7 +79,7 @@ public class MoviesServlet extends HttpServlet {
             star     = (String) session.getAttribute("star");
             genre    = (String) session.getAttribute("genre");
             alnum    = (String) session.getAttribute("alnum");
-            
+
             t = !title.equals("")    && !title.equals(null)    && !title.equals("null");
             y = year.length() == 4   && !year.equals(null)     && !year.equals("null");
             s = !star.equals("")     && !star.equals(null)     && !star.equals("null");
@@ -102,7 +127,7 @@ public class MoviesServlet extends HttpServlet {
             else if ( t &&  y &&  s && !d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
             else if ( t &&  y && !s &&  d) query += "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'";
             else if ( t &&  y &&  s &&  d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%"+director+"%' AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
-            query+= " ORDER BY title  LIMIT 100";
+            query+= " ORDER BY " + orderby + "  LIMIT 100";
             System.out.println("query: " + query);
             // Perform the query
             ResultSet movieResultSet = movieStatement.executeQuery(query);
