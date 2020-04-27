@@ -94,6 +94,7 @@ function handleResult(resultData) {
 }
 
 (getCart = function() {
+    setUpLogOutBtn()
     fetch('api/cart')
         .then(response => response.json(), reason => console.error(reason))
         .then(json => handleResult(json))

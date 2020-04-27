@@ -67,3 +67,4 @@ fetch(`api/single-star?id=${getParameterByName('id')}`, {  // getParameterByName
 })
 
 setUpOnCheckout()
+setUpLogOutBtn()

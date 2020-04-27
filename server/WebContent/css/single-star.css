@@ -19,7 +19,6 @@
     margin: 10px 20px;
 }
 
-
-#checkout-btn {
+#checkout-btn, #logout-btn {
     margin-left: 5px;
 }

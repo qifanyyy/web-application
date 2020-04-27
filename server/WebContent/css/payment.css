@@ -48,3 +48,14 @@
     padding: 0;
     color: #86181d;
 }
+
+#logout-btn {
+    margin-left: 5px;
+}
+
+#fabflix-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}

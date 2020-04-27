@@ -28,3 +28,14 @@ a, a:hover, a:active {
     color: unset;
     text-decoration: unset;
 }
+
+#logout-btn {
+    margin-left: 5px;
+}
+
+#fabflix-nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}

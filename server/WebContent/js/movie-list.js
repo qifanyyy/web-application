@@ -15,7 +15,7 @@ function addMovieToCart(movie, btn) {
     fetch('api/cart', {
         method: 'POST',
         body: reqBody
-    }).then(async response => response.json(), reason => {
+    }).then(response => response.json(), reason => {
         btn.classList.remove('btn-outline-primary')
         btn.classList.add('btn-outline-danger')
         btn.innerText = 'Failed'
@@ -98,7 +98,7 @@ data-movie-title="${movieArray[i]["movieTitle"]}"
     document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${parseInt(page)-1}"><-Pervious</a></li>`;
     for (let i = 1; i < 10; ++i) {
 
-        if (page != i) {
+        if (page !== i) {
             document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}">${i}</a></li>`;
         }
         else
@@ -158,3 +158,4 @@ fetch(`api/movies?title=${getParameterByName('title')}&year=${getParameterByName
 });
 
 setUpOnCheckout()
+setUpLogOutBtn()

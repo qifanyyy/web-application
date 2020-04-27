@@ -109,6 +109,6 @@ body {
     display: none;
 }
 
-#checkout-btn {
+#checkout-btn, #logout-btn {
     margin-left: 5px;
 }

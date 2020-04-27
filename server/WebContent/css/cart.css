@@ -34,3 +34,7 @@
     display: inline;
     margin-top: -3px;
 }
+
+#logout-btn {
+    margin-left: 5px;
+}

@@ -120,4 +120,5 @@ function handleResult(resultData) {
     })
 
     setUpOnCheckout()
+    setUpLogOutBtn()
 })()
