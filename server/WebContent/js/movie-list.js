@@ -9,6 +9,26 @@
  */
 
 
+function addMovieToCart(movie, btn) {
+    const reqBody = movieObjectToURLSearchParams(movie)
+
+    fetch('/api/cart', {
+        method: 'POST',
+        body: reqBody
+    }).then(async response => response.json(), reason => console.error(reason)).then(json => {
+        if (json['status'] !== 'success') {
+            btn.classList.remove('btn-outline-primary')
+            btn.classList.add('btn-outline-danger')
+            btn.innerText = 'Failed'
+            jsonErrorMsgHandler(json)
+        } else {
+            btn.innerText = 'Added'
+        }
+    })
+    btn.innerText = 'Adding...'
+    btn.disabled = true
+}
+
 /**
  * Handles the data returned by the API, read the jsonObject and populate data into html elements
  * @param resultData jsonObject
@@ -44,7 +64,12 @@ function handleMovieResult(resultData) {
             if (i !== 0) rowHTML += ", ";
             rowHTML += `<a href="single-star.html?id=${starData[i]["starId"]}">${starData[i]["starName"]}</a>`;
         }
-        rowHTML += `</th><th>${movieArray[i]["movieRating"]}</th></tr>`;
+        rowHTML += `</th><th>${movieArray[i]["movieRating"]}</th>`;
+        rowHTML += `</th><th><button
+class="movie-list-add-to-cart-btn btn btn-outline-primary"
+data-movie-id="${movieArray[i]['movieId']}"
+data-movie-title="${movieArray[i]["movieTitle"]}"
+>Add to Cart</button></th></tr>`
 
         // Append the row created to the table body, which will refresh the page
         // movieTableBodyElement.append(rowHTML);
@@ -59,6 +84,15 @@ function handleMovieResult(resultData) {
         document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}">${i}</a></li>`
     }
 
+    for (let btn of document.querySelectorAll('.movie-list-add-to-cart-btn')) {
+        btn.addEventListener('click', ev => {
+            addMovieToCart({
+                movieId: btn.dataset.movieId,
+                movieTitle: btn.dataset.movieTitle,
+                increment: 1
+            }, btn)
+        })
+    }
 }
 
 /**
