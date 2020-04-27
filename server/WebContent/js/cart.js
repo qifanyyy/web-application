@@ -60,6 +60,7 @@ function handleResult(resultData) {
     if (resultData.length === 0) {
         document.body.innerHTML += `<p id="cart-is-empty-prompt"><em>Cart is empty~</em></p>`
         document.getElementById('proceed-to-payment').disabled = true
+        setUpLogOutBtn()
         return
     }
 
@@ -94,7 +95,6 @@ function handleResult(resultData) {
 }
 
 (getCart = function() {
-    setUpLogOutBtn()
     fetch('api/cart')
         .then(response => response.json(), reason => console.error(reason))
         .then(json => handleResult(json))
@@ -103,3 +103,4 @@ function handleResult(resultData) {
 document.getElementById('proceed-to-payment').addEventListener('click', ev => {
     window.location.href = 'payment.html'
 })
+setUpLogOutBtn()

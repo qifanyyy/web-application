@@ -56,8 +56,6 @@ public class PaymentServlet extends HttpServlet {
                     resp.setStatus(400);
                     PrintWriter out = resp.getWriter();
                     out.write(Util.makeGeneralErrorJsonObject("invalid credentials").toString());
-                    System.out.println("received: firstName=" + firstName + ",lastName=" + lastName + ",expiration=" + expiration);
-                    System.out.println("expected: firstName=" + resultSet.getString("firstName") + ",lastName=" + resultSet.getString("lastName") + ",expiration=" + resultSet.getDate("expiration"));
                     out.close();
                     return;
                 }

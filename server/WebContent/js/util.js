@@ -41,6 +41,7 @@ function movieObjectToURLSearchParams(movie) {
 }
 
 function setUpLogOutBtn() {
+    console.log('setUpLogOutBtn')
     document.getElementById('logout-btn').addEventListener('click', ev => {
         fetch('api/logout', { method: 'POST' })
             .then(response => response.json(), reason => console.error(reason))
