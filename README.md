@@ -23,6 +23,9 @@ Each of the member contributes approximately same amount of work to the reposito
 
 ## Project 2
 
+- https://youtu.be/eZkls9E3f-k
+- https://drive.google.com/open?id=1faFV4_jPZK5V6kzxVqDxA706JQZZhLj4 (backup, need UCI Gmail account)
+
 Substring matching design:
 
 We use LIKE in 18 mysql query of MoviesServlet.java from line 46 to 63.
