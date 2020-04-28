@@ -119,6 +119,7 @@ public class MoviesServlet extends HttpServlet {
              Statement genreStatement = connection.createStatement();
              Statement starStatement = connection.createStatement();
              Statement countStatement = connection.createStatement();
+             Statement countpageStatement = connection.createStatement();
         ) {
             String query, query1 = "SELECT * FROM movies, ", query2= "";
 
@@ -142,10 +143,19 @@ public class MoviesServlet extends HttpServlet {
             else if ( t &&  y && !s &&  d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'";
             else if ( t &&  y &&  s &&  d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%"+director+"%' AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
 
+            String squery = (String) session.getAttribute("query");
 
             query = query1 + query2;
-
-            String squery = (String) session.getAttribute("query");
+            if (squery != null && squery.contains(query)){
+                String maxpage = (String) session.getAttribute("maxpage");
+            }
+            else{
+                ResultSet countpageResultSet = countpageStatement.executeQuery("SELECT COUNT(*) FROM movies, " + query2);
+                while (countpageResultSet.next()) {
+                    String maxpage = countpageResultSet.getString("COUNT(*)");
+                    session.setAttribute("maxpage", maxpage);
+                }
+            }
 
             if (!p) {
                 String spage = (String) session.getAttribute("page");
@@ -158,8 +168,8 @@ public class MoviesServlet extends HttpServlet {
             session.setAttribute("page", page);
 
             query+= " ORDER BY " + orderby + "  LIMIT "+ display + " OFFSET "+Integer.toString((Integer.parseInt(page) - 1) * Integer.parseInt(display));
-            System.out.println("query: " + query);
 
+            System.out.println("query: " + query);
 
 
             JsonObject ret = new JsonObject();
