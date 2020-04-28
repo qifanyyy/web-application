@@ -82,7 +82,7 @@ function handleResult(resultData) {
     }
 
     for (let quantityInput of document.querySelectorAll('.quantity-field')) {
-        quantityInput.addEventListener('blur', () => {
+        quantityInput.addEventListener('change', () => {
             updateItemQuantity(quantityInput.dataset.movieId, quantityInput.dataset.movieTitle, quantityInput)
         })
     }
