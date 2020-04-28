@@ -40,8 +40,7 @@ public class PaymentServlet extends HttpServlet {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement creditCardIdStatement = connection.prepareStatement("SELECT * FROM creditcards WHERE id = ?");
              PreparedStatement insertIntoSaleStatement = connection.prepareStatement(
-                     // TODO: write to real sales table
-                     "INSERT INTO sales_test (customerId, movieId, saleDate, quantity) VALUES (?, ?, ?, ?)",
+                     "INSERT INTO sales (customerId, movieId, saleDate, quantity) VALUES (?, ?, ?, ?)",
                      PreparedStatement.RETURN_GENERATED_KEYS
              )) {
             creditCardIdStatement.setString(1, id);
