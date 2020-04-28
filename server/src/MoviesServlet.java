@@ -28,15 +28,15 @@ public class MoviesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8"); // Response mime type
         response.setCharacterEncoding("UTF-8");
-        String title       = request.getParameter("title");
-        String year        = request.getParameter("year");
-        String director    = request.getParameter("director");
-        String star        = request.getParameter("star");
-        String genre       = request.getParameter("genre");
-        String alnum       = request.getParameter("alnum");
-        String sort        = request.getParameter("sort");
-        String page        = request.getParameter("page");
-        String display     = request.getParameter("display");
+        String title    = request.getParameter("title");
+        String year     = request.getParameter("year");
+        String director = request.getParameter("director");
+        String star     = request.getParameter("star");
+        String genre    = request.getParameter("genre");
+        String alnum    = request.getParameter("alnum");
+        String sort     = request.getParameter("sort");
+        String page     = request.getParameter("page");
+        String display  = request.getParameter("display");
 
         HttpSession session = request.getSession();
         String sessionId = session.getId();
@@ -55,11 +55,8 @@ public class MoviesServlet extends HttpServlet {
                 di = !display.equals("")  && !display.equals(null)  && !display.equals("null"),
                 st = !sort.equals("")     && !sort.equals(null)     && !sort.equals("null"),
                 ss = sort2 != null;
-        if (!p) {
-            String spage = (String) session.getAttribute("page");
-            if (spage == null) spage = "1";
-            page = spage;
-        }
+
+
 
         if (!di) {
             String sdisplay = (String) session.getAttribute("display");
@@ -78,10 +75,11 @@ public class MoviesServlet extends HttpServlet {
         else sort = "title";
 
 
-        if (page.equals("0")) page = "1";
+
+
         session.setAttribute("order", order);
         session.setAttribute("sort", sort);
-        session.setAttribute("page", page);
+
         session.setAttribute("display", display);
 
         if (sort.equals("rating")) sort_sec = ", title";
@@ -143,10 +141,23 @@ public class MoviesServlet extends HttpServlet {
             else if ( t &&  y &&  s && !d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
             else if ( t &&  y && !s &&  d) query += "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'";
             else if ( t &&  y &&  s &&  d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%"+director+"%' AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
+
+            String squery = (String) session.getAttribute("query");
+
+            if (!p) {
+                String spage = (String) session.getAttribute("page");
+                if (spage == null || !squery.contains(query)) spage = "1";
+                page = spage;
+            }
+
+            if (page.equals("0")) page = "1";
+
+            session.setAttribute("page", page);
+
             query+= " ORDER BY " + orderby + "  LIMIT "+ display + " OFFSET "+Integer.toString((Integer.parseInt(page) - 1) * Integer.parseInt(display));
             System.out.println("query: " + query);
 
-            String squery = (String) session.getAttribute("query");
+
 
             JsonObject ret = new JsonObject();
 

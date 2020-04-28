@@ -98,7 +98,7 @@ data-movie-title="${movieArray[i]["movieTitle"]}"
     document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${parseInt(page)-1}"><-Pervious</a></li>`;
     for (let i = 1; i < 10; ++i) {
 
-        if (page !== i) {
+        if (parseInt(page) != i) {
             document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}">${i}</a></li>`;
         }
         else
