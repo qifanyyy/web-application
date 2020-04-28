@@ -21,7 +21,7 @@ Each of the member contributes approximately same amount of work to the reposito
 - https://youtu.be/gOmATkxsDes
 - https://drive.google.com/file/d/18nEbfqveqkul2HjDjRrNMgDTht2SCMOQ/view?usp=sharing (backup, need UCI Gmail account)
 
-## project 2
+## Project 2
 
 Substring matching design:
 
