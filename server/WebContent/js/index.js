@@ -30,4 +30,5 @@ function handleResult(resultData) {
 
     setUpOnCheckout()
     setUpLogOutBtn()
+    setUpSearchForm()
 })()

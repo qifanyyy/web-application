@@ -41,7 +41,6 @@ function movieObjectToURLSearchParams(movie) {
 }
 
 function setUpLogOutBtn() {
-    console.log('setUpLogOutBtn')
     document.getElementById('logout-btn').addEventListener('click', ev => {
         fetch('api/logout', { method: 'POST' })
             .then(response => response.json(), reason => console.error(reason))
@@ -49,5 +48,21 @@ function setUpLogOutBtn() {
                 console.log(json)
                 window.location.href = 'login.html'
             })
+    })
+}
+
+function setUpSearchForm() {
+    const searchBtn = document.querySelector('#search-form > button')
+    const firstField = document.querySelector('#search-form > input:first-child')
+    searchBtn.addEventListener('click', ev => {
+        for (let inputField of document.querySelectorAll('#search-form > input')) {
+            if (inputField.value !== '') {
+                firstField.removeAttribute('required')
+                firstField.setCustomValidity('')
+                break
+            }
+            firstField.setAttribute('required', '')
+            firstField.setCustomValidity('Please at least enter one search field')
+        }
     })
 }

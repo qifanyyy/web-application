@@ -84,7 +84,7 @@ function handleMovieResult(resultData) {
 class="movie-list-add-to-cart-btn btn btn-outline-primary"
 data-movie-id="${movieArray[i]['movieId']}"
 data-movie-title="${movieArray[i]["movieTitle"]}"
->Add to Cart</button></th></tr>`
+>Add to Cart (Price $2)</button></th></tr>`
 
         // Append the row created to the table body, which will refresh the page
         // movieTableBodyElement.append(rowHTML);
@@ -92,7 +92,7 @@ data-movie-title="${movieArray[i]["movieTitle"]}"
 
     }
     if(movieTableBody.innerHTML === ""){
-        movieTableBody.innerHTML="<tr><th>No Result</th><th></th><th></th><th></th><th></th><th></th></tr>";
+        movieTableBody.innerHTML="<tr><th>No Result</th><th></th><th></th><th></th><th></th><th></th><th></th></tr>";
     }
 
     document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${parseInt(page)-1}"><-Pervious</a></li>`;
