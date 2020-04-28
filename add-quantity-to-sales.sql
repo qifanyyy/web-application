@@ -1,2 +1,2 @@
 USE moviedb;
-ALTER TABLE sales_test ADD COLUMN quantity INTEGER;
+ALTER TABLE sales ADD COLUMN quantity INTEGER;
