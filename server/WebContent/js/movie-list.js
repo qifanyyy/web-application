@@ -149,7 +149,6 @@ data-movie-title="${movieArray[i]["movieTitle"]}"
  * Once this .js is loaded, following scripts will be executed by the browser
  */
 
-
 /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
 document.getElementById('dropdown-btn-page-number').addEventListener('click', ev => {
@@ -168,6 +167,8 @@ window.addEventListener('click', ev => {
         }
     }
 })
+
+
 
 
 fetch(`api/movies?title=${getParameterByName('title')}&year=${getParameterByName('year')}&director=${getParameterByName('director')}&star=${getParameterByName('star')}&genre=${getParameterByName('genre')}&alnum=${getParameterByName('alnum')}&sort=${getParameterByName('sort')}&page=${getParameterByName('page')}&display=${getParameterByName('display')}`, {  // getParameterByName defined in util.js
