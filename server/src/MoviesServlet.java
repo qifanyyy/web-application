@@ -41,10 +41,6 @@ public class MoviesServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String sessionId = session.getId();
 
-        String sort2 = (String) session.getAttribute("sort");
-        String order = (String) session.getAttribute("order");
-        String sort_sec = ", rating";
-
         boolean t  = !title.equals("")    && !title.equals(null)    && !title.equals("null"),
                 y  = year.length() == 4   && !year.equals(null)     && !year.equals("null"),
                 s  = !star.equals("")     && !star.equals(null)     && !star.equals("null"),
@@ -53,8 +49,7 @@ public class MoviesServlet extends HttpServlet {
                 g  = !genre.equals("")    && !genre.equals(null)    && !genre.equals("null"),
                 p  = !page.equals("")     && !page.equals(null)     && !page.equals("null"),
                 di = !display.equals("")  && !display.equals(null)  && !display.equals("null"),
-                st = !sort.equals("")     && !sort.equals(null)     && !sort.equals("null"),
-                ss = sort2 != null;
+                st = !sort.equals("")     && !sort.equals(null)     && !sort.equals("null");
 
 
 
@@ -64,27 +59,31 @@ public class MoviesServlet extends HttpServlet {
             display = sdisplay;
         }
 
-        if (order == null) order = " ASC";
 
-        if (st){
-            if (sort.equals(sort2)) {
-                if (order.equals(" ASC")) order = " DESC";
-                else order = " ASC";
+        if (st) {
+            session.setAttribute("sort", sort);
+        } else {
+            sort = (String) session.getAttribute("sort");
+            if (sort == null) {
+                session.setAttribute("sort", "1");
+                sort = "1";
             }
-        } else if (ss) sort = sort2;
-        else sort = "title";
-
-
-
-
-        session.setAttribute("order", order);
-        session.setAttribute("sort", sort);
+        }
+        String orderby = "";
+        if (sort.equals("1")) orderby = "rating ASC, title ASC";
+        else if (sort.equals("2")) orderby = "rating ASC, title DESC";
+        else if (sort.equals("3")) orderby = "rating DESC, title ASC";
+        else if (sort.equals("4")) orderby = "rating DESC, title DESC";
+        else if (sort.equals("5")) orderby = "title ASC, rating ASC";
+        else if (sort.equals("6")) orderby = "title ASC, rating DESC";
+        else if (sort.equals("7")) orderby = "title DESC, rating ASC";
+        else if (sort.equals("8")) orderby = "title DESC, rating DESC";
 
         session.setAttribute("display", display);
 
-        if (sort.equals("rating")) sort_sec = ", title";
 
-        String orderby = sort + order + sort_sec;
+
+
 
 
         if (!t && !y && !s && !d && !a && !g){
