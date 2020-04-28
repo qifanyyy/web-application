@@ -162,7 +162,7 @@ public class MoviesServlet extends HttpServlet {
 
             if (!p) {
                 String spage = (String) session.getAttribute("page");
-                if (spage == null) spage = "1";
+                if (spage == null || (squery != null && !squery.contains(query))) spage = "1";
                 page = spage;
             }
 
