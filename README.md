@@ -25,6 +25,7 @@ Each of the member contributes approximately same amount of work to the reposito
 
 - https://youtu.be/eZkls9E3f-k
 - https://drive.google.com/open?id=1faFV4_jPZK5V6kzxVqDxA706JQZZhLj4 (backup, need UCI Gmail account)
+- https://youtu.be/_RVvliXncns
 
 Substring matching design:
 
