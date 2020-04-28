@@ -120,27 +120,30 @@ public class MoviesServlet extends HttpServlet {
              Statement starStatement = connection.createStatement();
              Statement countStatement = connection.createStatement();
         ) {
-            String query="SELECT * FROM movies, ";
+            String query, query1 = "SELECT * FROM movies, ", query2= "";
 
-            if (alnum.equals("*")) query += "ratings WHERE movies.id = ratings.movieId AND movies.title REGEXP '^[^a-z0-9]'";
-            else if (a) query += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '"+alnum+"%'";
-            else if (g) query += "genres_in_movies, genres , ratings WHERE movies.id = ratings.movieId AND movies.id= genres_in_movies.movieid AND genres_in_movies.genreId= genres.id AND name LIKE '"+genre+"'";
-            else if (!t && !y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId"; // delete
-            else if ( t && !y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '%"+title+"%'";
-            else if (!t &&  y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"'";
-            else if (!t && !y && !s &&  d) query += "ratings WHERE movies.id = ratings.movieId AND movies.director LIKE '%"+director+"%'";
-            else if (!t && !y &&  s && !d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND name LIKE '%"+star+"%'";
-            else if ( t &&  y && !s && !d) query += "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.title LIKE '%"+title+"%'";
-            else if ( t && !y && !s &&  d) query += "ratings WHERE movies.id = ratings.movieId AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'";
-            else if ( t && !y &&  s && !d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
-            else if (!t &&  y && !s &&  d) query += "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%'";
-            else if (!t &&  y &&  s && !d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND name LIKE '%"+star+"%'";
-            else if (!t && !y &&  s &&  d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%"+director+"%' AND name LIKE '%"+star+"%'";
-            else if ( t && !y &&  s &&  d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.title LIKE '%"+title+"%' AND movies.director LIKE '%"+director+"%' AND name LIKE '%"+star+"%'";
-            else if (!t &&  y &&  s &&  d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND movies.director LIKE '%"+director+"%' AND name LIKE '%"+star+"%'";
-            else if ( t &&  y &&  s && !d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
-            else if ( t &&  y && !s &&  d) query += "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'";
-            else if ( t &&  y &&  s &&  d) query += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%"+director+"%' AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
+            if (alnum.equals("*")) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.title REGEXP '^[^a-z0-9]'";
+            else if (a) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '"+alnum+"%'";
+            else if (g) query2 = "genres_in_movies, genres , ratings WHERE movies.id = ratings.movieId AND movies.id= genres_in_movies.movieid AND genres_in_movies.genreId= genres.id AND name LIKE '"+genre+"'";
+            else if (!t && !y && !s && !d) query2 = "ratings WHERE movies.id = ratings.movieId"; // delete
+            else if ( t && !y && !s && !d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '%"+title+"%'";
+            else if (!t &&  y && !s && !d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"'";
+            else if (!t && !y && !s &&  d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.director LIKE '%"+director+"%'";
+            else if (!t && !y &&  s && !d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND name LIKE '%"+star+"%'";
+            else if ( t &&  y && !s && !d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.title LIKE '%"+title+"%'";
+            else if ( t && !y && !s &&  d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'";
+            else if ( t && !y &&  s && !d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
+            else if (!t &&  y && !s &&  d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%'";
+            else if (!t &&  y &&  s && !d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND name LIKE '%"+star+"%'";
+            else if (!t && !y &&  s &&  d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%"+director+"%' AND name LIKE '%"+star+"%'";
+            else if ( t && !y &&  s &&  d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.title LIKE '%"+title+"%' AND movies.director LIKE '%"+director+"%' AND name LIKE '%"+star+"%'";
+            else if (!t &&  y &&  s &&  d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND movies.director LIKE '%"+director+"%' AND name LIKE '%"+star+"%'";
+            else if ( t &&  y &&  s && !d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
+            else if ( t &&  y && !s &&  d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'";
+            else if ( t &&  y &&  s &&  d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%"+director+"%' AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
+
+
+            query = query1 + query2;
 
             String squery = (String) session.getAttribute("query");
 
