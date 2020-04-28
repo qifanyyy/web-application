@@ -51,6 +51,7 @@ function handleMovieResult(resultData) {
     let movieArray = resultData['movies'];
     let customer = resultData['customer'];
     let page = resultData['page']['page'];
+    let maxpage = resultData['page']['maxpagenum'];
     if (customer !== null) {
         document.getElementById('customer-first-name').innerText = `Welcome, ${customer['firstName']}`;
     }
@@ -97,8 +98,16 @@ data-movie-title="${movieArray[i]["movieTitle"]}"
 
     document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${parseInt(page)-1}"><-Pervious</a></li>`;
 
-
-    if (parseInt(page) < 5) {
+    if (parseInt(maxpage) < 9){
+        for (let i = 1; i <= parseInt(maxpage); ++i) {
+            if (parseInt(page) != i) {
+                document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}">${i}</a></li>`;
+            } else {
+                document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}"><b>${i}</b></a></li>`;
+            }
+        }
+    }
+    else if (parseInt(page) < 5) {
 
         for (let i = 1; i < 10; ++i) {
             if (parseInt(page) != i) {
@@ -110,7 +119,7 @@ data-movie-title="${movieArray[i]["movieTitle"]}"
     } else
     {
 
-        for (let i = 1 + parseInt(page) -5 ; i < 10 + parseInt(page) -5; ++i) {
+        for (let i = 1 + parseInt(page) -5 ; i < Math.min(5 + parseInt(page),parseInt(maxpage+1)); ++i) {
             if (parseInt(page) != i) {
                 document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}">${i}</a></li>`;
             } else {

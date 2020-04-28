@@ -146,28 +146,40 @@ public class MoviesServlet extends HttpServlet {
             String squery = (String) session.getAttribute("query");
 
             query = query1 + query2;
+            String maxpage = "";
+
             if (squery != null && squery.contains(query)){
-                String maxpage = (String) session.getAttribute("maxpage");
+                maxpage = (String) session.getAttribute("maxpage");
             }
             else{
                 ResultSet countpageResultSet = countpageStatement.executeQuery("SELECT COUNT(*) FROM movies, " + query2);
                 while (countpageResultSet.next()) {
-                    String maxpage = countpageResultSet.getString("COUNT(*)");
+                    maxpage = countpageResultSet.getString("COUNT(*)");
                     session.setAttribute("maxpage", maxpage);
                 }
             }
+            int maxpagenum = 1;
+            if (Integer.parseInt(maxpage)>Integer.parseInt(display)) maxpagenum = Integer.parseInt(maxpage)/Integer.parseInt(display);
 
             if (!p) {
                 String spage = (String) session.getAttribute("page");
-                if (spage == null || !squery.contains(query)) spage = "1";
+                if (spage == null || (squery != null && squery.contains(query))) spage = "1";
                 page = spage;
             }
 
             if (page.equals("0")) page = "1";
+            else if (Integer.parseInt(page) > maxpagenum){
+                page = Integer.toString(maxpagenum);
+            }
+
 
             session.setAttribute("page", page);
+            int offset = (Integer.parseInt(page) - 1) * Integer.parseInt(display);
 
-            query+= " ORDER BY " + orderby + "  LIMIT "+ display + " OFFSET "+Integer.toString((Integer.parseInt(page) - 1) * Integer.parseInt(display));
+
+
+
+            query += " ORDER BY " + orderby + "  LIMIT "+ display + " OFFSET "+ Integer.toString(offset);
 
             System.out.println("query: " + query);
 
@@ -248,6 +260,7 @@ public class MoviesServlet extends HttpServlet {
 
                 JsonObject jpage = new JsonObject();
                 jpage.addProperty("page", page);
+                jpage.addProperty("maxpagenum", maxpagenum);
                 ret.add("movies", moviesArray);
                 ret.add("customer", Customer.toJSON((Customer) request.getSession().getAttribute("customer")));
                 ret.add("page", jpage);
