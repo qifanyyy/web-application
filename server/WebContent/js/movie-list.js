@@ -159,3 +159,4 @@ fetch(`api/movies?title=${getParameterByName('title')}&year=${getParameterByName
 
 setUpOnCheckout()
 setUpLogOutBtn()
+setUpSearchForm()
