@@ -26,6 +26,7 @@ Each of the member contributes approximately same amount of work to the reposito
 - https://youtu.be/eZkls9E3f-k
 - https://drive.google.com/open?id=1faFV4_jPZK5V6kzxVqDxA706JQZZhLj4 (backup, need UCI Gmail account)
 - https://youtu.be/_RVvliXncns
+- We include 2 Youtube links in the Readme because in the first demo, we accidentally choose the wrong order <acse, acse> for the love search result, so we add second demo link to display the result.
 
 Substring matching design:
 
