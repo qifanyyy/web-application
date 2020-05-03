@@ -11,9 +11,10 @@ function handleResult(resultData) {
         return
     }
 
-    errorMessage = 'Invalid email address or password'
+    errorMessage = resultData['message']
     document.getElementById('err-msg').innerText = errorMessage
-    document.getElementById('err-msg-wrapper').style.display = 'block';
+    document.getElementById('err-msg-wrapper').style.display = 'block'
+    grecaptcha.reset()
 }
 
 const loginForm = document.getElementById('login-form')

@@ -23,6 +23,19 @@ public class LoginServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
 
+        String gRecaptchaResponse = req.getParameter("g-recaptcha-response");
+        try {
+            Util.verifyRecaptcha(gRecaptchaResponse);
+        } catch (Exception e) {
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("status", "fail");
+            jsonObject.addProperty("message", "reCaptcha authentication failed");
+            out.write(jsonObject.toString());
+            out.close();
+            response.setStatus(400);
+            return;
+        }
+
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
@@ -36,21 +49,21 @@ public class LoginServlet extends HttpServlet {
             if (!userResultSet.next() || !userResultSet.getString("password").equals(password)) {
                 jsonObject.addProperty("status", "fail");
                 jsonObject.addProperty("message", "invalid email address or password");
+                response.setStatus(400);
             } else {
                 Customer customer = new Customer(
                         userResultSet.getInt("id"),
                         userResultSet.getString("firstName")
                 );
-                System.out.println("username: " + customer);
                 req.getSession().setAttribute("customer", customer);
                 jsonObject.addProperty("status", "success");
                 JsonObject customerJSON = new JsonObject();
                 customerJSON.addProperty("id", customer.id);
                 customerJSON.addProperty("firstName", customer.firstName);
                 jsonObject.add("customer", customerJSON);
+                response.setStatus(200);
             }
             out.write(jsonObject.toString());
-            response.setStatus(200);
         } catch (Exception e) {
             // write error message JSON object to output
             out.write(Util.exception2Json(e).toString());

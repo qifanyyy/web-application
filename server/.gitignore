@@ -4,3 +4,4 @@
 out
 target
 *.min.*
+src/_RecaptchaConstants.java
