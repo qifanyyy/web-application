@@ -14,7 +14,7 @@ build:
 	python minify.py --deploy
 	mvn package
 
-deploy: target/ROOT.war
+deploy: target/cs122b-server.war
 	rm -rf "${TOM_CAT_HOME}/webapps/ROOT"
-	cp ./target/ROOT.war "${TOM_CAT_HOME}/webapps/ROOT.war"
+	cp ./target/cs122b-server.war "${TOM_CAT_HOME}/webapps/ROOT.war"
 	${TOM_CAT_HOME}/bin/startup.sh
