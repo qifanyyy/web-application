@@ -1,9 +1,12 @@
+TOM_CAT_HOME=/home/ubuntu/tomcat
+
 all: clean build deploy
 
 clean:
-	sh /home/ubuntu/tomcat/bin/shutdown.sh
+	${TOM_CAT_HOME}/bin/shutdown.sh
 	rm -rf ./target
-	rm -f "/home/ubuntu/tomcat/webapps/ROOT.war"
+	rm -rf "${TOM_CAT_HOME}/webapps/ROOT"
+	rm -f "${TOM_CAT_HOME}/webapps/ROOT.war"
 
 build:
 	git reset --hard HEAD
@@ -12,6 +15,6 @@ build:
 	mvn package
 
 deploy: target/ROOT.war
-	rm -rf "/home/ubuntu/tomcat/webapps/ROOT"
-	cp ./target/ROOT.war "/home/ubuntu/tomcat/webapps/ROOT.war"
-	sh /home/ubuntu/tomcat/bin/startup.sh
+	rm -rf "${TOM_CAT_HOME}/webapps/ROOT"
+	cp ./target/ROOT.war "${TOM_CAT_HOME}/webapps/ROOT.war"
+	${TOM_CAT_HOME}/bin/startup.sh
