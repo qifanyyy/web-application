@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
 public class LoginServlet extends HttpServlet {
@@ -46,7 +47,7 @@ public class LoginServlet extends HttpServlet {
             ResultSet userResultSet = emailStatement.executeQuery();
             JsonObject jsonObject = new JsonObject();
 
-            if (!userResultSet.next() || !userResultSet.getString("password").equals(password)) {
+            if (!userResultSet.next() || !new StrongPasswordEncryptor().checkPassword(password, userResultSet.getString("password"))) {
                 jsonObject.addProperty("status", "fail");
                 jsonObject.addProperty("message", "invalid email address or password");
                 response.setStatus(400);
