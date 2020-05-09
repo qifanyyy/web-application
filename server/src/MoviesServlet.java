@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -39,7 +40,19 @@ public class MoviesServlet extends HttpServlet {
         String display  = request.getParameter("display");
 
         HttpSession session = request.getSession();
-        String sessionId = session.getId();
+
+
+        PreparedStatement getMovie;
+
+        PreparedStatement getGenre;
+        PreparedStatement getStar;
+        PreparedStatement getCount;
+
+        String movieQuery = "SELECT * FROM (movies LEFT OUTER JOIN ratings r on movies.id = r.movieId) WHERE movies.id = ?;";
+        String genreQuery = "SELECT name FROM genres_in_movies, genres WHERE movieId = ? AND id = genreID ORDER BY name LIMIT 3;";
+        String starQuery = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = ? AND id = starID";
+        String countQuery = "SELECT COUNT(*) FROM stars_in_movies WHERE Starid = ?;";
+
 
         boolean t  = !title.equals("")    && !title.equals(null)    && !title.equals("null"),
                 y  = year.length() == 4   && !year.equals(null)     && !year.equals("null"),
@@ -50,7 +63,6 @@ public class MoviesServlet extends HttpServlet {
                 p  = !page.equals("")     && !page.equals(null)     && !page.equals("null"),
                 di = !display.equals("")  && !display.equals(null)  && !display.equals("null"),
                 st = !sort.equals("")     && !sort.equals(null)     && !sort.equals("null");
-
 
 
         if (!di) {
@@ -83,9 +95,6 @@ public class MoviesServlet extends HttpServlet {
 
 
 
-
-
-
         if (!t && !y && !s && !d && !a && !g){
             title    = (String) session.getAttribute("title");
             year     = (String) session.getAttribute("year");
@@ -113,13 +122,15 @@ public class MoviesServlet extends HttpServlet {
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
-        try (Connection connection = dataSource.getConnection();
-             Statement movieStatement = connection.createStatement();
-             Statement genreStatement = connection.createStatement();
-             Statement starStatement = connection.createStatement();
-             Statement countStatement = connection.createStatement();
-             Statement countpageStatement = connection.createStatement();
-        ) {
+        try {
+            Connection con = dataSource.getConnection();
+            Statement movieStatement = con.createStatement();
+            Statement starStatement = con.createStatement();
+            Statement countStatement = con.createStatement();
+            Statement countpageStatement = con.createStatement();
+
+            getGenre = con.prepareStatement(genreQuery);
+
             String query, query1 = "SELECT * FROM movies, ", query2= "";
 
             if (alnum.equals("*")) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.title REGEXP '^[^a-z0-9]'";
@@ -176,9 +187,7 @@ public class MoviesServlet extends HttpServlet {
             int offset = (Integer.parseInt(page) - 1) * Integer.parseInt(display);
 
 
-
-
-            query += " ORDER BY " + orderby + "  LIMIT "+ display + " OFFSET "+ Integer.toString(offset);
+            query += " ORDER BY " + orderby + "  LIMIT "+ display + " OFFSET "+ offset;
 
             System.out.println("query: " + query);
 
@@ -197,15 +206,12 @@ public class MoviesServlet extends HttpServlet {
                     String movieId = movieResultSet.getString("id");
                     JsonArray movieGenres = new JsonArray();
 
-                    query = "SELECT name FROM genres_in_movies, genres WHERE movieId = '" + movieId + "' AND id = genreID ORDER BY name LIMIT 3";
 
-                    // Perform the query
-                    ResultSet genreResultSet = genreStatement.executeQuery(query);
+                    getGenre.setString(1,movieId);
+                    ResultSet genre_rs = getGenre.executeQuery();
 
-                    // Iterate through each row of rs
-                    while (genreResultSet.next()) {
-                        movieGenres.add(genreResultSet.getString("name"));
-                    }
+                    while (genre_rs.next()) movieGenres.add(genre_rs.getString("name"));
+                    genre_rs.close();
 
 
 
@@ -256,6 +262,8 @@ public class MoviesServlet extends HttpServlet {
 
 
                 }
+
+                getGenre.close();
 
                 JsonObject jpage = new JsonObject();
                 jpage.addProperty("page", page);

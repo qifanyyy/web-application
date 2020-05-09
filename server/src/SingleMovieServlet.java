@@ -30,8 +30,7 @@ public class SingleMovieServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      * response)
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8"); // Response mime type
         response.setCharacterEncoding("UTF-8");
 
@@ -42,10 +41,10 @@ public class SingleMovieServlet extends HttpServlet {
 
         PrintWriter out = response.getWriter();
 
-        PreparedStatement getMovie;
-        PreparedStatement getGenre;
-        PreparedStatement getStar;
-        PreparedStatement getCount;
+        PreparedStatement getMovie = null;
+        PreparedStatement getGenre = null;
+        PreparedStatement getStar = null;
+        PreparedStatement getCount = null;
 
         String movieQuery = "SELECT * FROM (movies LEFT OUTER JOIN ratings r on movies.id = r.movieId) WHERE movies.id = ?;";
         String genreQuery = "SELECT name FROM genres_in_movies, genres WHERE movieId = ? AND id = genreID;";
@@ -127,7 +126,7 @@ public class SingleMovieServlet extends HttpServlet {
             out.write(jsonObject.toString());
             // set response status to 200 (OK)
             response.setStatus(200);
-            
+
             star_rs.close();
             getStar.close();
             rs.close();
