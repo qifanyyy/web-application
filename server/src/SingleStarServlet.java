@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 // Declaring a WebServlet called SingleStarServlet, which maps to url "/api/single-star"
 @WebServlet(name = "SingleStarServlet", urlPatterns = "/api/single-star")
@@ -26,8 +24,7 @@ public class SingleStarServlet extends HttpServlet {
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      * response)
      */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8"); // Response mime type
         response.setCharacterEncoding("UTF-8");
 
@@ -37,17 +34,17 @@ public class SingleStarServlet extends HttpServlet {
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
-        try {
-            // Get a connection from dataSource
-            Connection dbcon = dataSource.getConnection();
+        PreparedStatement statement = null;
+        String query = "SELECT * from stars, stars_in_movies, movies WHERE movies.id = movieId AND starId = stars.id AND stars.id = ? ORDER BY year DESC, title ASC;";
 
-            // Declare our statement
-            Statement statement = dbcon.createStatement();
-            // Construct a query with parameter represented by "?"
-            String query = "SELECT * from stars, stars_in_movies, movies WHERE movies.id = movieId AND starId = stars.id AND stars.id = '" + id + "' ORDER BY year DESC, title ASC;";
-            System.out.println("query: " + query);
-            // Perform the query
-            ResultSet rs = statement.executeQuery(query);
+        try {
+            Connection con = dataSource.getConnection();
+
+            statement = con.prepareStatement(query);
+
+            statement.setString(1,id);
+
+            ResultSet rs = statement.executeQuery();
 
             JsonArray jsonArray = new JsonArray();
 
@@ -71,7 +68,7 @@ public class SingleStarServlet extends HttpServlet {
 
             rs.close();
             statement.close();
-            dbcon.close();
+            con.close();
         } catch (Exception e) {
             // write error message JSON object to output
             out.write(Util.exception2Json(e).toString());
