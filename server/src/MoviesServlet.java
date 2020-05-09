@@ -119,137 +119,6 @@ public class MoviesServlet extends HttpServlet {
             getStar = con.prepareStatement(starQuery);
             getStarcount = con.prepareStatement(starcountQuery);
 
-            String sortQuery = " Limit 100;";
-
-            if (alnum.equals("*")) {
-                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.title REGEXP '^[^a-z0-9]'";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-            }
-            else if (a) {
-                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, alnum);
-
-            }
-            else if (g) {
-                movieQuery += "genres_in_movies, genres , ratings WHERE movies.id = ratings.movieId AND movies.id= genres_in_movies.movieid AND genres_in_movies.genreId= genres.id AND name LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, genre);
-            }
-            else if ( t && !y && !s && !d) {
-                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, "%" + title + "%");
-            }
-            else if (!t &&  y && !s && !d) {
-                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.year = ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, year);
-            }
-            else if (!t && !y && !s &&  d) {
-                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.director LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, "%" + director + "%");
-            }
-            else if (!t && !y &&  s && !d) {
-                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND name LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, "%"+ star + "%");
-            }
-            else if ( t &&  y && !s && !d) {
-                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.year = ? AND movies.title LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, year);
-                getMovie.setString(2, "%"+ title + "%");
-            }
-            else if ( t && !y && !s &&  d) {
-                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.director LIKE ? AND movies.title LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, "%" + director + "%");
-                getMovie.setString(1, "%" + title + "%");
-            }
-            else if ( t && !y &&  s && !d) {
-                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.title LIKE ? AND name LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, "%" + title + "%");
-                getMovie.setString(2, "%" + star + "%");
-            }
-            else if (!t &&  y && !s &&  d) {
-                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.year = ? AND movies.director LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, year);
-                getMovie.setString(2, "%" + director + "%");
-            }
-            else if (!t &&  y &&  s && !d) {
-                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = ? AND name LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, year);
-                getMovie.setString(2, "%" + star + "%");
-            }
-            else if (!t && !y &&  s &&  d) {
-                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE ? AND name LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, "%" + director + "%");
-                getMovie.setString(2, "%" + star + "%");
-            }
-            else if ( t && !y &&  s &&  d){
-                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.title LIKE ? AND movies.director LIKE ? AND name LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, "%" + title + "%");
-                getMovie.setString(2, "%" + director + "%");
-                getMovie.setString(3, "%" + star + "%");
-            }
-            else if (!t &&  y &&  s &&  d){
-                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = ? AND movies.director LIKE ? AND name LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, year);
-                getMovie.setString(2, "%" + director + "%");
-                getMovie.setString(3, "%" + star + "%");
-            }
-            else if ( t &&  y &&  s && !d){
-                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = ? AND movies.title LIKE ? AND name LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, year);
-                getMovie.setString(2, "%" + title + "%");
-                getMovie.setString(3, "%" + star + "%");
-            }
-            else if ( t &&  y && !s &&  d){
-                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.year = ? AND movies.director LIKE ? AND movies.title LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, year);
-                getMovie.setString(2, "%" + director + "%");
-                getMovie.setString(3, "%" + title + "%");
-            }
-            else if ( t &&  y &&  s &&  d){
-                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE ? AND movies.year = ? AND movies.title LIKE ? AND name LIKE ?";
-                movieQuery += sortQuery;
-                getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, "%" + director + "%");
-                getMovie.setString(2, year);
-                getMovie.setString(3, "%" + title + "%");
-                getMovie.setString(4, "%" + star + "%");
-            }
-
-            String squery = (String) session.getAttribute("query");
-
-
 
             if (!p) {
                 String spage = (String) session.getAttribute("page");
@@ -264,9 +133,187 @@ public class MoviesServlet extends HttpServlet {
             int offset = (Integer.parseInt(page) - 1) * Integer.parseInt(display);
 
 
-            //query += " ORDER BY " + orderby + "  LIMIT "+ display + " OFFSET "+ offset;
+            String sortQuery = " ORDER BY ? LIMIT ? OFFSET ?;";
 
+            if (alnum.equals("*")) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.title REGEXP '^[^a-z0-9]'";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, orderby);
+                getMovie.setInt(2, Integer.parseInt(display));
+                getMovie.setInt(3, offset);
+            }
+            else if (a) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, alnum);
+                getMovie.setString(2, orderby);
+                getMovie.setInt(3, Integer.parseInt(display));
+                getMovie.setInt(4, offset);
 
+            }
+            else if (g) {
+                movieQuery += "genres_in_movies, genres , ratings WHERE movies.id = ratings.movieId AND movies.id= genres_in_movies.movieid AND genres_in_movies.genreId= genres.id AND name LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, genre);
+                getMovie.setString(2, orderby);
+                getMovie.setInt(3, Integer.parseInt(display));
+                getMovie.setInt(4, offset);
+            }
+            else if ( t && !y && !s && !d) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, "%" + title + "%");
+                getMovie.setString(2, orderby);
+                getMovie.setInt(3, Integer.parseInt(display));
+                getMovie.setInt(4, offset);
+            }
+            else if (!t &&  y && !s && !d) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.year = ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, year);
+                getMovie.setString(2, orderby);
+                getMovie.setInt(3, Integer.parseInt(display));
+                getMovie.setInt(4, offset);
+            }
+            else if (!t && !y && !s &&  d) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.director LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, "%" + director + "%");
+                getMovie.setString(2, orderby);
+                getMovie.setInt(3, Integer.parseInt(display));
+                getMovie.setInt(4, offset);
+            }
+            else if (!t && !y &&  s && !d) {
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND name LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, "%"+ star + "%");
+                getMovie.setString(2, orderby);
+                getMovie.setInt(3, Integer.parseInt(display));
+                getMovie.setInt(4, offset);
+            }
+            else if ( t &&  y && !s && !d) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.year = ? AND movies.title LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, year);
+                getMovie.setString(2, "%"+ title + "%");
+                getMovie.setString(3, orderby);
+                getMovie.setInt(4, Integer.parseInt(display));
+                getMovie.setInt(5, offset);
+            }
+            else if ( t && !y && !s &&  d) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.director LIKE ? AND movies.title LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, "%" + director + "%");
+                getMovie.setString(2, "%" + title + "%");
+                getMovie.setString(3, orderby);
+                getMovie.setInt(4, Integer.parseInt(display));
+                getMovie.setInt(5, offset);
+            }
+            else if ( t && !y &&  s && !d) {
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.title LIKE ? AND name LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, "%" + title + "%");
+                getMovie.setString(2, "%" + star + "%");
+                getMovie.setString(3, orderby);
+                getMovie.setInt(4, Integer.parseInt(display));
+                getMovie.setInt(5, offset);
+            }
+            else if (!t &&  y && !s &&  d) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.year = ? AND movies.director LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, year);
+                getMovie.setString(2, "%" + director + "%");
+                getMovie.setString(3, orderby);
+                getMovie.setInt(4, Integer.parseInt(display));
+                getMovie.setInt(5, offset);
+            }
+            else if (!t &&  y &&  s && !d) {
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = ? AND name LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, year);
+                getMovie.setString(2, "%" + star + "%");
+                getMovie.setString(3, orderby);
+                getMovie.setInt(4, Integer.parseInt(display));
+                getMovie.setInt(5, offset);
+            }
+            else if (!t && !y &&  s &&  d) {
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE ? AND name LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, "%" + director + "%");
+                getMovie.setString(2, "%" + star + "%");
+                getMovie.setString(3, orderby);
+                getMovie.setInt(4, Integer.parseInt(display));
+                getMovie.setInt(5, offset);
+            }
+            else if ( t && !y &&  s &&  d){
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.title LIKE ? AND movies.director LIKE ? AND name LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, "%" + title + "%");
+                getMovie.setString(2, "%" + director + "%");
+                getMovie.setString(3, "%" + star + "%");
+                getMovie.setString(4, orderby);
+                getMovie.setInt(5, Integer.parseInt(display));
+                getMovie.setInt(6, offset);
+            }
+            else if (!t &&  y &&  s &&  d){
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = ? AND movies.director LIKE ? AND name LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, year);
+                getMovie.setString(2, "%" + director + "%");
+                getMovie.setString(3, "%" + star + "%");
+                getMovie.setString(4, orderby);
+                getMovie.setInt(5, Integer.parseInt(display));
+                getMovie.setInt(6, offset);
+            }
+            else if ( t &&  y &&  s && !d){
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = ? AND movies.title LIKE ? AND name LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, year);
+                getMovie.setString(2, "%" + title + "%");
+                getMovie.setString(3, "%" + star + "%");
+                getMovie.setString(4, orderby);
+                getMovie.setInt(5, Integer.parseInt(display));
+                getMovie.setInt(6, offset);
+            }
+            else if ( t &&  y && !s &&  d){
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.year = ? AND movies.director LIKE ? AND movies.title LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, year);
+                getMovie.setString(2, "%" + director + "%");
+                getMovie.setString(3, "%" + title + "%");
+                getMovie.setString(4, orderby);
+                getMovie.setInt(5, Integer.parseInt(display));
+                getMovie.setInt(6, offset);
+            }
+            else if ( t &&  y &&  s &&  d){
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE ? AND movies.year = ? AND movies.title LIKE ? AND name LIKE ?";
+                movieQuery += sortQuery;
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, "%" + director + "%");
+                getMovie.setString(2, year);
+                getMovie.setString(3, "%" + title + "%");
+                getMovie.setString(4, "%" + star + "%");
+                getMovie.setString(5, orderby);
+                getMovie.setInt(6, Integer.parseInt(display));
+                getMovie.setInt(7, offset);
+            }
 
             JsonObject ret = new JsonObject();
 
@@ -276,7 +323,6 @@ public class MoviesServlet extends HttpServlet {
                 //session.setAttribute("query", query);
 
                 // Perform the query
-                System.out.println("Query:");
                 System.out.println(getMovie);
 
                 ResultSet movie_rs = getMovie.executeQuery();
