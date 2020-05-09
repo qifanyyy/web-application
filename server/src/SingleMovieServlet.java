@@ -1,18 +1,12 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import javax.annotation.Resource;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -95,7 +89,11 @@ public class SingleMovieServlet extends HttpServlet {
                 getCount.setString(1,star_rs.getString("starId"));
                 ResultSet count_rs = getCount.executeQuery();
                 while (count_rs.next()) list.add(new Star(star_rs.getString("name"), star_rs.getString("starId"), Integer.parseInt(count_rs.getString("COUNT(*)"))));
+                count_rs.close();
             }
+
+            getCount.close();
+
             Collections.sort(list, Comparator.comparing(Star::getCount).thenComparing(Star::getName));
 
             JsonArray movie_star = new JsonArray();
@@ -126,6 +124,8 @@ public class SingleMovieServlet extends HttpServlet {
             out.write(jsonObject.toString());
             // set response status to 200 (OK)
             response.setStatus(200);
+
+
 
             star_rs.close();
             getStar.close();

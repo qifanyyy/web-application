@@ -1,19 +1,12 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
 import javax.annotation.Resource;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -42,16 +35,22 @@ public class MoviesServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
 
-        PreparedStatement getMovie;
+        PreparedStatement getMovie = null;
 
-        PreparedStatement getGenre;
-        PreparedStatement getStar;
-        PreparedStatement getCount;
+
+        PreparedStatement getPagecount = null;
+        PreparedStatement getGenre = null;
+        PreparedStatement getStar = null;
+        PreparedStatement getStarcount = null;
+
 
         String movieQuery = "SELECT * FROM (movies LEFT OUTER JOIN ratings r on movies.id = r.movieId) WHERE movies.id = ?;";
+
+
+        String pagecountQuery = "SELECT name FROM genres_in_movies, genres WHERE movieId = ? AND id = genreID ORDER BY name LIMIT 3;";
         String genreQuery = "SELECT name FROM genres_in_movies, genres WHERE movieId = ? AND id = genreID ORDER BY name LIMIT 3;";
-        String starQuery = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = ? AND id = starID";
-        String countQuery = "SELECT COUNT(*) FROM stars_in_movies WHERE Starid = ?;";
+        String starQuery = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = ? AND id = starID;";
+        String starcountQuery = "SELECT COUNT(*) FROM stars_in_movies WHERE Starid = ?;";
 
 
         boolean t  = !title.equals("")    && !title.equals(null)    && !title.equals("null"),
@@ -93,8 +92,6 @@ public class MoviesServlet extends HttpServlet {
 
         session.setAttribute("display", display);
 
-
-
         if (!t && !y && !s && !d && !a && !g){
             title    = (String) session.getAttribute("title");
             year     = (String) session.getAttribute("year");
@@ -125,11 +122,11 @@ public class MoviesServlet extends HttpServlet {
         try {
             Connection con = dataSource.getConnection();
             Statement movieStatement = con.createStatement();
-            Statement starStatement = con.createStatement();
-            Statement countStatement = con.createStatement();
             Statement countpageStatement = con.createStatement();
 
             getGenre = con.prepareStatement(genreQuery);
+            getStar = con.prepareStatement(starQuery);
+            getStarcount = con.prepareStatement(starcountQuery);
 
             String query, query1 = "SELECT * FROM movies, ", query2= "";
 
@@ -213,18 +210,14 @@ public class MoviesServlet extends HttpServlet {
                     while (genre_rs.next()) movieGenres.add(genre_rs.getString("name"));
                     genre_rs.close();
 
+                    getStar.setString(1,movieId);
+                    ResultSet star_rs = getStar.executeQuery();
 
-
-
-                    query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '"+movieId+"' AND id = starID";
-                    ResultSet starResultSet = starStatement.executeQuery(query);
                     ArrayList<Star> list = new ArrayList<>();
-                    while (starResultSet.next()) {
-                        query = "SELECT COUNT(*) FROM stars_in_movies WHERE Starid = '"+ starResultSet.getString("starId") +"'";
-                        ResultSet countResultSet = countStatement.executeQuery(query);
-                        while (countResultSet.next()) {
-                            list.add(new Star(starResultSet.getString("name"), starResultSet.getString("starId"), Integer.parseInt(countResultSet.getString("COUNT(*)"))));
-                        }
+                    while (star_rs.next()) {
+                        getStarcount.setString(1,star_rs.getString("starId"));
+                        ResultSet count_rs = getStarcount.executeQuery();
+                        while (count_rs.next()) list.add(new Star(star_rs.getString("name"), star_rs.getString("starId"), Integer.parseInt(count_rs.getString("COUNT(*)"))));
                     }
                     Collections.sort(list, Comparator.comparing(Star::getCount).thenComparing(Star::getName));
 
@@ -239,9 +232,9 @@ public class MoviesServlet extends HttpServlet {
                         jsonObject.addProperty("starName", star_name);
                         movieStar.add(jsonObject);
                     }
-                    while (starResultSet.next()) {
-                        String star_id = starResultSet.getString("starId");
-                        String star_name = starResultSet.getString("name");
+                    while (star_rs.next()) {
+                        String star_id = star_rs.getString("starId");
+                        String star_name = star_rs.getString("name");
                         // Create a JsonObject based on the data we retrieve from rs
                         JsonObject jsonObject = new JsonObject();
                         jsonObject.addProperty("starId", star_id);
@@ -260,10 +253,11 @@ public class MoviesServlet extends HttpServlet {
                     jsonObject.addProperty("movieRating", movieResultSet.getString("rating"));
                     moviesArray.add(jsonObject);
 
-
+                    star_rs.close();
                 }
 
                 getGenre.close();
+                getStar.close();
 
                 JsonObject jpage = new JsonObject();
                 jpage.addProperty("page", page);
