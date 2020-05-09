@@ -34,7 +34,7 @@ public class SingleStarServlet extends HttpServlet {
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
 
-        PreparedStatement statement = null;
+        PreparedStatement statement;
         String query = "SELECT * from stars, stars_in_movies, movies WHERE movies.id = movieId AND starId = stars.id AND stars.id = ? ORDER BY year DESC, title ASC;";
 
         try {

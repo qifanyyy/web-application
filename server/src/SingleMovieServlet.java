@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -38,66 +39,67 @@ public class SingleMovieServlet extends HttpServlet {
         String id = request.getParameter("id");
 
         // Output stream to STDOUT
+
         PrintWriter out = response.getWriter();
 
-        try {
-            // Get a connection from dataSource
-            Connection dbcon = dataSource.getConnection();
+        PreparedStatement getMovie;
+        PreparedStatement getGenre;
+        PreparedStatement getStar;
+        PreparedStatement getCount;
 
-            // Declare our statement
-            Statement statement = dbcon.createStatement();
-            // Construct a query with parameter represented by "?"
-            String query = "SELECT * FROM (movies LEFT OUTER JOIN ratings r on movies.id = r.movieId) " + "WHERE movies.id ='" + id + "'";
-            System.out.println("query: " + query);
-            // Perform the query
-            ResultSet rs = statement.executeQuery(query);
+        String movieQuery = "SELECT * FROM (movies LEFT OUTER JOIN ratings r on movies.id = r.movieId) WHERE movies.id = ?;";
+        String genreQuery = "SELECT name FROM genres_in_movies, genres WHERE movieId = ? AND id = genreID;";
+        String starQuery = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = ? AND id = starID";
+        String countQuery = "SELECT COUNT(*) FROM stars_in_movies WHERE Starid = ?;";
+
+        try {
+
+            Connection con = dataSource.getConnection();
+
+            getMovie = con.prepareStatement(movieQuery);
+            getMovie.setString(1,id);
+            ResultSet rs = getMovie.executeQuery();
 
             if (!rs.next()) {
                 JsonObject object = new JsonObject();
                 object.addProperty("errorMessage", "movie with id '" + id + "' not found");
                 out.write(object.toString());
                 response.setStatus(404);
-                statement.close();
-                dbcon.close();
+                getMovie.close();
+                con.close();
                 out.close();
                 return;
             }
 
             JsonArray movieGenres = new JsonArray();
-            query = "SELECT name FROM genres_in_movies, genres WHERE movieId = '" + id + "' AND id = genreID";
 
-            // Declare our statement
-            Statement genre_statement = dbcon.createStatement();
-            // Perform the query
-            ResultSet genre_rs = genre_statement.executeQuery(query);
+
+            getGenre = con.prepareStatement(genreQuery);
+            getGenre.setString(1,id);
+            ResultSet genre_rs = getGenre.executeQuery();
 
             // Iterate through each row of rs
-            while (genre_rs.next()) {
-                movieGenres.add(genre_rs.getString("name"));
-            }
+            while (genre_rs.next()) movieGenres.add(genre_rs.getString("name"));
+
             genre_rs.close();
-            genre_statement.close();
+            getGenre.close();
 
-            Statement star_statement = dbcon.createStatement();
-            Statement countStatement = dbcon.createStatement();
 
-            query = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = '"+ id +"' AND id = starID";
-            ResultSet starResultSet = star_statement.executeQuery(query);
+            getStar = con.prepareStatement(starQuery);
+            getStar.setString(1,id);
+            ResultSet star_rs = getStar.executeQuery();
+
+            getCount = con.prepareStatement(countQuery);
+
             ArrayList<Star> list = new ArrayList<>();
-            while (starResultSet.next()) {
-                query = "SELECT COUNT(*) FROM stars_in_movies WHERE Starid = '"+ starResultSet.getString("starId") +"'";
-                ResultSet countResultSet = countStatement.executeQuery(query);
-                while (countResultSet.next()) {
-                    list.add(new Star(starResultSet.getString("name"), starResultSet.getString("starId"), Integer.parseInt(countResultSet.getString("COUNT(*)"))));
-                }
+            while (star_rs.next()) {
+                getCount.setString(1,star_rs.getString("starId"));
+                ResultSet count_rs = getCount.executeQuery();
+                while (count_rs.next()) list.add(new Star(star_rs.getString("name"), star_rs.getString("starId"), Integer.parseInt(count_rs.getString("COUNT(*)"))));
             }
             Collections.sort(list, Comparator.comparing(Star::getCount).thenComparing(Star::getName));
 
-
             JsonArray movie_star = new JsonArray();
-
-            // Declare our statement
-
 
             // Iterate through each row of rs
             for (int i = 0; i < list.size(); i++) {
@@ -109,8 +111,7 @@ public class SingleMovieServlet extends HttpServlet {
                 jsonObject.addProperty("star_name", star_name);
                 movie_star.add(jsonObject);
             }
-            starResultSet.close();
-            star_statement.close();
+
 
             // Create a JsonObject based on the data we retrieve from rs
             JsonObject jsonObject = new JsonObject();
@@ -126,10 +127,12 @@ public class SingleMovieServlet extends HttpServlet {
             out.write(jsonObject.toString());
             // set response status to 200 (OK)
             response.setStatus(200);
-
+            
+            star_rs.close();
+            getStar.close();
             rs.close();
-            statement.close();
-            dbcon.close();
+            getMovie.close();
+            con.close();
         } catch (Exception e) {
             // write error message JSON object to output
             out.write(Util.exception2Json(e).toString());
