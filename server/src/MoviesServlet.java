@@ -132,7 +132,6 @@ public class MoviesServlet extends HttpServlet {
             session.setAttribute("page", page);
             int offset = (Integer.parseInt(page) - 1) * Integer.parseInt(display);
 
-
             String sortQuery = " ORDER BY ? LIMIT ? OFFSET ?;";
 
             if (alnum.equals("*")) {
@@ -315,15 +314,26 @@ public class MoviesServlet extends HttpServlet {
                 getMovie.setInt(7, offset);
             }
 
+            JsonObject data = new JsonObject();
+            data.addProperty("title", title);
+            data.addProperty("year", year);
+            data.addProperty("director", director);
+            data.addProperty("star", star);
+            data.addProperty("genre", genre);
+            data.addProperty("alnum", alnum);
+            data.addProperty("sort", sort);
+            data.addProperty("page", page);
+            data.addProperty("display", display);
+            JsonObject squery = (JsonObject) session.getAttribute("data");
+
             JsonObject ret = new JsonObject();
-
-
-            if (true) //!query.equals(squery)
+            if (!data.equals(squery))
             {
-                //session.setAttribute("query", query);
-
-                // Perform the query
+                session.setAttribute("data", data);
                 System.out.println(getMovie);
+                // Perform the query
+
+
 
                 ResultSet movie_rs = getMovie.executeQuery();
 
@@ -349,6 +359,7 @@ public class MoviesServlet extends HttpServlet {
                         ResultSet count_rs = getStarcount.executeQuery();
                         while (count_rs.next()) list.add(new Star(star_rs.getString("name"), star_rs.getString("starId"), Integer.parseInt(count_rs.getString("COUNT(*)"))));
                     }
+
                     Collections.sort(list, Comparator.comparing(Star::getCount).thenComparing(Star::getName));
 
 
@@ -382,15 +393,10 @@ public class MoviesServlet extends HttpServlet {
                     jsonObject.add("movieStars", movieStar);
                     jsonObject.addProperty("movieRating", movie_rs.getString("rating"));
                     moviesArray.add(jsonObject);
-
                     star_rs.close();
                 }
-
-                getGenre.close();
-                getStar.close();
-
                 movie_rs.close();
-                getMovie.close();
+
 
                 JsonObject jpage = new JsonObject();
                 jpage.addProperty("page", page);
@@ -404,6 +410,11 @@ public class MoviesServlet extends HttpServlet {
                 ret = (JsonObject) session.getAttribute("ret");
                 System.out.println("cached");
             }
+
+            getGenre.close();
+            getStar.close();
+            getMovie.close();
+            con.close();
             // write JSON string to output
             out.write(ret.toString());
             // set response status to 200 (OK)
