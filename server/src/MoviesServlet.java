@@ -34,20 +34,13 @@ public class MoviesServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-
         PreparedStatement getMovie = null;
-
-
-        PreparedStatement getPagecount = null;
         PreparedStatement getGenre = null;
         PreparedStatement getStar = null;
         PreparedStatement getStarcount = null;
 
 
-        String movieQuery = "SELECT * FROM (movies LEFT OUTER JOIN ratings r on movies.id = r.movieId) WHERE movies.id = ?;";
-
-
-        String pagecountQuery = "SELECT name FROM genres_in_movies, genres WHERE movieId = ? AND id = genreID ORDER BY name LIMIT 3;";
+        String movieQuery = "SELECT * FROM movies, ";
         String genreQuery = "SELECT name FROM genres_in_movies, genres WHERE movieId = ? AND id = genreID ORDER BY name LIMIT 3;";
         String starQuery = "SELECT name, starId FROM stars_in_movies, stars WHERE movieId = ? AND id = starID;";
         String starcountQuery = "SELECT COUNT(*) FROM stars_in_movies WHERE Starid = ?;";
@@ -121,86 +114,148 @@ public class MoviesServlet extends HttpServlet {
 
         try {
             Connection con = dataSource.getConnection();
-            Statement movieStatement = con.createStatement();
-            Statement countpageStatement = con.createStatement();
 
             getGenre = con.prepareStatement(genreQuery);
             getStar = con.prepareStatement(starQuery);
             getStarcount = con.prepareStatement(starcountQuery);
 
-            String query, query1 = "SELECT * FROM movies, ", query2= "";
+            if (alnum.equals("*")) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.title REGEXP '^[^a-z0-9]'";
+                getMovie = con.prepareStatement(movieQuery);
+            }
+            else if (a) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE ?";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, alnum);
 
-            if (alnum.equals("*")) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.title REGEXP '^[^a-z0-9]'";
-            else if (a) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '"+alnum+"%'";
-            else if (g) query2 = "genres_in_movies, genres , ratings WHERE movies.id = ratings.movieId AND movies.id= genres_in_movies.movieid AND genres_in_movies.genreId= genres.id AND name LIKE '"+genre+"'";
-            else if (!t && !y && !s && !d) query2 = "ratings WHERE movies.id = ratings.movieId"; // delete
-            else if ( t && !y && !s && !d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '%"+title+"%'";
-            else if (!t &&  y && !s && !d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"'";
-            else if (!t && !y && !s &&  d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.director LIKE '%"+director+"%'";
-            else if (!t && !y &&  s && !d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND name LIKE '%"+star+"%'";
-            else if ( t &&  y && !s && !d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.title LIKE '%"+title+"%'";
-            else if ( t && !y && !s &&  d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'";
-            else if ( t && !y &&  s && !d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
-            else if (!t &&  y && !s &&  d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%'";
-            else if (!t &&  y &&  s && !d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND name LIKE '%"+star+"%'";
-            else if (!t && !y &&  s &&  d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%"+director+"%' AND name LIKE '%"+star+"%'";
-            else if ( t && !y &&  s &&  d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.title LIKE '%"+title+"%' AND movies.director LIKE '%"+director+"%' AND name LIKE '%"+star+"%'";
-            else if (!t &&  y &&  s &&  d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND movies.director LIKE '%"+director+"%' AND name LIKE '%"+star+"%'";
-            else if ( t &&  y &&  s && !d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
-            else if ( t &&  y && !s &&  d) query2 = "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'";
-            else if ( t &&  y &&  s &&  d) query2 = "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%"+director+"%' AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
+            }
+            else if (g) {
+                movieQuery += "genres_in_movies, genres , ratings WHERE movies.id = ratings.movieId AND movies.id= genres_in_movies.movieid AND genres_in_movies.genreId= genres.id AND name LIKE ?";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, genre);
+            }
+            else if ( t && !y && !s && !d) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.title LIKE '%?%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, title);
+            }
+            else if (!t &&  y && !s && !d) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.year = ?";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, year);
+            }
+            else if (!t && !y && !s &&  d) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.director LIKE '%?%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, director);
+            }
+            else if (!t && !y &&  s && !d) {
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND name LIKE '%?%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, star);
+            }
+            else if ( t &&  y && !s && !d) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.year = ? AND movies.title LIKE '%?%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, year);
+                getMovie.setString(2, title);
+            }
+            else if ( t && !y && !s &&  d) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.director LIKE '%?%' AND movies.title LIKE '%?%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, director);
+                getMovie.setString(1, title);
+            }
+            else if ( t && !y &&  s && !d) {
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.title LIKE '%?%' AND name LIKE '%?%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, title);
+                getMovie.setString(2, star);
+            }
+            else if (!t &&  y && !s &&  d) {
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.year = ? AND movies.director LIKE '%?%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, year);
+                getMovie.setString(1, director);
+            }
+            else if (!t &&  y &&  s && !d) {
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = ? AND name LIKE '%?%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, year);
+                getMovie.setString(1, star);
+            }
+            else if (!t && !y &&  s &&  d) {
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%?%' AND name LIKE '%?%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, director);
+                getMovie.setString(1, star);
+            }
+            else if ( t && !y &&  s &&  d){
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.title LIKE '%"+title+"%' AND movies.director LIKE '%"+director+"%' AND name LIKE '%"+star+"%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, director);
+                getMovie.setString(1, star);
+            }
+            else if (!t &&  y &&  s &&  d){
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND movies.director LIKE '%"+director+"%' AND name LIKE '%"+star+"%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, director);
+                getMovie.setString(1, star);
+            }
+            else if ( t &&  y &&  s && !d){
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, director);
+                getMovie.setString(1, star);
+            }
+            else if ( t &&  y && !s &&  d){
+                movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.year = '"+year+"' AND movies.director LIKE '%"+director+"%' AND movies.title LIKE '%"+title+"%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, director);
+                getMovie.setString(1, star);
+            }
+            else if ( t &&  y &&  s &&  d){
+                movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE '%"+director+"%' AND movies.year = '"+year+"%' AND movies.title LIKE '%"+title+"%' AND name LIKE '%"+star+"%'";
+                getMovie = con.prepareStatement(movieQuery);
+                getMovie.setString(1, director);
+                getMovie.setString(1, star);
+            }
 
             String squery = (String) session.getAttribute("query");
 
-            query = query1 + query2;
-            String maxpage = "";
 
-            if (squery != null && squery.contains(query)){
-                maxpage = (String) session.getAttribute("maxpage");
-            }
-            else{
-                ResultSet countpageResultSet = countpageStatement.executeQuery("SELECT COUNT(*) FROM movies, " + query2);
-                while (countpageResultSet.next()) {
-                    maxpage = countpageResultSet.getString("COUNT(*)");
-                    session.setAttribute("maxpage", maxpage);
-                }
-            }
-            int maxpagenum = 1;
-            if (Integer.parseInt(maxpage)>Integer.parseInt(display)) maxpagenum = Integer.parseInt(maxpage)/Integer.parseInt(display);
 
             if (!p) {
                 String spage = (String) session.getAttribute("page");
-                if (spage == null || (squery != null && !squery.contains(query))) spage = "1";
+                if (spage == null) spage = "1";
                 page = spage;
             }
 
             if (page.equals("0")) page = "1";
-            else if (Integer.parseInt(page) > maxpagenum){
-                page = Integer.toString(maxpagenum);
-            }
 
 
             session.setAttribute("page", page);
             int offset = (Integer.parseInt(page) - 1) * Integer.parseInt(display);
 
 
-            query += " ORDER BY " + orderby + "  LIMIT "+ display + " OFFSET "+ offset;
+            //query += " ORDER BY " + orderby + "  LIMIT "+ display + " OFFSET "+ offset;
 
-            System.out.println("query: " + query);
 
 
             JsonObject ret = new JsonObject();
 
 
-            if (!query.equals(squery))
+            if (true) //!query.equals(squery)
             {
-                session.setAttribute("query", query);
+                //session.setAttribute("query", query);
+
                 // Perform the query
-                ResultSet movieResultSet = movieStatement.executeQuery(query);
+                ResultSet movie_rs = getMovie.executeQuery();
+
                 JsonArray moviesArray = new JsonArray();
                 // Iterate through each row of rs
-                while (movieResultSet.next()) {
-                    String movieId = movieResultSet.getString("id");
+                while (movie_rs.next()) {
+                    String movieId = movie_rs.getString("id");
                     JsonArray movieGenres = new JsonArray();
 
 
@@ -245,12 +300,12 @@ public class MoviesServlet extends HttpServlet {
                     // Create a JsonObject based on the data we retrieve from rs
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("movieId", movieId);
-                    jsonObject.addProperty("movieTitle", movieResultSet.getString("title"));
-                    jsonObject.addProperty("movieYear", movieResultSet.getString("year"));
-                    jsonObject.addProperty("movieDirector", movieResultSet.getString("director"));
+                    jsonObject.addProperty("movieTitle", movie_rs.getString("title"));
+                    jsonObject.addProperty("movieYear", movie_rs.getString("year"));
+                    jsonObject.addProperty("movieDirector", movie_rs.getString("director"));
                     jsonObject.add("movieGenres", movieGenres);
                     jsonObject.add("movieStars", movieStar);
-                    jsonObject.addProperty("movieRating", movieResultSet.getString("rating"));
+                    jsonObject.addProperty("movieRating", movie_rs.getString("rating"));
                     moviesArray.add(jsonObject);
 
                     star_rs.close();
@@ -259,9 +314,11 @@ public class MoviesServlet extends HttpServlet {
                 getGenre.close();
                 getStar.close();
 
+                movie_rs.close();
+                getMovie.close();
+
                 JsonObject jpage = new JsonObject();
                 jpage.addProperty("page", page);
-                jpage.addProperty("maxpagenum", maxpagenum);
                 ret.add("movies", moviesArray);
                 ret.add("customer", Customer.toJSON((Customer) request.getSession().getAttribute("customer")));
                 ret.add("page", jpage);

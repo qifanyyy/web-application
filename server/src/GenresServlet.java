@@ -27,9 +27,9 @@ public class GenresServlet extends HttpServlet {
         // Output stream to STDOUT
         PrintWriter out = resp.getWriter();
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement genreStatement = connection.prepareStatement("SELECT * FROM genres")
-        ) {
+        try {
+            Connection connection = dataSource.getConnection();
+            PreparedStatement genreStatement = connection.prepareStatement("SELECT * FROM genres");
             ResultSet resultSet = genreStatement.executeQuery();
             JsonArray genresJSON = new JsonArray();
 
@@ -39,7 +39,9 @@ public class GenresServlet extends HttpServlet {
                 genre.addProperty("name", resultSet.getString("name"));
                 genresJSON.add(genre);
             }
-
+            genreStatement.close();
+            resultSet.close();
+            connection.close();
             out.write(genresJSON.toString());
             resp.setStatus(200);
         } catch (Exception e) {

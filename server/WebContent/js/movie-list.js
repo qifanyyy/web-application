@@ -97,41 +97,6 @@ data-movie-title="${movieArray[i]["movieTitle"]}"
     }
 
     document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${parseInt(page)-1}"><-Pervious</a></li>`;
-
-    if (parseInt(maxpage) < 9){
-        for (let i = 1; i <= parseInt(maxpage); ++i) {
-            if (parseInt(page) != i) {
-                document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}">${i}</a></li>`;
-            } else {
-                document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}"><b>${i}</b></a></li>`;
-            }
-        }
-    }
-    else if (parseInt(page) < 5) {
-
-        for (let i = 1; i < 10; ++i) {
-            if (parseInt(page) != i) {
-                document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}">${i}</a></li>`;
-            } else {
-                document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}"><b>${i}</b></a></li>`;
-            }
-        }
-    } else
-    {
-
-        for (let i = 1 + parseInt(page) -5 ; i < Math.min(5 + parseInt(page),parseInt(maxpage+1)); ++i) {
-            if (parseInt(page) != i) {
-                document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}">${i}</a></li>`;
-            } else {
-                document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${i}"><b>${i}</b></a></li>`;
-            }
-        }
-    }
-
-
-
-
-
     document.getElementById('page').innerHTML += `<li><a href="movie-list.html?page=${parseInt(page)+1}">Next-></a></li>`;
 
     for (let btn of document.querySelectorAll('.movie-list-add-to-cart-btn')) {
