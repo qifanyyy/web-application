@@ -31,6 +31,7 @@ public class LoginServlet extends HttpServlet {
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("status", "fail");
             jsonObject.addProperty("message", "reCaptcha authentication failed");
+            jsonObject.add("exception", Util.exception2Json(e));
             out.write(jsonObject.toString());
             out.close();
             response.setStatus(400);

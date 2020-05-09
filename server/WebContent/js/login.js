@@ -4,15 +4,13 @@ function handleResult(resultData) {
     if (resultData['errorMessage']) {
         jsonErrorMsgHandler(resultData)
         errorMessage = 'Unable to log in'
-    }
-
-    if (resultData['status'] === 'success') {
+    } else if (resultData['status'] === 'success') {
         window.location.replace('index.html')
         return
     }
 
     errorMessage = resultData['message']
-    document.getElementById('err-msg').innerText = errorMessage
+    document.getElementById('err-msg').innerText = errorMessage || 'failed to log in'
     document.getElementById('err-msg-wrapper').style.display = 'block'
     grecaptcha.reset()
 }
