@@ -3,6 +3,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +18,7 @@ class StarParser {
     private StarParser() {}
 
     static void parse(Connection connection)
-            throws ParserConfigurationException, IOException, SAXException, SQLException {
+            throws ParserConfigurationException, IOException, SAXException, SQLException, TransformerException {
         Element docElement = Util.getDocumentElementFromXmlUri(XmlUri);
         NodeList nodeList = docElement.getElementsByTagName("actor");
         int i;
@@ -25,14 +26,28 @@ class StarParser {
             Element element;
             if ((element = (Element) nodeList.item(i)) == null) {
                 System.err.println("nodeList contains a node which can't be cast to Element");
+                System.err.println(Util.nodeToXmlFormatString(nodeList.item(i)));
                 continue;
             }
 
             String name = Util.getTextValueFromTagInElement(element, "stagename");
+            if (name == null) {
+                System.err.println("cannot find stagename from current actor element");
+                System.err.println(Util.nodeToXmlFormatString(element));
+                continue;
+            } else if (name.length() == 0) {
+                System.err.println("empty stagename found from current actor element");
+                System.err.println(Util.nodeToXmlFormatString(element));
+                continue;
+            }
+
             Integer birthYear = null;
             try {
                 birthYear = Util.getIntValueFromTagInElement(element, "dob");
-            } catch (NumberFormatException ignored) {}
+            } catch (NumberFormatException e) {
+                System.err.println("non-integer dob found; set null");
+                System.err.println(Util.nodeToXmlFormatString(element));
+            }
 
             Star star = new Star(name, birthYear);
             if (stars.contains(star)) {
