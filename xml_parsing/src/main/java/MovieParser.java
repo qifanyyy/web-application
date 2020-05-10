@@ -9,6 +9,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*;
 
 class MovieParser {
@@ -52,8 +54,8 @@ class MovieParser {
     private MovieParser() {}
 
     @NotNull
-    private static List<String> getGenresFromFilm(@NotNull Element film) throws TransformerException {
-        List<String> ret = new ArrayList<>();
+    private static Set<String> getGenresFromFilm(@NotNull Element film) {
+        Set<String> ret = new LinkedHashSet<>();
 
         NodeList catsList = film.getElementsByTagName("cats");
         for (int i = 0; i < catsList.getLength(); ++i) {
@@ -61,32 +63,22 @@ class MovieParser {
             for (int j = 0; j < catList.getLength(); ++j) {
                 Element catElement  = (Element) catList.item(j);
                 Node catTextNode = catElement.getFirstChild();
-                if (catTextNode == null) {
-                    // System.err.println("self-closed cat tag");
-                    // System.err.println("\t" + Util.nodeToXmlFormatString(catElement) + "\n");
+                if (catTextNode == null) {  // self-closed cat tag from catElement
                     continue;
                 }
                 String catCode = catTextNode.getNodeValue();
-                if (catCode == null) {
-                    // System.err.println("weird cat tag");
-                    // System.err.println("\t" + Util.nodeToXmlFormatString(catElement) + "\n");
+                if (catCode == null) {  // abnormal cat tag content from catElement
                     continue;
                 }
                 catCode = catCode.trim().toLowerCase(Locale.ENGLISH);
 
-                if (!CAT_CODE_MAPPING.containsKey(catCode)) {
-                    // System.err.println(
-                    //         "unknown catCode '" + catCode + "' at i=" + i + ",j=" + j + " inside getGenresFromFilm"
-                    // );
-                    // System.err.println("\t" + Util.nodeToXmlFormatString(catElement) + "\n");
+                if (!CAT_CODE_MAPPING.containsKey(catCode)) {  // unknown catCode from catElement
                     continue;
                 }
 
                 String category = CAT_CODE_MAPPING.get(catCode);
 
-                if (!ret.contains(category)) {
-                    ret.add(category);
-                }
+                ret.add(category);
             }
         }
 
@@ -94,33 +86,29 @@ class MovieParser {
     }
 
     @Nullable
-    private static String getDirectorFromFilm(@NotNull Element film) throws TransformerException {
-        NodeList dirsList = film.getElementsByTagName("dirs");
-        for (int i = 0; i < dirsList.getLength(); ++i) {
-            NodeList dirList = ((Element) dirsList.item(i)).getElementsByTagName("dir");
-            for (int j = 0; j < dirList.getLength(); ++j) {
-                String dirName = Util.getTextValueFromTagInElement((Element) dirList.item(j), "dirn");
-                if (dirName != null && dirName.length() > 0) {
-                    return dirName;
-                }
-                // System.err.println("null or empty dirName at i=" + i + ",j=" + j + " inside getDirectorFromFilm");
-                // System.err.println("\t" + Util.nodeToXmlFormatString(dirList.item(j)) + "\n");
-            }
+    private static String getDirectorFromDirectorFilm(@NotNull Element directorFilm) {
+        NodeList directorList = directorFilm.getElementsByTagName("director");
+        if (directorList.getLength() == 0) {
+            return null;
         }
 
-        return null;
+        Element director = (Element) directorList.item(0);
+
+        return Util.getTextValueFromTagInElement(director, "dirname");
     }
 
     static void parse(@NotNull Connection connection)
-            throws IOException, SAXException, ParserConfigurationException, TransformerException {
+            throws IOException, SAXException, ParserConfigurationException, TransformerException, SQLException {
         Element docElement = Util.getDocumentElementFromXmlUri(XML_URI);
         NodeList directorFilmsList = docElement.getElementsByTagName("directorfilms");
         int i;
         for (i = 0; i < directorFilmsList.getLength(); ++i) {
             Element directorFilmElement = (Element) directorFilmsList.item(i);
-
             NodeList filmList = directorFilmElement.getElementsByTagName("film");
             int j;
+
+            String director = getDirectorFromDirectorFilm(directorFilmElement);
+
             for (j = 0; j < filmList.getLength(); ++j) {
                 Element filmElement = (Element) filmList.item(j);
 
@@ -129,14 +117,14 @@ class MovieParser {
                 try {
                     year = Util.getIntValueFromTagInElement(filmElement, "year");
                 } catch (NumberFormatException ignored) {}
-                List<String> genres = getGenresFromFilm(filmElement);
-                String director = getDirectorFromFilm(filmElement);
+                Set<String> genres = getGenresFromFilm(filmElement);
 
                 if (title == null || title.length() == 0) {
                     System.err.println("null or empty title for film at i=" + i + ",j=" + j + " when parsing");
                     System.err.println("\t" + Util.nodeToXmlFormatString(filmElement) + "\n");
                     continue;
                 }
+                title = title.trim();
 
                 if (year == null) {
                     System.err.println("invalid year for film at i=" + i + ",j=" + j + " when parsing");
@@ -144,21 +132,16 @@ class MovieParser {
                     continue;
                 }
 
-//                if (genres.size() == 0) {
-//                    System.err.println("empty genre for film at i=" + i + ",j=" + j + " when parsing");
-//                    System.err.println("\t" + Util.nodeToXmlFormatString(filmElement) + "\n");
-//                    continue;
-//                }
-
                 if (director == null || director.length() == 0) {
                     System.err.println("null or empty director for film at i=" + i + ",j=" + j + " when parsing");
                     System.err.println("\t" + Util.nodeToXmlFormatString(filmElement) + "\n");
                     continue;
                 }
+                director = director.trim();
 
                 Movie movie = new Movie(title, year, director);
                 if (MOVIES.contains(movie)) {
-                    System.err.println("duplicate movie " + movie + " found; skipping");
+                    System.err.println("duplicate movie " + movie + " found; skipping\n");
                     continue;
                 }
 
@@ -178,9 +161,15 @@ class MovieParser {
             return;
         }
 
-//        for (Movie movie : MOVIES) {
-//            System.out.println(movie);
-//        }
-        System.out.println(MOVIES.size());
+        i = 0;
+        for (Movie movie : MOVIES) {
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO movies VALUES (?, ?, ?, ?)");
+            statement.setString(1, "xm_" + i++);
+            statement.setString(2, movie.title);
+            statement.setInt(3, movie.year);
+            statement.setString(4, movie.director);
+            statement.executeUpdate();
+            statement.close();
+        }
     }
 }

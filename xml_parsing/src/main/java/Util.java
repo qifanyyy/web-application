@@ -47,7 +47,7 @@ class Util {
     static Integer getIntValueFromTagInElement(@NotNull Element element, @NotNull String tagName) {
         String strValue = getTextValueFromTagInElement(element, tagName);
         if (strValue == null || strValue.length() == 0) return null;
-        return Integer.parseInt(strValue);
+        return Integer.parseInt(strValue.trim());
     }
 
     static Element getDocumentElementFromXmlUri(@NotNull String uri)

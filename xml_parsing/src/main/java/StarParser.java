@@ -36,6 +36,7 @@ class StarParser {
                 System.err.println("\t" + Util.nodeToXmlFormatString(element) + "\n");
                 continue;
             }
+            name = name.trim();
 
             Integer birthYear = null;
             try {
@@ -47,7 +48,7 @@ class StarParser {
 
             Star star = new Star(name, birthYear);
             if (STARS.contains(star)) {
-                System.err.println("duplicate star '" + star + "' found; skipping");
+                System.err.println("duplicate star '" + star + "' found; skipping\n");
                 continue;
             }
 
