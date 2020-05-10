@@ -20,6 +20,7 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse response) throws IOException {
+        req.getSession().invalidate();
         response.setContentType("application/json; charset=UTF-8"); // Response mime type
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
@@ -40,32 +41,55 @@ public class LoginServlet extends HttpServlet {
 
         String email = req.getParameter("email");
         String password = req.getParameter("password");
+        String type = req.getParameter("type");
+        if (type == null || (!type.equals("customer") && !type.equals("employee"))) {
+            JsonObject jsonObject = Util.makeGeneralErrorJsonObject("incorrect type specified");
+            out.write(jsonObject.toString());
+            out.close();
+            response.setStatus(400);
+            return;
+        }
 
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement emailStatement = connection.prepareStatement("SELECT * FROM customers WHERE email = ?")
+             PreparedStatement emailStatement = type.equals("customer") ?
+                     connection.prepareStatement("SELECT * FROM customers WHERE email = ?") :
+                     connection.prepareStatement("SELECT * FROM employees WHERE email = ?")
         ) {
             emailStatement.setString(1, email);
-            ResultSet userResultSet = emailStatement.executeQuery();
-            JsonObject jsonObject = new JsonObject();
+            ResultSet resultSet = emailStatement.executeQuery();
+            JsonObject ret = new JsonObject();
 
-            if (!userResultSet.next() || !new StrongPasswordEncryptor().checkPassword(password, userResultSet.getString("password"))) {
-                jsonObject.addProperty("status", "fail");
-                jsonObject.addProperty("message", "invalid email address or password");
+            if (!resultSet.next() || !new StrongPasswordEncryptor().checkPassword(password, resultSet.getString("password"))) {
+                ret.addProperty("status", "fail");
+                ret.addProperty("message", "invalid email address or password");
                 response.setStatus(400);
             } else {
-                Customer customer = new Customer(
-                        userResultSet.getInt("id"),
-                        userResultSet.getString("firstName")
-                );
-                req.getSession().setAttribute("customer", customer);
-                jsonObject.addProperty("status", "success");
-                JsonObject customerJSON = new JsonObject();
-                customerJSON.addProperty("id", customer.id);
-                customerJSON.addProperty("firstName", customer.firstName);
-                jsonObject.add("customer", customerJSON);
+                if (type.equals("customer")) {
+                    Customer customer = new Customer(
+                            resultSet.getInt("id"),
+                            resultSet.getString("firstName")
+                    );
+                    req.getSession().setAttribute("customer", customer);
+                    ret.addProperty("status", "success");
+                    JsonObject customerJson = new JsonObject();
+                    customerJson.addProperty("id", customer.id);
+                    customerJson.addProperty("firstName", customer.firstName);
+                    ret.add("customer", customerJson);
+                } else {
+                    Employee employee = new Employee(
+                            resultSet.getString("email"),
+                            resultSet.getString("fullname")
+                    );
+                    req.getSession().setAttribute("employee", employee);
+                    ret.addProperty("status", "success");
+                    JsonObject employeeJson = new JsonObject();
+                    employeeJson.addProperty("id", employee.email);
+                    employeeJson.addProperty("firstName", employee.fullName);
+                    ret.add("employee", employeeJson);
+                }
                 response.setStatus(200);
             }
-            out.write(jsonObject.toString());
+            out.write(ret.toString());
         } catch (Exception e) {
             // write error message JSON object to output
             out.write(Util.exception2Json(e).toString());

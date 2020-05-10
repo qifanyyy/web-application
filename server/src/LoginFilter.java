@@ -9,6 +9,7 @@ import java.util.Set;
 @WebFilter(filterName = "LoginFilter", urlPatterns = "/*")
 public class LoginFilter implements Filter {
     private final Set<String> allowedURIs = new HashSet<>();
+    private final Set<String> employeeLoginRelatedURIs = new HashSet<>();
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -17,6 +18,12 @@ public class LoginFilter implements Filter {
         allowedURIs.add("/js/login.js");
         allowedURIs.add("/js/util.js");
         allowedURIs.add("/api/login");
+
+        employeeLoginRelatedURIs.add("employee_login.html");
+        employeeLoginRelatedURIs.add("/css/employee_login.css");
+        employeeLoginRelatedURIs.add("/js/employee_login.js");
+        employeeLoginRelatedURIs.add("/api/employee_login");
+        employeeLoginRelatedURIs.add("/js/util.js");
     }
 
     @Override
@@ -30,7 +37,9 @@ public class LoginFilter implements Filter {
             return;
         }
 
-        if (httpRequest.getSession().getAttribute("customer") == null) {
+        if (httpRequest.getRequestURI().endsWith("dashboard.html") && httpRequest.getSession().getAttribute("employee") == null) {
+            httpResponse.sendRedirect("employee_login.html");
+        } else if (httpRequest.getSession().getAttribute("customer") == null) {
             httpResponse.sendRedirect("login.html");
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
@@ -38,6 +47,8 @@ public class LoginFilter implements Filter {
     }
 
     private boolean isUrlAllowedWithoutLogin(String requestURI) {
-        return allowedURIs.stream().anyMatch(requestURI.toLowerCase()::endsWith);
+        System.out.println(requestURI);
+        return allowedURIs.stream().anyMatch(requestURI.toLowerCase()::endsWith) ||
+                employeeLoginRelatedURIs.stream().anyMatch(requestURI.toLowerCase()::endsWith);
     }
 }
