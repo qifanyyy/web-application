@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS employees
 
 ALTER TABLE genres ADD UNIQUE (name);
 CREATE INDEX movies_index ON movies(title, year, director);
-CREATE INDEX stars_index ON stars(name, birthyear)
+CREATE INDEX stars_index ON stars(name, birthyear);
 
-INSERT INTO employees (email, password, fullname) VALUES ('classta@email.edu', 'classta', 'TA 122B');
+# INSERT INTO employees (email, password, fullname) VALUES ('classta@email.edu', 'classta', 'TA 122B');

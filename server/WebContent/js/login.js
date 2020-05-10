@@ -5,7 +5,11 @@ function handleResult(resultData) {
         jsonErrorMsgHandler(resultData)
         errorMessage = 'Unable to log in'
     } else if (resultData['status'] === 'success') {
-        window.location.replace('index.html')
+        if (resultData['customer']) {
+            window.location.replace('index.html')
+        } else {
+            window.location.replace('dashboard.html')
+        }
         return
     }
 
