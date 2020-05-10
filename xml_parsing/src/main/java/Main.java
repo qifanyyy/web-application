@@ -16,6 +16,7 @@ public class Main {
 
         StarParser.parse(connection);
         MovieParser.parse(connection);
+        StarsInMoviesParser.parse(connection);
         connection.close();
     }
 }

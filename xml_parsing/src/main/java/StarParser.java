@@ -68,7 +68,7 @@ class StarParser {
                 checkDup.setObject(2, star.birthYear);
             }
             if (checkDup.executeQuery().next()) {
-                System.err.println("star " + star + " exists in db");
+                System.err.println("star " + star + " exists in db\n");
                 checkDup.close();
                 continue;
             }

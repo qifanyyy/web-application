@@ -176,7 +176,7 @@ class MovieParser {
             checkDup.setInt(2, movie.year);
             checkDup.setString(3, movie.director);
             if (checkDup.executeQuery().next()) {
-                System.err.println("movie " + movie + " exists in db");
+                System.err.println("movie " + movie + " exists in db\n");
                 checkDup.close();
                 continue;
             }
