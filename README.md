@@ -14,12 +14,24 @@ mysql -umytestuser -p moviedb < add-quantity-to-sales.sql
 
 See [server/README.md](./server/README.md).
 
-## Project 1
+## XML Parser
 
-Each of the member contributes approximately same amount of work to the repository.
+See [xml_parsing/README.md](./xml_parsing/README.md).
 
-- https://youtu.be/gOmATkxsDes
-- https://drive.google.com/file/d/18nEbfqveqkul2HjDjRrNMgDTht2SCMOQ/view?usp=sharing (backup, need UCI Gmail account)
+## Project 3
+
+### Project 3 Team Contribution
+
+Qifan Yu
+- register a domain for fabflix
+- add https, use prepared statement
+- use encrypted password
+- implement a dashboard using stored  procedure
+
+Tongjie Wang
+- add reCAPTCHA
+- add prepare statement
+- import large XML data files into the Fabflix database
 
 ## Project 2
 
@@ -59,15 +71,9 @@ Tongjie Wang
 - Login page
 - Shopping cart page, Payment Page, Place Order Action
 
-### project 3 Team Contribution
+## Project 1
 
-Qifan Yu
-- register a domain for fabflix
-- add https, use prepared statement
-- use encrypted password
-- implement a dashboard using stored  procedure
+Each of the member contributes approximately same amount of work to the repository.
 
-Tongjie Wang
-- add reCAPTCHA
-- add prepare statement
-- import large XML data files into the Fabflix database
+- https://youtu.be/gOmATkxsDes
+- https://drive.google.com/file/d/18nEbfqveqkul2HjDjRrNMgDTht2SCMOQ/view?usp=sharing (backup, need UCI Gmail account)
