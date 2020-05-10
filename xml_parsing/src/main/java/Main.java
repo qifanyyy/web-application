@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args)
             throws SQLException, IOException, SAXException, ParserConfigurationException, TransformerException {
         Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/moviedbexample",
+                "jdbc:mysql://localhost:3306/moviedb",
                 "mytestuser",
                 "mypassword"
         );
