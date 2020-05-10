@@ -58,3 +58,16 @@ Qifan Yu
 Tongjie Wang
 - Login page
 - Shopping cart page, Payment Page, Place Order Action
+
+### project 3 Team Contribution
+
+Qifan Yu
+- register a domain for fabflix
+- add https, use prepared statement
+- use encrypted password
+- implement a dashboard using stored  procedure
+
+Tongjie Wang
+- add reCAPTCHA
+- add prepare statement
+- import large XML data files into the Fabflix database
