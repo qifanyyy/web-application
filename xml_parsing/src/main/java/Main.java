@@ -16,6 +16,7 @@ public class Main {
                 "mypassword"
         );
 
-        StarParser.parse(connection);
+        // StarParser.parse(connection);
+        MovieParser.parse(connection);
     }
 }

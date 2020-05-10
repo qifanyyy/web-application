@@ -1,3 +1,5 @@
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -17,48 +19,48 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 class Util {
-    private static Transformer transformer;
+    private static Transformer TRANSFORMER;
+    private static final int XML_HEADER_LEN = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>".length();
 
     static {
         try {
-            transformer = TransformerFactory.newInstance().newTransformer();
+            TRANSFORMER = TransformerFactory.newInstance().newTransformer();
         } catch (TransformerConfigurationException e) {
             e.printStackTrace();
             System.exit(1);
         }
     }
 
-    static String getTextValueFromTagInElement(Element element, String tagName) {
+    @Nullable
+    static String getTextValueFromTagInElement(@NotNull Element element, @NotNull String tagName) {
         String ret = null;
         NodeList nodeList = element.getElementsByTagName(tagName);
-        Element tagElement;
+        Element tagElement = (Element) nodeList.item(0);
         Node textNode;
-        if (nodeList.getLength() > 0 &&
-                (tagElement = (Element) nodeList.item(0)) != null &&
-                (textNode = tagElement.getFirstChild()) != null
-        ) {
+        if (nodeList.getLength() > 0 && (textNode = tagElement.getFirstChild()) != null) {
             ret = textNode.getNodeValue();
         }
         return ret;
     }
 
-    static Integer getIntValueFromTagInElement(Element element, String tagName) {
+    @Nullable
+    static Integer getIntValueFromTagInElement(@NotNull Element element, @NotNull String tagName) {
         String strValue = getTextValueFromTagInElement(element, tagName);
         if (strValue == null || strValue.length() == 0) return null;
         return Integer.parseInt(strValue);
     }
 
-    static Element getDocumentElementFromXmlUri(String uri)
+    static Element getDocumentElementFromXmlUri(@NotNull String uri)
             throws ParserConfigurationException, IOException, SAXException {
         DocumentBuilder documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
         Document document = documentBuilder.parse(uri);
         return document.getDocumentElement();
     }
 
-    static String nodeToXmlFormatString(Node node) throws TransformerException {
+    static String nodeToXmlFormatString(@NotNull Node node) throws TransformerException {
         DOMSource source = new DOMSource(node);
         StreamResult result = new StreamResult(new StringWriter());
-        transformer.transform(source, result);
-        return result.getWriter().toString();
+        TRANSFORMER.transform(source, result);
+        return result.getWriter().toString().substring(XML_HEADER_LEN);
     }
 }

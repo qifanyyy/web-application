@@ -1,12 +1,13 @@
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Objects;
 
 class Star {
-    final String name;
-    final Integer birthYear;
+    @NotNull final String name;
+    @Nullable final Integer birthYear;
 
-    public Star(String name, Integer birthYear) {
-        assert name != null;
-
+    Star(@NotNull String name, @Nullable Integer birthYear) {
         this.name = name;
         this.birthYear = birthYear;
     }
