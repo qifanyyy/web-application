@@ -31,12 +31,11 @@ class StarParser {
                 System.err.println("cannot find stagename from current actor element");
                 System.err.println("\t" + Util.nodeToXmlFormatString(element) + "\n");
                 continue;
-            } else if (name.length() == 0) {
+            } else if ((name = name.trim()).length() == 0) {
                 System.err.println("empty stagename found from current actor element");
                 System.err.println("\t" + Util.nodeToXmlFormatString(element) + "\n");
                 continue;
             }
-            name = name.trim();
 
             Integer birthYear = null;
             try {
@@ -61,6 +60,20 @@ class StarParser {
 
         i = 0;
         for (Star star : STARS) {
+            PreparedStatement checkDup = star.birthYear == null ?
+                    connection.prepareStatement("SELECT * FROM stars WHERE name = ? AND birthYear IS NULL") :
+                    connection.prepareStatement("SELECT * FROM stars WHERE name = ? AND birthYear = ?");
+            checkDup.setString(1, star.name);
+            if (star.birthYear != null) {
+                checkDup.setObject(2, star.birthYear);
+            }
+            if (checkDup.executeQuery().next()) {
+                System.err.println("star " + star + " exists in db");
+                checkDup.close();
+                continue;
+            }
+            checkDup.close();
+
             PreparedStatement statement = connection.prepareStatement("INSERT INTO stars VALUES (?, ?, ?)");
             statement.setString(1, "xs_" + i++);
             statement.setString(2, star.name);

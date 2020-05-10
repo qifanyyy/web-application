@@ -7,4 +7,4 @@ build:
 	mvn package
 
 run:
-	java -cp target/xml_parsing-1.0-SNAPSHOT-jar-with-dependencies.jar Main
+	java -ea -cp target/xml_parsing-1.0-SNAPSHOT-jar-with-dependencies.jar Main

@@ -10,13 +10,15 @@ import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
 class MovieParser {
     private static final String XML_URI = "../stanford-movies/mains243.xml";
     private static final Map<String, String> CAT_CODE_MAPPING;
-    private static final Set<Movie> MOVIES = new HashSet<>();
+    private static final LinkedHashSet<Movie> MOVIES = new LinkedHashSet<>();
+    private static final List<Set<String>> GENRES_IN_MOVIES = new ArrayList<>();
 
     static {
         CAT_CODE_MAPPING = new HashMap<>();
@@ -49,6 +51,8 @@ class MovieParser {
         CAT_CODE_MAPPING.put("tv", "TV Show");
         CAT_CODE_MAPPING.put("tvs", "TV Series");
         CAT_CODE_MAPPING.put("tvm", "TV Miniseries");
+        CAT_CODE_MAPPING.put("fant", "Fantasy");
+        CAT_CODE_MAPPING.put("cnrb", "Cops and Robbers");
     }
 
     private MovieParser() {}
@@ -119,12 +123,11 @@ class MovieParser {
                 } catch (NumberFormatException ignored) {}
                 Set<String> genres = getGenresFromFilm(filmElement);
 
-                if (title == null || title.length() == 0) {
+                if (title == null || (title = title.trim()).length() == 0) {
                     System.err.println("null or empty title for film at i=" + i + ",j=" + j + " when parsing");
                     System.err.println("\t" + Util.nodeToXmlFormatString(filmElement) + "\n");
                     continue;
                 }
-                title = title.trim();
 
                 if (year == null) {
                     System.err.println("invalid year for film at i=" + i + ",j=" + j + " when parsing");
@@ -132,12 +135,11 @@ class MovieParser {
                     continue;
                 }
 
-                if (director == null || director.length() == 0) {
+                if (director == null || (director = director.trim()).length() == 0) {
                     System.err.println("null or empty director for film at i=" + i + ",j=" + j + " when parsing");
                     System.err.println("\t" + Util.nodeToXmlFormatString(filmElement) + "\n");
                     continue;
                 }
-                director = director.trim();
 
                 Movie movie = new Movie(title, year, director);
                 if (MOVIES.contains(movie)) {
@@ -146,6 +148,7 @@ class MovieParser {
                 }
 
                 MOVIES.add(movie);
+                GENRES_IN_MOVIES.add(genres);
             }
 
             if (j == 0) {
@@ -161,15 +164,57 @@ class MovieParser {
             return;
         }
 
-        i = 0;
-        for (Movie movie : MOVIES) {
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO movies VALUES (?, ?, ?, ?)");
-            statement.setString(1, "xm_" + i++);
-            statement.setString(2, movie.title);
-            statement.setInt(3, movie.year);
-            statement.setString(4, movie.director);
-            statement.executeUpdate();
-            statement.close();
+        assert MOVIES.size() == GENRES_IN_MOVIES.size();
+        Iterator<Movie> movieIterator = MOVIES.iterator();
+        Iterator<Set<String>> genresInMoviesIterator = GENRES_IN_MOVIES.iterator();
+        for (i = 0; i < MOVIES.size(); ++i) {
+            Movie movie = movieIterator.next();
+            Set<String> genres = genresInMoviesIterator.next();
+
+            PreparedStatement checkDup = connection.prepareStatement("SELECT * FROM movies WHERE title = ? AND year = ? AND director = ?");
+            checkDup.setString(1, movie.title);
+            checkDup.setInt(2, movie.year);
+            checkDup.setString(3, movie.director);
+            if (checkDup.executeQuery().next()) {
+                System.err.println("movie " + movie + " exists in db");
+                checkDup.close();
+                continue;
+            }
+            checkDup.close();
+
+            String movieId = "xm_" + i;
+
+            PreparedStatement insertMovie = connection.prepareStatement("INSERT INTO movies VALUES (?, ?, ?, ?)");
+            insertMovie.setString(1, movieId);
+            insertMovie.setString(2, movie.title);
+            insertMovie.setInt(3, movie.year);
+            insertMovie.setString(4, movie.director);
+            insertMovie.executeUpdate();
+            insertMovie.close();
+
+            for (String genre : genres) {
+                PreparedStatement insertGenre = connection.prepareStatement(
+                        "INSERT IGNORE INTO genres VALUES (NULL, ?)"
+                );
+                insertGenre.setString(1, genre);
+                insertGenre.executeUpdate();
+                insertGenre.close();
+
+                PreparedStatement getLastInsertId = connection.prepareStatement("SELECT id FROM genres WHERE name = ?");
+                getLastInsertId.setString(1, genre);
+                ResultSet idRS = getLastInsertId.executeQuery();
+                idRS.next();
+                int genreId = idRS.getInt(1);
+                getLastInsertId.close();
+
+                PreparedStatement insertGenreInMovie = connection.prepareStatement(
+                        "INSERT INTO genres_in_movies VALUES (?, ?)"
+                );
+                insertGenreInMovie.setInt(1, genreId);
+                insertGenreInMovie.setString(2, movieId);
+                insertGenreInMovie.executeUpdate();
+                insertGenreInMovie.close();
+            }
         }
     }
 }
