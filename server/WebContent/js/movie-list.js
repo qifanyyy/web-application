@@ -72,7 +72,6 @@ function handleMovieResult(resultData) {
     let movieArray = resultData['movies'];
     let customer = resultData['customer'];
     let page = resultData['page']['page'];
-    let maxpage = resultData['page']['maxpagenum'];
     if (customer !== null) {
         document.getElementById('customer-first-name').innerText = `Welcome, ${customer['firstName']}`;
     }

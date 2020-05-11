@@ -28,8 +28,7 @@ function handleResult(resultData) {
     if (resultData[0]["star_dob"] == null) resultData[0]["star_dob"] = "N/A";
 
     // append two html <p> created to the h3 body, which will refresh the page
-    starInfoElement.innerHTML += "<h3>" + resultData[0]["star_name"] + "</h3>" +
-        "<p>Date of Birth: " + resultData[0]["star_dob"] + "</p>";
+    starInfoElement.innerHTML = "<b>" + resultData[0]["star_name"] + "&nbsp;&nbsp;&nbsp;Date of Birth: " +resultData[0]["star_dob"] + "</b>";
     document.querySelector('title').innerText += resultData[0]["star_name"];
 
     // Populate the star table

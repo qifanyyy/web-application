@@ -69,7 +69,7 @@ function handleResult(resultData) {
     // append two html <p> created to the h3 body, which will refresh the page
     let title = resultData["movie_title"] + " (" + resultData["movie_year"] + ")";
     pageTitleElement.innerText += title;
-    movieInfoElement.innerText = title;
+    movieInfoElement.innerHTML = "<b>" + title + "</b>";
 
     // Populate the movie table
     // Find the empty table body by id "movie_table_body"
