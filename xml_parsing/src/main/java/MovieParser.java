@@ -192,6 +192,11 @@ class MovieParser {
             insertMovie.executeUpdate();
             insertMovie.close();
 
+            PreparedStatement insertRating = connection.prepareStatement("INSERT INTO ratings VALUES (?, 0.0, 0)");
+            insertRating.setString(1, movieId);
+            insertRating.executeUpdate();
+            insertMovie.close();
+
             for (String genre : genres) {
                 PreparedStatement insertGenre = connection.prepareStatement(
                         "INSERT IGNORE INTO genres VALUES (NULL, ?)"
