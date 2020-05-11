@@ -7,16 +7,29 @@ import java.sql.*;
 
 public class Main {
     public static void main(String[] args)
-            throws SQLException, IOException, SAXException, ParserConfigurationException, TransformerException {
-        Connection connection = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/moviedb",
-                "mytestuser",
-                "mypassword"
-        );
+            throws SQLException, IOException, SAXException, ParserConfigurationException, TransformerException, InterruptedException {
 
-        StarParser.parse(connection);
-        MovieParser.parse(connection);
-        StarsInMoviesParser.parse(connection);
-        connection.close();
+        Thread parseStarThread = new Thread(() -> {
+            try {
+                StarParser.parse();
+            } catch (ParserConfigurationException | IOException | SAXException | SQLException | TransformerException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+        });
+
+        Thread parseMovieThread = new Thread(() -> {
+            try {
+                MovieParser.parse();
+            } catch (ParserConfigurationException | IOException | SAXException | SQLException | TransformerException | InterruptedException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+        });
+        parseStarThread.start();
+        parseMovieThread.start();
+        parseStarThread.join();
+        parseMovieThread.join();
+        StarsInMoviesParser.parse();
     }
 }

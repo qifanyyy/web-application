@@ -7,6 +7,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.HashSet;
@@ -18,8 +19,13 @@ class StarParser {
 
     private StarParser() {}
 
-    static void parse(@NotNull Connection connection)
+    static void parse()
             throws ParserConfigurationException, IOException, SAXException, SQLException, TransformerException {
+        Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/moviedb",
+                "mytestuser",
+                "mypassword"
+        );
         Element docElement = Util.getDocumentElementFromXmlUri(XML_URI);
         NodeList nodeList = docElement.getElementsByTagName("actor");
         int i;
@@ -59,6 +65,8 @@ class StarParser {
         }
 
         i = 0;
+
+        PreparedStatement insertStar = connection.prepareStatement("INSERT INTO stars VALUES (?, ?, ?)");
         for (Star star : STARS) {
             PreparedStatement checkDup = star.birthYear == null ?
                     connection.prepareStatement("SELECT * FROM stars WHERE name = ? AND birthYear IS NULL") :
@@ -74,12 +82,13 @@ class StarParser {
             }
             checkDup.close();
 
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO stars VALUES (?, ?, ?)");
-            statement.setString(1, "xs_" + i++);
-            statement.setString(2, star.name);
-            statement.setObject(3, star.birthYear);
-            statement.executeUpdate();
-            statement.close();
+            insertStar.setString(1, "xs_" + i++);
+            insertStar.setString(2, star.name);
+            insertStar.setObject(3, star.birthYear);
+            insertStar.addBatch();
         }
+        insertStar.executeBatch();
+        insertStar.close();
+        connection.close();
     }
 }

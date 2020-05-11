@@ -8,10 +8,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.*;
 
 class MovieParser {
@@ -101,8 +98,13 @@ class MovieParser {
         return Util.getTextValueFromTagInElement(director, "dirname");
     }
 
-    static void parse(@NotNull Connection connection)
-            throws IOException, SAXException, ParserConfigurationException, TransformerException, SQLException {
+    static void parse()
+            throws IOException, SAXException, ParserConfigurationException, TransformerException, SQLException, InterruptedException {
+        Connection connection = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/moviedb",
+                "mytestuser",
+                "mypassword"
+        );
         Element docElement = Util.getDocumentElementFromXmlUri(XML_URI);
         NodeList directorFilmsList = docElement.getElementsByTagName("directorfilms");
         int i;
@@ -166,10 +168,17 @@ class MovieParser {
 
         assert MOVIES.size() == GENRES_IN_MOVIES.size();
         Iterator<Movie> movieIterator = MOVIES.iterator();
-        Iterator<Set<String>> genresInMoviesIterator = GENRES_IN_MOVIES.iterator();
+        List<String> movieIdList = new ArrayList<>(MOVIES.size());
+
+        PreparedStatement insertMovie = connection.prepareStatement("INSERT INTO movies VALUES (?, ?, ?, ?)");
+        Connection connection2 = DriverManager.getConnection(
+                "jdbc:mysql://localhost:3306/moviedb",
+                "mytestuser",
+                "mypassword"
+        );
+        PreparedStatement insertRating = connection2.prepareStatement("INSERT INTO ratings VALUES (?, 0.0, 0)");
         for (i = 0; i < MOVIES.size(); ++i) {
             Movie movie = movieIterator.next();
-            Set<String> genres = genresInMoviesIterator.next();
 
             PreparedStatement checkDup = connection.prepareStatement("SELECT * FROM movies WHERE title = ? AND year = ? AND director = ?");
             checkDup.setString(1, movie.title);
@@ -184,27 +193,78 @@ class MovieParser {
 
             String movieId = "xm_" + i;
 
-            PreparedStatement insertMovie = connection.prepareStatement("INSERT INTO movies VALUES (?, ?, ?, ?)");
             insertMovie.setString(1, movieId);
             insertMovie.setString(2, movie.title);
             insertMovie.setInt(3, movie.year);
             insertMovie.setString(4, movie.director);
-            insertMovie.executeUpdate();
-            insertMovie.close();
+            insertMovie.addBatch();
 
-            PreparedStatement insertRating = connection.prepareStatement("INSERT INTO ratings VALUES (?, 0.0, 0)");
             insertRating.setString(1, movieId);
-            insertRating.executeUpdate();
-            insertMovie.close();
+            insertRating.addBatch();
 
+            movieIdList.add(movieId);
+
+//            PreparedStatement insertGenre = connection.prepareStatement(
+//                    "INSERT IGNORE INTO genres VALUES (NULL, ?)"
+//            );
+//            for (String genre : genres) {
+//                insertGenre.setString(1, genre);
+//                insertGenre.addBatch();
+//            }
+//            insertGenre.executeBatch();
+//            insertGenre.close();
+
+//            PreparedStatement insertGenreInMovie = connection.prepareStatement(
+//                    "INSERT INTO genres_in_movies VALUES (?, ?)"
+//            );
+//            for (String genre : genres) {
+//                PreparedStatement getLastInsertId = connection.prepareStatement("SELECT id FROM genres WHERE name = ?");
+//                getLastInsertId.setString(1, genre);
+//                ResultSet idRS = getLastInsertId.executeQuery();
+//                idRS.next();
+//                int genreId = idRS.getInt(1);
+//                getLastInsertId.close();
+//
+//
+//                insertGenreInMovie.setInt(1, genreId);
+//                insertGenreInMovie.setString(2, movieId);
+//                insertGenreInMovie.addBatch();
+//            }
+//            insertGenreInMovie.executeBatch();
+//            insertGenreInMovie.close();
+        }
+        insertMovie.executeBatch();
+        insertMovie.close();
+        Thread t = new Thread(() -> {
+            try {
+                insertRating.executeBatch();
+                insertRating.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+        });
+        t.start();
+
+        Iterator<String> movieIdIterator = movieIdList.iterator();
+        Iterator<Set<String>> genresInMoviesIterator = GENRES_IN_MOVIES.iterator();
+        for (i = 0; i < GENRES_IN_MOVIES.size(); ++i) {
+            Set<String> genres = genresInMoviesIterator.next();
+
+            PreparedStatement insertGenre = connection.prepareStatement(
+                    "INSERT IGNORE INTO genres VALUES (NULL, ?)"
+            );
             for (String genre : genres) {
-                PreparedStatement insertGenre = connection.prepareStatement(
-                        "INSERT IGNORE INTO genres VALUES (NULL, ?)"
-                );
                 insertGenre.setString(1, genre);
-                insertGenre.executeUpdate();
-                insertGenre.close();
+                insertGenre.addBatch();
+            }
+            insertGenre.executeBatch();
+            insertGenre.close();
 
+            PreparedStatement insertGenreInMovie = connection.prepareStatement(
+                    "INSERT INTO genres_in_movies VALUES (?, ?)"
+            );
+            for (String genre : genres) {
                 PreparedStatement getLastInsertId = connection.prepareStatement("SELECT id FROM genres WHERE name = ?");
                 getLastInsertId.setString(1, genre);
                 ResultSet idRS = getLastInsertId.executeQuery();
@@ -212,14 +272,16 @@ class MovieParser {
                 int genreId = idRS.getInt(1);
                 getLastInsertId.close();
 
-                PreparedStatement insertGenreInMovie = connection.prepareStatement(
-                        "INSERT INTO genres_in_movies VALUES (?, ?)"
-                );
+
                 insertGenreInMovie.setInt(1, genreId);
-                insertGenreInMovie.setString(2, movieId);
-                insertGenreInMovie.executeUpdate();
-                insertGenreInMovie.close();
+                insertGenreInMovie.setString(2, movieIdIterator.next());
+                insertGenreInMovie.addBatch();
             }
+            insertGenreInMovie.executeBatch();
+            insertGenreInMovie.close();
         }
+        t.join();
+        connection2.close();
+        connection.close();
     }
 }
