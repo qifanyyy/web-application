@@ -1,7 +1,7 @@
-DROP PROCEDURE IF EXISTS add_movie2;
+DROP PROCEDURE IF EXISTS add_movie;
 DELIMITER $$
 
-CREATE PROCEDURE add_movie2 (
+CREATE PROCEDURE add_movie (
     IN newTitle VARCHAR(100),
     IN newYear INTEGER,
     IN newDirector VARCHAR(100),
