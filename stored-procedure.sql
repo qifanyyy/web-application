@@ -8,8 +8,7 @@ CREATE PROCEDURE add_movie(
 	arg_genre_name VARCHAR(32),
 	arg_star_first_name VARCHAR(50),
 	arg_star_last_name VARCHAR(50),
-	arg_star_dob DATE,
-	)
+	arg_star_dob DATE)
 BEGIN
 	SET movie_count = (SELECT count(*) FROM movies AS m WHERE 
 		m.title = arg_title AND 
