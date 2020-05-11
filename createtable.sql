@@ -63,7 +63,6 @@ CREATE TABLE sales(
     customerId INTEGER NOT NULL,
     movieId VARCHAR(10) NOT NULL,
     saleDate DATE NOT NULL,
-    quantity INTEGER,
     FOREIGN KEY (customerId) REFERENCES customers(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (movieId) REFERENCES movies(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
