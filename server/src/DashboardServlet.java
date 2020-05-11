@@ -167,7 +167,7 @@ public class DashboardServlet extends HttpServlet {
 
                 assert year > 0;
 
-                CallableStatement addMovieProcedureCall = connection.prepareCall("CALL add_movie2(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                CallableStatement addMovieProcedureCall = connection.prepareCall("CALL add_movie(?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 addMovieProcedureCall.setString(1, title);
                 addMovieProcedureCall.setInt(2, year);
                 addMovieProcedureCall.setString(3, director);

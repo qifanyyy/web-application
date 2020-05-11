@@ -34,7 +34,7 @@ Later, methods such as using a hash set to remove duplicates from xml files and 
 
 Finally, methods such as multithreading and batch insert were added and the program took about 1 minute to finish.
 
-Go [here](./xml_parsing/report/inconsistency.txt) for inconsistency report.
+See [this issue](https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/issues/2) or [Google Drive link](https://drive.google.com/open?id=1DpzkE_DnSuwqXifNqH6XxaKOgUlZ8NRz) for inconsistency report.
 
 ### Project 3 Team Contribution
 
