@@ -79,7 +79,6 @@ public class DashboardServlet extends HttpServlet {
 
         String db = req.getParameter("db");
         int nextStarId = 0;
-        int nextMovieId = 0;
 
         try (Connection connection = dataSource.getConnection()) {
             if (db.equals("stars")) {
@@ -127,20 +126,46 @@ public class DashboardServlet extends HttpServlet {
                 out.close();
                 resp.setStatus(201);
             } else if (db.equals("movies")) {
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT COALESCE(MAX(id), 'ws00000000') FROM stars WHERE id LIKE 'ws%'");
-                if (resultSet.next()) {
-                    nextStarId = Integer.parseInt(resultSet.getString(1).substring(2)) + 1;
+                boolean hasInvalidParam = false;
+                String title = req.getParameter("title");
+                if (title == null || (title = title.trim()).length() == 0) {
+                    hasInvalidParam = true;
                 }
-                statement.close();
-                statement = connection.createStatement();
-                resultSet = statement.executeQuery("SELECT COALESCE(MAX(id), 'wm00000000') FROM stars WHERE id LIKE 'wm%'");
-                if (resultSet.next()) {
-                    nextMovieId = Integer.parseInt(resultSet.getString(1).substring(2)) + 1;
+                String yearStr = req.getParameter("year");
+                int year = -1;
+                try {
+                    year = Integer.parseInt(yearStr);
+                } catch (NumberFormatException e) {
+                    hasInvalidParam = true;
                 }
-                statement.close();
+                String director = req.getParameter("director");
+                if (director == null || (director = director.trim()).length() == 0) {
+                    hasInvalidParam = true;
+                }
+                String starName = req.getParameter("starName");
+                if (starName == null || (starName = starName.trim()).length() == 0) {
+                    hasInvalidParam = true;
+                }
+                String genreName = req.getParameter("genreName");
+                if (genreName == null || (genreName = genreName.trim()).length() == 0) {
+                    hasInvalidParam = true;
+                }
 
+                if (hasInvalidParam) {
+                    out.write(Util.makeGeneralErrorJsonObject("please check parameter values").toString());
+                    out.close();
+                    resp.setStatus(400);
+                    return;
+                }
+
+                assert year > 0;
                 // TODO: add movie using stored procedure
+                JsonObject ret = new JsonObject();
+                ret.addProperty("status", "success");
+                ret.addProperty("properties", "title=" + title + ",year=" + year + ",director=" + director + ",starName=" + starName + ",genreName=" + genreName);
+                out.write(ret.toString());
+                out.close();
+                resp.setStatus(201);
             } else {
                 out.write(Util.makeGeneralErrorJsonObject("invalid value for parameter db").toString());
                 out.close();
