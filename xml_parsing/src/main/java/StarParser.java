@@ -53,7 +53,7 @@ class StarParser {
 
             Star star = new Star(name, birthYear);
             if (STARS.contains(star)) {
-                System.err.println("duplicate star '" + star + "' found; skipping\n");
+                // System.err.println("duplicate star '" + star + "' found; skipping\n");
                 continue;
             }
 
@@ -76,7 +76,7 @@ class StarParser {
                 checkDup.setObject(2, star.birthYear);
             }
             if (checkDup.executeQuery().next()) {
-                System.err.println("star " + star + " exists in db\n");
+                // System.err.println("star " + star + " exists in db\n");
                 checkDup.close();
                 continue;
             }

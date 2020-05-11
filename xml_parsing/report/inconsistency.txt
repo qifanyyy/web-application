@@ -1,0 +1,258 @@
+non-integer dob found; set null
+	<actor><stagename>The Andrews Sisters</stagename> <dowstart>1940</dowstart> <dowend>1948</dowend> <familyname>Andrews</familyname> <firstname/> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>harmony singing group</roletype> <origin>\Am</origin> <picref/> <relationships><relship><reltype>Mem</reltype><towhom><relname>Patty</relname></towhom> <towhom><relname>Maxine</relname></towhom> <towhom><relname>Laverne</relname></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Alec Baldwin</stagename> <dowstart>1988</dowstart> <dowend>1990</dowend> <familyname>Baldwin</familyname> <firstname>Alec</firstname> <gender>M</gender> <dob>195x</dob> <dod>1992+</dod> <roletype>peevish</roletype> <origin/>  <relationships><relship><reltype>Mt</reltype><towhom><relname>Kim Basinger</relname><relattr>A</relattr></towhom></relship></relationships> <notes><refs>![1]</refs></notes> </actor>
+
+non-integer dob found; set null
+	<actor><stagename>Stephen Baldwin</stagename> <dowstart/> <dowend/> <familyname> Baldwin</familyname> <firstname>Stephen</firstname> <gender>M</gender> <dob>1963+</dob> <dod>1984+</dod> <roletype>unknown</roletype> <origin>\Am</origin> <picref/> <relationships><relship><reltype>Si</reltype><towhom><relname>Alec Baldwin</relname></towhom> <towhom><relname>Daniel Baldwin</relname><relattr>A</relattr></towhom> <towhom><relname>William Baldwin</relname><relattr>A</relattr></towhom></relship></relationships> <notes/> <error>CastsCits(0)</error></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Vincent Ball</stagename> <dowstart>1956</dowstart> <dowend>1960</dowend> <familyname>Ball</familyname> <firstname>Vincent</firstname> <gender>M</gender> <dob>*</dob> <dod>1984+</dod> <roletype>unknown</roletype> <origin>\Au</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>The Beatles</stagename> <dowstart>1964</dowstart> <dowend>1981</dowend> <familyname>The Beatles</familyname> <firstname/> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>pop</roletype> <origin>\Am</origin> <picref/> <relationships><relship><reltype>Mem</reltype><towhom><relname>John Lennon</relname></towhom> <towhom><relname>George Harris</relname></towhom> <towhom><relname>Paul McCartney</relname></towhom> <towhom><relname>Ringo Starr</relname><relattr>A</relattr></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Halle Berry</stagename> <dowstart/> <dowend/> <familyname>Berry</familyname> <firstname>Halle</firstname> <gender>F</gender> <dob>196x</dob> <dod>2002+</dod> <roletype>strong beauty</roletype> <origin>\Am</origin> <picref/> <relationships/> <notes>First female Negro Oscar winner</notes></actor>
+
+non-integer dob found; set null
+	<actor><stagename>The Bowery Boys</stagename> <dowstart>1942</dowstart> <dowend>1958</dowend> <familyname/> <firstname/> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>young hooligans</roletype> <origin>\Am</origin> <picref/> <relationships><relship><reltype>Mem</reltype><towhom><relname>Hally Chester</relname></towhom>  <towhom><relname>Harris Berger</relname></towhom>  <towhom><relname>Billy Halop</relname></towhom>  <towhom><relname>Leo Gorcey</relname></towhom>  <towhom><relname>Bernard Punsley</relname></towhom>  <towhom><relname>Huntz Hall</relname></towhom>  <towhom><relname>Gabriel Dell</relname></towhom>  <towhom><relname>Frankie Burke</relname></towhom>  <towhom><relname>Donald Hines</relname></towhom>  <towhom><relname>Eddie Brian</relname></towhom>  <towhom><relname>Sam Edwards</relname></towhom>  <towhom><relname>Bobby Jordan</relname><relattr>A</relattr></towhom></relship></relationships> <notes/> <error>dow</error></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Miriam Brickman</stagename> <dowstart>1963</dowstart> <dowend>1977</dowend> <familyname>Brickman</familyname> <firstname>Miriam</firstname> <gender>F</gender> <dob>dob</dob> <dod>1984+</dod> <roletype>unknown</roletype> <origin>\GB</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Soumitra Chatterjee</stagename> <dowstart>1960</dowstart> <dowend/> <familyname>Chatterjee</familyname> <firstname>Soumitra</firstname> <gender>M</gender> <dob>19bb</dob> <dod>1998</dod> <roletype>romatic lead</roletype> <origin>\In<bgnd>(Bengali)</bgnd></origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Anne Chevalier</stagename> <dowstart>1931</dowstart> <dowend/> <familyname>Reri</familyname> <firstname>none</firstname> <gender>F</gender> <dob>1915+</dob> <dod>1975</dod> <roletype>exotic</roletype> <origin>\Ta</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>George Clooney</stagename> <dowstart/> <dowend>1997</dowend> <familyname>Clooney</familyname> <firstname>George</firstname> <gender>M</gender> <dob>dob</dob> <dod>1984+</dod> <roletype>unknown</roletype> <origin>\Ct</origin> <picref/> <relationships><relship><reltype>Ch</reltype><towhom><relname/><relattr>SI(rosemary Clooney)</relattr></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>The Commodores</stagename> <dowstart/> <dowend/> <familyname/> <firstname/> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>unknown</roletype> <origin>\Ct</origin> <picref/> <relationships/> <notes><refs>![1]</refs></notes> </actor>
+
+non-integer dob found; set null
+	<actor><stagename>John Crawford</stagename> <dowstart>1950</dowstart> <dowend>1964</dowend> <familyname>Crawford</familyname> <firstname>John</firstname> <gender>M</gender><dob> </dob> <dod>1984+</dod> <roletype>forgettable</roletype> <origin>\Am</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Joe deRita</stagename> <dowstart>1959</dowstart> <dowend>1965</dowend> <familyname>de Rita</familyname> <firstname>Joe</firstname> <gender>M</gender><dob> </dob> <dod/> <roletype>bald stooge</roletype> <origin>\Am</origin> <picref/> <relationships><relship><reltype>Ww</reltype><towhom><relname>Moe Howard</relname></towhom></relship></relationships> <notes><fact>replaced Joe Besser as Curly</fact></notes> </actor>
+
+non-integer dob found; set null
+	<actor><stagename>Lynn Frederick</stagename> <dowstart>1970</dowstart> <dowend>1979</dowend> <familyname>Frederick</familyname> <firstname>Lynn</firstname> <gender>F</gender> <dob>*</dob> <dod>1984+</dod> <roletype>lead</roletype> <origin>\Br</origin> <relationships><relship><reltype>Mt</reltype><towhom><relname>Peter Sellers</relname><relattr>A</relattr></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Charlotte Gainsbourg</stagename> <dowstart>1989</dowstart> <dowend/> <familyname>Gainsbourg</familyname> <firstname>Charlotte</firstname> <gender>F</gender> <dob>*</dob> <dod>1984+</dod> <roletype>lively</roletype> <origin>\Fr</origin> <picref/> <relationships><relship><reltype>Ch</reltype><towhom><relname>Jane Birkin</relname></towhom> <towhom><relname>Serge Gainsbourg</relname></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>The Little Tough Guys</stagename> <dowstart>1946</dowstart> <dowend/> <familyname>n.a.</familyname> <firstname>n.a.</firstname> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>young hooligans</roletype> <origin>\Am</origin> <picref/> <relationships><relship><reltype>Mem</reltype><towhom><relname>Hally Chester</relname></towhom> <towhom><relname>Billy Halop</relname></towhom> <towhom><relname>Bernard Punsley</relname></towhom> <towhom><relname>Huntz Hall</relname></towhom> <towhom><relname>Gabriel Dell</relname></towhom> <towhom><relname>Frankie Seal</relname></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Ray Hallam</stagename> <dowstart>1931</dowstart> <dowend/> <familyname>Hallam</familyname> <firstname>Ray</firstname> <gender>M</gender> <dob>[1]1905</dob> <dod>1931</dod> <roletype>unknown</roletype> <origin>\Am</origin> <relationships><relship><reltype>Mt</reltype><towhom><relname>Lina Basquette</relname><relattr>A</relattr></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Terry Hatcher</stagename> <dowstart>1997</dowstart> <dowend/> <familyname>Hatcher</familyname> <firstname>Terry</firstname> <gender>F</gender> <dob>dob</dob> <dod>1984+</dod> <roletype>unknown</roletype> <origin>\Ct</origin> <relationships><relship><reltype>Mt</reltype><towhom><relname>John Tenney</relname></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Max Haufler</stagename> <dowstart>1964</dowstart> <dowend/> <familyname>Haufler</familyname> <firstname>Max</firstname> <gender>M</gender> <dob>19bb</dob> <dod>1995+</dod> <roletype>unknown</roletype> <origin>\Swiss</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Dead End Kids</stagename> <dowstart>1937</dowstart> <dowend/> <familyname/> <firstname/> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>young hooligans</roletype> <origin>\Am</origin> <picref/> <studio>Warners</studio> <relationships><relship><reltype>Mem</reltype><towhom><relname>Billy Halop</relname></towhom> <towhom><relname>Leo Gorcey</relname></towhom> <towhom><relname>Bernard Punsley</relname></towhom> <towhom><relname>Huntz Hall</relname></towhom> <towhom><relname>Bobby Jordan</relname></towhom> <towhom><relname>Gabriel Dell</relname></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>East Side Kids</stagename> <dowstart>1939</dowstart> <dowend/> <familyname>n.a.</familyname> <firstname>n.a.</firstname> <gender>G</gender> <dob>n.a.</dob> <dod>n.a,</dod> <roletype>young hooligans</roletype> <origin>\Am</origin> <picref/> <studio>Monogram</studio> <relationships><relship><reltype>Mem</reltype><towhom><relname>Hally Chester</relname></towhom> <towhom><relname>Harris Berger</relname></towhom> <towhom><relname>Frankie Burke</relname></towhom> <towhom><relname>Donald Hines</relname></towhom> <towhom><relname>Eddie Brian</relname></towhom> <towhom><relname>Sam Edwards</relname></towhom> <towhom><relname>Bobby Jordan</relname></towhom> <towhom><relname>Leo Gorcey</relname></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Keystone Kops</stagename> <dowstart>1912</dowstart> <dowend>1920</dowend> <familyname>Sterling</familyname> <firstname>Ford</firstname> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>zany comics</roletype> <origin>\Am</origin> <picref/> <studio>Keystone</studio> <relationships><relship><reltype>Mem</reltype><towhom><relname>Ford Sterling</relname></towhom> <towhom><relname>more</relname></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Queen Latifah</stagename> <dowstart>1991</dowstart> <dowend>1998</dowend> <familyname>Owens</familyname> <firstname>Dana</firstname> <gender>F</gender> <dob>19bb</dob> <dod>1995+</dod> <roletype>outrageous</roletype> <origin>\Am</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Laurel and Hardy</stagename> <dowstart>1915</dowstart> <dowend>1952</dowend> <familyname>Laurel and Hardy</familyname> <firstname>Stan and Oliver</firstname> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>comics</roletype> <origin>\Am</origin> <picref/> &gt; <relationships><relship><reltype>Mem</reltype><towhom><relname>Stan Laurel</relname></towhom> <towhom><relname>Oliver Hardy</relname></towhom></relship></relationships> <awards><award><awtype>AP</awtype></award></awards> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Marx Brothers</stagename> <dowstart>1929</dowstart> <dowend>1968</dowend> <familyname> Brooks</familyname> <firstname>Marx</firstname> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>slapstick comics</roletype> <origin/> <picref/> <relationships><relship><reltype>Mem</reltype><towhom><relname>Chico Marx</relname><relnotes>see Actor</relnotes></towhom> <towhom><relname>Harpo Marx</relname><relnotes>see Actor</relnotes></towhom> <towhom><relname>Groucho Marx</relname><relattr>leader</relattr><relnotes>see Actor</relnotes></towhom> <towhom><relname>Gummo Marx</relname><relnotes>see Actor</relnotes></towhom><towhom><relname>Zeppo Marx</relname><relattr>romantic</relattr><relnotes>see Actor</relnotes></towhom></relship></relationships>  <awards><award><awtype>AFI</awtype><awattr>20</awattr></award></awards> <notes><refs>![1]</refs></notes> </actor>
+
+non-integer dob found; set null
+	<actor><stagename>David Morrissey</stagename> <dowstart>1992</dowstart> <dowend/> <familyname>Morrissey</familyname> <firstname>David</firstname> <gender>M</gender> <dob>19bb</dob> <dod>1995+</dod> <roletype>character</roletype> <origin>\Ct</origin> <picref/> <relationships><relship><reltype>Mt</reltype><towhom><relname>Esther Freud</relname></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Mickey Mouse</stagename> <dowstart/> <dowend/> <firstname/> <gender>A</gender> <dob>19bb</dob> <dod>1995+</dod> <roletype>jolly cartoon character</roletype> <origin>\Am</origin> <picref/>  <awards><award><awtype>AP</awtype></award></awards> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Rene Navarre</stagename> <dowstart>1916</dowstart> <dowend>1919</dowend> <familyname>Navarre</familyname> <firstname>Ren\'e</firstname> <gender/> <dob>18bb</dob> <dod>1984+</dod> <roletype>detective</roletype> <origin>\Am</origin> <picref/> <notes><also>P</also></notes> </actor>
+
+non-integer dob found; set null
+	<actor><stagename>Super Dave Osborne</stagename> <dowstart>1981</dowstart> <dowend/> <familyname>Einstein</familyname> <firstname>Bob</firstname> <gender>M</gender> <dob>~1945</dob> <dod>1984+</dod> <roletype>comic</roletype> <origin>\Am</origin> <picref/> <relationships><relship><reltype>Si</reltype><towhom><relname>Albert Brooks</relname></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>The Sons of the Pioneers</stagename> <dowstart>1934</dowstart> <dowend>1938</dowend> <familyname>Pioneers</familyname> <firstname>Sons of</firstname> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>singers</roletype> <origin>\Am</origin> <picref/> <relationships><relship><reltype>Mem</reltype><towhom><relname>Roy Rogers</relname></towhom> <towhom><relname>Bob Nolan</relname></towhom> <towhom><relname>Hugh Farr</relname></towhom> <towhom><relname>Tim Spencer</relname></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Brad Pitt</stagename> <dowstart>1995</dowstart> <dowend>1997</dowend> <familyname>Pitt</familyname> <firstname>Brad</firstname> <gender>M</gender> <dob>dob</dob> <dod>1984+</dod> <roletype>unknown</roletype> <origin>\Am</origin> <relationships><relship><reltype>Lw</reltype><towhom><relname>Gwyneth Paltrow</relname></towhom></relship> <relship><reltype>Mt</reltype><towhom><relname>Jennifer Anniston</relname></towhom></relship></relationships> <notes><text>influential on TV shows as X-files, Millenium</text></notes></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Moliere Players</stagename> <dowstart>1944</dowstart> <dowend/> <familyname/> <firstname/> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>unknown</roletype> <origin>\Fr</origin> <picref/> <relationships/> <notes><refs>![1]</refs></notes> </actor>
+
+non-integer dob found; set null
+	<actor><stagename>Sarah Polley</stagename> <dowstart>1999</dowstart> <dowend/> <familyname>Polley</familyname> <firstname>Sarah</firstname> <gender>F</gender> <dob>19bb</dob> <dod>1995+</dod> <roletype>unknownyound beauty</roletype> <origin>\Ca</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Gilda Radner</stagename> <dowstart>1982</dowstart> <dowend/> <familyname>Radner</familyname> <firstname>Gilda</firstname> <gender>F</gender> <dob>*</dob> <dod>1989</dod> <roletype>unknown</roletype> <origin>\Am</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Pamela Reed</stagename> <dowstart/> <dowend/> <familyname/> <firstname/> <gender>F</gender> <dob>*</dob> <dod>1984+</dod> <roletype>unknown</roletype> <origin>\Am</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>The Ritz-Brothers</stagename> <dowstart>1938</dowstart> <dowend>1939</dowend> <familyname>Joachim</familyname> <firstname/> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>zany singers</roletype> <origin>\Am</origin> <picref/> <relationships><relship><reltype>Mem</reltype><towhom><relname>Al Joachim</relname></towhom> <towhom><relname>Jim Joachim</relname></towhom> <towhom><relname>Harry Joachim</relname><relattr>leader</relattr></towhom></relship></relationships> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Tanya Roberts</stagename> <dowstart/> <dowend/> <familyname/> <firstname/> <gender>F</gender> <dob>*</dob> <dod>1984+</dod> <roletype>unknown</roletype> <origin>\Am</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Howard E. Rollins~jr.</stagename> <dowstart>1981</dowstart> <dowend/> <familyname/> <firstname/> <gender>M</gender> <dob>*</dob> <dod>1984+</dod> <roletype>unknown</roletype> <origin>\Am</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Tim Roth</stagename>  <dowstart>1990</dowstart> <dowend/> <familyname>Roth</familyname> <firstname>Tim</firstname> <gender>M</gender> <dob>19bb</dob> <dod>1995+</dod> <roletype>glib, cool</roletype> <origin>\Ct</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Mercedes Ruehl</stagename> <dowstart>1992</dowstart> <dowend/> <familyname>Ruehl</familyname> <firstname>Mercedes</firstname> <gender>F</gender> <dob>~1992</dob> <dod>1984+</dod> <roletype>warmheated</roletype> <origin>\Am</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Claudia Schiffer</stagename> <dowstart>1999</dowstart> <dowend/> <familyname>Schiffer</familyname> <firstname>Claudia</firstname> <gender>F</gender> <dob>19bb</dob> <dod>1995+</dod> <roletype>tall blonde</roletype> <origin>\Du ?</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Tony Shalhoub</stagename> <dowstart>1999</dowstart> <dowend/> <familyname>Shalboub</familyname> <firstname>Tony</firstname> <gender>M</gender> <dob>19bb</dob> <dod>1995+</dod> <roletype>dour</roletype> <origin>\Ct</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Posh Spice</stagename> <dowstart/> <dowend/> <familyname> Beckham</familyname> <firstname>Victoria</firstname> <gender>F</gender> <dob>19bb</dob> <dod>1995+</dod> <roletype>entertainer</roletype> <origin>\Br</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>The Loving Spoonful</stagename> <dowstart/> <dowend/> <familyname/> <firstname/> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>unknown</roletype> <origin>\Ct</origin> <picref/> <relationships/> <notes><refs>![1]</refs></notes> </actor>
+
+non-integer dob found; set null
+	<actor><stagename>Sting</stagename> <dowstart>1973</dowstart> <dowend/> <familyname/> <firstname/> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>singers</roletype> <origin>\Ct</origin> <picref/> <relationships/> <notes/></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Natalie Talmadge</stagename> <dowstart>1923</dowstart> <dowend/> <familyname>Talmadge</familyname> <firstname>Natalie</firstname> <gender>F</gender> <dob>19bb</dob> <dod>1995+</dod> <roletype>unknown</roletype> <origin>\Am</origin> <picref/> <relationships><relship><reltype>Si</reltype><towhom><relname>Norma Talmadge</relname><relattr>A</relattr></towhom></relship> <relship><reltype>Mt</reltype><towhom><relname>Buster Keaton</relname><relattr>A</relattr></towhom></relship></relationships> <notes/> <error>David Brown) </error></actor>
+
+non-integer dob found; set null
+	<actor><stagename>Fred Thompson</stagename> <dowstart>1990</dowstart> <dowend>1997</dowend> <familyname>Fred</familyname> <firstname>Thompsn</firstname> <gender>M</gender> <dob>dob</dob> <dod>1997+</dod> <roletype>unknown</roletype> <origin>\Am</origin> <picref/> <notes><also>US Senator</also></notes> </actor>
+
+non-integer dob found; set null
+	<actor><stagename>The Who</stagename> <dowstart/> <dowend/> <familyname/> <firstname/> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>rock group</roletype> <origin>\Br</origin> <picref/> <relationships/> <notes><refs>![1]</refs></notes> </actor>
+
+non-integer dob found; set null
+	<actor><stagename>The Wiere~Brothers</stagename> <dowstart>1941</dowstart> <dowend>1968</dowend> <familyname/> <firstname/> <gender>G</gender> <dob>n.a.</dob> <dod>n.a.</dod> <roletype>unknown</roletype> <origin>\Ge</origin> <picref/> <relationships><relship><reltype>Mem</reltype><towhom><relname>Harry Wiere</relname></towhom> <towhom><relname>HerbertWiere</relname></towhom> <towhom><relname>Sylvester Wiere</relname><relattr>leader</relattr></towhom></relship></relationships> <notes/> </actor>
+
+non-integer dob found; set null
+	<actor><stagename>Dianne Wiest</stagename> <dowstart>1975</dowstart> <dowend>1989</dowend> <familyname/> <firstname/> <gender>F</gender> <dob>*</dob> <dod>1984+</dod> <roletype>lively, weird</roletype> <origin>\Am</origin> <picref/> <relationships/> <notes/></actor>
+
+invalid year for film at i=267,j=3 when parsing
+	<film><fid>LB9</fid><t>El grand cavalcodos</t><alts><alt><altt>The Great Madcap</altt><altwhy>USA</altwhy></alt></alts> <year>19yy</year><dirs><dir><dirk>R</dirk><dirn>Bunuel</dirn></dir></dirs> <prods/> <studios><studio>Ultramar</studio></studios><prcs><prc>bnw</prc><lang>\Sp</lang></prcs><cats/> <awards/> <loc/><notes/><error>T, 19yy)</error></film>
+
+null or empty title for film at i=365,j=0 when parsing
+	<film><fid>HBH10</fid><t><serial><sert>Charlie Chan</sert><serno>15</serno></serial>at the Racetrack</t> <year>1936</year><dirs><dir><dirk>R</dirk><dirn>Humberstone</dirn></dir></dirs> <prods/> <studios><studio>Fox</studio></studios><prcs/><cats><cat>Myst</cat><cat>Comd</cat></cats> <awards/> <loc/><notes/></film>
+
+null or empty title for film at i=555,j=0 when parsing
+	<film><fid>JD7</fid><t/> <year>1947</year><dirs><dir><dirk>R</dirk><dirn>Dassin</dirn></dir></dirs> <prods><prod><prodk>R</prodk><pname>Hellinger</pname></prod></prods> <studios><studio>U-I</studio></studios><prcs><prc>bnw</prc></prcs><cats><cat>Actn</cat></cats> <awards><aw><awtype>H</awtype><awattr>**</awattr></aw></awards> <loc/> <people><writers><names><name>R.Brooks</name></names></writers><composers><names><name>Rozsa</name></names></composers></people><notes/></film>
+
+invalid year for film at i=631,j=10 when parsing
+	<film><fid>WS45</fid><t>Catherine of Russia</t> <year>19yy</year><dirs><dir><dirk>R</dirk><dirn>W.Staudte</dirn></dir></dirs> <prods/> <studios/><prcs><prc>col</prc></prcs><cats><cat>Ctxx</cat></cats> <awards/> <loc/> <notes/><error>D</error></film>
+
+null or empty title for film at i=686,j=0 when parsing
+	<film><fid>WlJ10</fid><t/> <year>1949</year><dirs><dir><dirk>R</dirk><dirn>W.Jackson</dirn></dir></dirs> <prods/> <studios/><prcs/><cats/> <awards/> <loc/><notes/></film>
+
+invalid year for film at i=802,j=6 when parsing
+	<film><fid>AS22</fid><t>Morgan Stewart's Coming Home</t><alts><alt><altt>Homefront</altt></alt></alts> <year>199x</year><dirs><dir><dirk>R</dirk><dirn>Alan~Smithee</dirn></dir></dirs> <prods/> <studios/><prcs><prc>col</prc></prcs><cats/> <awards/> <loc/><notes/></film>
+
+invalid year for film at i=802,j=13 when parsing
+	<film><fid>AS32</fid><t>Raging Angels</t> <year>199x</year><dirs><dir><dirk>R</dirk><dirn>Alan~Smithee</dirn></dir></dirs> <prods/> <studios/><prcs><prc>col</prc></prcs><cats/> <awards/> <loc/><notes/></film>
+
+null or empty title for film at i=848,j=6 when parsing
+	<film><fid>GeP45</fid><t/> <year>1999</year><dirs><dir><dirk>R</dirk><dirn>Pollock</dirn></dir></dirs> <prods/> <studios/><prcs/><cats/> <awards/> <loc/><notes/></film>
+
+null or empty title for film at i=995,j=7 when parsing
+	<film><fid>GxR10</fid><t/> <year>1954</year><dirs><dir><dirk>R</dirk><dirn>G.Reinhardt</dirn></dir></dirs> <prods><prod><prodk>R</prodk><pname>G.Reinhardt</pname></prod></prods> <studios><studio>MGM</studio></studios><prcs><prc>Ecol</prc></prcs><cats/> <awards/> <loc/><notes/></film>
+
+null or empty title for film at i=995,j=8 when parsing
+	<film><fid>GxR10</fid><t/> <year>1954</year><dirs><dir><dirk>R</dirk><dirn>G.Reinhardt</dirn></dir></dirs> <prods><prod><prodk>R</prodk><pname>G.Reinhardt</pname></prod></prods> <studios><studio>MGM</studio></studios><prcs><prc>Ecol</prc></prcs><cats/> <awards/> <loc/><notes/></film>
+
+invalid year for film at i=1069,j=0 when parsing
+	<film><fid>RHd2</fid><t>Stop Train 349</t> <year>199x</year><dirs><dir><dirk>R</dirk><dirn>Haedrich </dirn></dir></dirs> <prods><prod><prodk>N</prodk><pname>Hans Oppenheimer</pname></prod><prod><prodk>X</prodk><pname>Ray Ventura</pname></prod></prods> <studios><studio>Da Ma</studio></studios><prcs/><cats><cat>Susp</cat></cats> <awards/> <loc><site><sitename>Berlin</sitename><siteclass>city</siteclass><siteplace>Germany</siteplace></site></loc><notes/></film>
+
+invalid year for film at i=1174,j=3 when parsing
+	<film><fid>IAv12</fid><t>Karate Kid</t> <year>199x</year><dirs><dir><dirk>R</dirk><dirn>J.G.Avildsen </dirn></dir></dirs> <prods/> <studios/><prcs><prc>col</prc></prcs><cats/> <awards/> <loc/><notes/><error>D, y(19yy)</error></film>
+
+invalid year for film at i=1290,j=0 when parsing
+	<film><fid>MS0</fid><t>The Eternal City</t> <year>196x</year><dirs><dir><dirk>R</dirk><dirn>Scorsese</dirn></dir></dirs> <prods/> <studios/><prcs/><cats><cat>Dram</cat></cats> <awards/> <loc><site><sitename>Rome</sitename><siteclass>city</siteclass><siteplace>Italy</siteplace></site></loc> <notes><facts>school project at NYU</facts></notes></film>
+
+invalid year for film at i=1509,j=8 when parsing
+	<film><fid>WiW30</fid><t>Buena Vista Social Club</t> <year>19yy</year><dirs><dir><dirk>R</dirk><dirn>Wenders</dirn></dir><dir><dirk>N</dirk><dirn>Ullrich Felsberg</dirn></dir></dirs> <prods/> <studios/><prcs/><cats><cat>Musc</cat></cats> <awards><aw><awtype>AAN</awtype></aw></awards> <loc><site><sitename>Havana</sitename><siteclass>city</siteclass><siteplace>Cuba</siteplace></site></loc><notes/></film>
+
+invalid year for film at i=1547,j=8 when parsing
+	<film><fid>DLy25</fid><t>Mulholland Drive</t> <year>19yy</year><dirs><dir><dirk>R</dirk><dirn>D.Lynch</dirn></dir></dirs> <prods/> <studios/><prcs><prc>col</prc></prcs><cats><cat>Ctxx</cat></cats> <awards><aw><awtype>AANdir</awtype></aw></awards> <loc><site><sitename>Hollywood</sitename><siteclass>city</siteclass><siteplace>CA</siteplace></site></loc><notes/></film>
+
+null or empty title for film at i=1599,j=2 when parsing
+	<film><fid>MLt15</fid><t> </t> <year>1984</year><dirs><dir><dirk>R</dirk><dirn>M.Lester</dirn></dir></dirs> <prods/> <studios/><prcs/><cats><cat>Horr</cat></cats> <awards/> <loc><site><siteclass>town</siteclass><siteplace>USA</siteplace></site></loc> <people><authors><names><name>St.King</name></names></authors><writers><names><name>Stanley Mann</name></names></writers></people> <notes><rating>R</rating></notes></film>
+
+invalid year for film at i=1895,j=7 when parsing
+	<film><fid>AEy13</fid><t>Sarabande</t> <year>19yy</year><dirs><dir><dirk>R</dirk><dirn>Egoyan</dirn></dir></dirs> <prods/> <studios/><prcs><prc>TV</prc></prcs><cats/> <awards/> <loc/><notes/></film>
+
+null or empty director for film at i=1928,j=0 when parsing
+	<film><fid>NIs10</fid><t>Bachelor Party</t> <year>1984</year><dirs><dir><dirk>R</dirk><dirn><siteplace>Israel</siteplace></dirn></dir></dirs> <prods/> <studios><studio>Fox</studio></studios><prcs><prc>DeLuxe</prc></prcs><cats><cat>Comd</cat></cats> <awards><aw><awtype>H</awtype><awattr>0</awattr></aw></awards> <loc/> <people><writers><names><name>Israel</name><name>Proft</name><name>Bob Israel</name></names></writers></people><notes/></film>
+
+null or empty director for film at i=2002,j=0 when parsing
+	<film><fid>JeL10</fid><t>Rent-a-Cop</t> <year>1986</year><dirs><dir><dirk>R</dirk><dirn>London</dirn></dir></dirs> <prods><prod><prodk>N</prodk><pname>Raymond Wagner</pname></prod></prods> <studios><studio>Kings Road Productions</studio><studio>Cinecitta</studio></studios><prcs><prc>Tcol</prc></prcs><cats/> <awards/> <loc/> <notes><source><seen>11Jan1989</seen></source></notes><error>D(sp), y(1986?)</error></film>
+
+null or empty title for film at i=2065,j=0 when parsing
+	<film><fid>BSi3</fid><t/> <year>1988</year><dirs><dir><dirk>R</dirk><dirn>Silberling</dirn></dir></dirs> <prods/> <studios/><prcs><prc>col</prc><prc>TV</prc><length>30min</length></prcs><cats><cat>Susp</cat></cats> <awards/> <people><authors><names><name/></names></authors></people><notes/></film>
+
+invalid year for film at i=2412,j=1 when parsing
+	<film><fid>CsS15</fid><t>Fairy Tale: A True Story</t> <year>199x</year><dirs><dir><dirk>R</dirk><dirn>Sturridge</dirn></dir></dirs> <prods/> <studios/><prcs><prc>col</prc></prcs><cats><cat>Fant</cat></cats> <awards/> <loc/><notes/></film>
+
+null or empty title for film at i=2706,j=1 when parsing
+	<film><fid>KDo1x</fid><t/> <year>199x</year><dirs><dir><dirk>R</dirk><dirn/></dir></dirs> <prods/> <studios/><prcs><prc>col</prc></prcs><cats/> <awards/> <loc/><notes/></film>
+
+invalid year for film at i=2718,j=4 when parsing
+	<film><fid>TdC13</fid><t>Jerry and Tom</t> <year>19yy</year><dirs><dir><dirk>R</dirk><dirn>diCillo</dirn></dir></dirs> <prods/> <studios/><prcs/><cats/> <awards/> <loc/><notes/><error>y(19yy)</error></film>
+
+invalid year for film at i=2725,j=10 when parsing
+	<film><fid>Z9590</fid><t>The Shanghai Triad</t> <year>19yy</year><dirs><dir><dirk>R</dirk><dirn>UnYear95</dirn></dir></dirs> <prods/> <studios/><prcs/><cats><cat>CnRb</cat></cats> <awards/> <loc/> <people><cingraphs><names><name>Lu Yie</name></names></cingraphs></people><notes/></film>
+
+invalid year for film at i=2726,j=1 when parsing
+	<film><fid>AbK15</fid><t>Taste of Cherry</t> <year>19yy</year><dirs><dir><dirk>R</dirk><dirn>Kiarostami</dirn></dir></dirs> <prods/> <studios/><prcs><lang>Farsi</lang></prcs><cats><cat>Dram</cat></cats> <awards/> <loc><site><sitename>Teheran</sitename><siteclass>city</siteclass><siteplace>Iran</siteplace></site></loc><notes/></film>
+
+invalid year for film at i=2932,j=1 when parsing
+	<film><fid>MJu15</fid><t>All is Routine</t> <year>19yy</year><dirs><dir><dirk>R</dirk><dirn>M.Judge</dirn></dir></dirs> <prods/> <studios/><prcs/><cats/> <awards/> <loc/><notes/></film>
+
+null or empty director for film at i=3030,j=0 when parsing
+	<film><fid>LMy1</fid><t>Show Me Love</t> <year>1999</year><dirs><dir><dirk>R</dirk><dirn>Morneau</dirn></dir></dirs> <prods/> <studios/><prcs/><cats><cat>Dram</cat></cats> <awards/> <loc/><notes/> <error>Year</error></film>
+
+null or empty director for film at i=3030,j=1 when parsing
+	<film><fid>LMy3</fid><t>Together</t> <year>2001</year><dirs><dir><dirk>R</dirk><dirn>Morneau</dirn></dir></dirs> <prods/> <studios/><prcs/><cats><cat>Dram</cat><cat>Comd</cat></cats> <awards/> <loc><site><sitedes>hippie colony</sitedes><siteclass>town</siteclass><siteat>Stockholm</siteat><siteplace>Sweden</siteplace></site></loc> <period>winter 1960</period> <notes/></film>
+
+directorFilmElement.getElementsByTagName("film") returned zero-length NodeList when i=3081
+	<directorfilms><director><dirid>Z00</dirid><dirstart>@2000</dirstart><dirname>Unknown00</dirname><coverage/></director><films/></directorfilms>
+
+null or empty director for film at i=3091,j=0 when parsing
+	<film><fid>TFd10</fid><t>In the Bedroom</t> <year>2001</year> <dirs><dir><dirk>R</dirk><dirn>T.Field</dirn></dir></dirs> <prods><prod><prodk>U</prodk><pname>sp</pname></prod></prods> <studios><studio>Miramax</studio></studios> <prcs><prc>col</prc></prcs> <cats><cat>Dram</cat></cats> <awards><award>AAN</award></awards> <loc><site><siteclass>town</siteclass><siteplace>maine</siteplace></site></loc> <people><writers><names><name>Robert Fetsinger</name>&gt;<kname>T.Field</kname></names></writers></people> <notes/> </film>
+
+null or empty director for film at i=3092,j=0 when parsing
+	<film><fid>JSx0</fid><t>Never Never</t> <year>2002</year> <dirs><dir><dirk>R</dirk><dirn>J.Scott</dirn></dir></dirs> <prods><prod><prodk>U</prodk><pname>sp</pname></prod></prods> <studios/> <prcs><prc>col</prc><length>4 min</length></prcs> <cats><cat>Dram</cat></cats> <loc/> <people><writers><names><kname>J.Scott</kname></names></writers></people> <notes/> </film>
+
+null or empty director for film at i=3093,j=0 when parsing
+	<film><fid>MFo10</fid><t>Monster's Ball</t> <year>2002</year>&gt; <dirs><dir><dirk>R</dirk><dirn>Forster</dirn></dir></dirs><prods><prod><prodk>U</prodk><pname>sp</pname></prod></prods> <studios><studio>ss</studio></studios>  <prcs><prc>col</prc></prcs> <cats><cat>Ctxx</cat></cats> <awards/> <loc><site><siteclass>jail</siteclass><siteplace>GA</siteplace></site></loc> <people><writers><names><name>unk</name></names></writers></people> <notes/> </film>
+
+null or empty star name
+<m><f>ClC18</f><t>La femme infidele</t><a/><p>Und</p><r>lover</r></m>
+
+null or empty star name
+<m><f>DMl10</f><t>With a Friend Like Harry</t><a/><p>Sdk</p><r>Michel's wife</r> <n>Claire</n></m>
+
+null or empty star name
+<m><f>H65</f><t>Vertigo</t><a/><p>Und</p><r>missing person</r></m>
+

@@ -145,7 +145,7 @@ class MovieParser {
 
                 Movie movie = new Movie(title, year, director);
                 if (MOVIES.contains(movie)) {
-                    System.err.println("duplicate movie " + movie + " found; skipping\n");
+                    // System.err.println("duplicate movie " + movie + " found; skipping\n");
                     continue;
                 }
 
@@ -185,7 +185,7 @@ class MovieParser {
             checkDup.setInt(2, movie.year);
             checkDup.setString(3, movie.director);
             if (checkDup.executeQuery().next()) {
-                System.err.println("movie " + movie + " exists in db\n");
+                // System.err.println("movie " + movie + " exists in db\n");
                 checkDup.close();
                 continue;
             }
@@ -203,35 +203,6 @@ class MovieParser {
             insertRating.addBatch();
 
             movieIdList.add(movieId);
-
-//            PreparedStatement insertGenre = connection.prepareStatement(
-//                    "INSERT IGNORE INTO genres VALUES (NULL, ?)"
-//            );
-//            for (String genre : genres) {
-//                insertGenre.setString(1, genre);
-//                insertGenre.addBatch();
-//            }
-//            insertGenre.executeBatch();
-//            insertGenre.close();
-
-//            PreparedStatement insertGenreInMovie = connection.prepareStatement(
-//                    "INSERT INTO genres_in_movies VALUES (?, ?)"
-//            );
-//            for (String genre : genres) {
-//                PreparedStatement getLastInsertId = connection.prepareStatement("SELECT id FROM genres WHERE name = ?");
-//                getLastInsertId.setString(1, genre);
-//                ResultSet idRS = getLastInsertId.executeQuery();
-//                idRS.next();
-//                int genreId = idRS.getInt(1);
-//                getLastInsertId.close();
-//
-//
-//                insertGenreInMovie.setInt(1, genreId);
-//                insertGenreInMovie.setString(2, movieId);
-//                insertGenreInMovie.addBatch();
-//            }
-//            insertGenreInMovie.executeBatch();
-//            insertGenreInMovie.close();
         }
         insertMovie.executeBatch();
         insertMovie.close();

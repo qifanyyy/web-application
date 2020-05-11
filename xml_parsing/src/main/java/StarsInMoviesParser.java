@@ -44,8 +44,8 @@ class StarsInMoviesParser {
             getMovieStatement.setString(1, movieTitle);
             ResultSet movieResult = getMovieStatement.executeQuery();
             if (!movieResult.next()) {
-                System.err.println("no matching movie for movieTitle='" + movieTitle + '\'');
-                System.err.println(Util.nodeToXmlFormatString(filmcElement) + "\n");
+                // System.err.println("no matching movie for movieTitle='" + movieTitle + '\'');
+                // System.err.println(Util.nodeToXmlFormatString(filmcElement) + "\n");
                 getMovieStatement.close();
                 continue;
             }
@@ -56,8 +56,8 @@ class StarsInMoviesParser {
             getStarStatement.setString(1, starName);
             ResultSet starResult = getStarStatement.executeQuery();
             if (!starResult.next()) {
-                System.err.println("no matching star for starName='" + starName + '\'');
-                System.err.println(Util.nodeToXmlFormatString(filmcElement) + "\n");
+                // System.err.println("no matching star for starName='" + starName + '\'');
+                // System.err.println(Util.nodeToXmlFormatString(filmcElement) + "\n");
                 getStarStatement.close();
                 continue;
             }
@@ -67,16 +67,6 @@ class StarsInMoviesParser {
             insertStarInMovieStatement.setString(1, starId);
             insertStarInMovieStatement.setString(2, movieId);
             insertStarInMovieStatement.addBatch();
-//            try {
-//                insertStarInMovieStatement.executeUpdate();
-//            } catch (SQLException e) {
-//                // ref: https://dev.mysql.com/doc/connector-j/8.0/en/connector-j-reference-error-sqlstates.html
-//                if (e.getSQLState().equals("23000")) {
-//                    System.err.println("adding duplicate entry (" + starId + "," + movieId + ") into stars_in_movies\n");
-//                } else {
-//                    throw e;
-//                }
-//            }
         }
         insertStarInMovieStatement.executeBatch();
         insertStarInMovieStatement.close();
