@@ -15,7 +15,7 @@
         <div id="database-metadata">
         </div>
         <div id="add-star">
-            <form action="/api/dashboard" method="post">
+            <form id="add-star-form">
                 <input type="text" name="db" value="stars" readonly style="display: none">
                 <label><input type="text" name="name" placeholder="name" required></label>
                 <label><input type="number" name="birthYear" placeholder="birth year"></label>
@@ -23,7 +23,7 @@
             </form>
         </div>
         <div id="add-movie">
-            <form action="/api/dashboard" method="post">
+            <form id="add-movie-form">
                 <input type="text" name="db" value="movies" readonly style="display: none">
                 <label><input type="text" name="title" placeholder="title" required></label>
                 <label><input type="number" name="year" placeholder="year" required></label>
