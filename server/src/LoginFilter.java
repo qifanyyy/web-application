@@ -36,11 +36,7 @@ public class LoginFilter implements Filter {
 
         if ((requestURI = httpRequest.getRequestURI()).endsWith("api/logout")) {
             filterChain.doFilter(servletRequest, servletResponse);
-        } else if ((requestURI.endsWith("dashboard.html") ||
-                requestURI.endsWith("dashboard.js") ||
-                requestURI.endsWith("dashboard.css") ||
-                requestURI.endsWith("api/dashboard")
-        )) {
+        } else if (requestURI.contains("dashboard")) {
             if (httpRequest.getSession().getAttribute("employee") == null) {
                 httpResponse.sendRedirect("employee_login.html");
             } else {
