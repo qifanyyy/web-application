@@ -10,16 +10,7 @@
     margin-left: 10px;
 }
 
-#fabflix-nav {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
-}
 
-#fabflix-nav form {
-    display: inline-block;
-}
 
 #title-area {
     display: flex;
@@ -28,14 +19,3 @@
 }
 
 
-#checkout-btn, #logout-btn {
-    margin-left: 5px;
-}
-
-#search-year {
-    width: 80px;
-}
-
-#search-title, #search-director, #search-star {
-    width: 100px;
-}
