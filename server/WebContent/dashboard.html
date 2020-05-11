@@ -2,9 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Fabflix Management - Dashboard</title>
+    <title>Fabflix Management Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="./css/dashboard.css">
 </head>
 <body>
-
+<div id="root">
+    <div id="header">
+        <h1>Fabflix Management Dashboard</h1>
+        <button>Log out</button>
+    </div>
+    <div id="main">
+        <div id="database-metadata">
+        </div>
+        <div id="add-star">
+            <form action="/api/dashboard" method="post">
+                <input type="text" name="db" value="stars" readonly style="display: none">
+                <label><input type="text" name="name" placeholder="name" required></label>
+                <label><input type="number" name="birthYear" placeholder="birth year"></label>
+                <input type="submit" value="add star">
+            </form>
+        </div>
+        <div id="add-movie">
+            <form action="/api/dashboard" method="post">
+                <input type="text" name="db" value="movies" readonly style="display: none">
+                <label><input type="text" placeholder="title" required></label>
+                <label><input type="number" placeholder="year" required></label>
+                <label><input type="text" placeholder="director" required></label>
+                <label><input type="text" placeholder="star" required></label>
+                <label><input type="text" placeholder="genre" required></label>
+                <input type="submit" value="add movie">
+            </form>
+        </div>
+    </div>
+</div>
 </body>
+<script src="./js/util.js"></script>
+<script src="./js/dashboard.js"></script>
 </html>
