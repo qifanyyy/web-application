@@ -85,6 +85,16 @@ public class MoviesServlet extends HttpServlet {
 
         session.setAttribute("display", display);
 
+
+        if (!p) {
+            String spage = (String) session.getAttribute("page");
+            if (spage == null) spage = "1";
+            page = spage;
+        }
+        if (t || page.equals("0")) page = "1";
+
+        session.setAttribute("page", page);
+
         if (!t && !y && !s && !d && !a && !g){
             title    = (String) session.getAttribute("title");
             year     = (String) session.getAttribute("year");
@@ -120,18 +130,7 @@ public class MoviesServlet extends HttpServlet {
             getStarcount = con.prepareStatement(starcountQuery);
 
 
-            if (!p && !t) {
-                String spage = (String) session.getAttribute("page");
-                if (spage == null) spage = "1";
-                page = spage;
-            } else {
-                page = "1";
-            }
 
-            if (page.equals("0")) page = "1";
-
-
-            session.setAttribute("page", page);
             int offset = (Integer.parseInt(page) - 1) * Integer.parseInt(display);
 
             String sortQuery = " ORDER BY ? LIMIT ? OFFSET ?;";
