@@ -1,4 +1,5 @@
 import com.google.gson.JsonObject;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 
 import javax.annotation.Resource;
 import javax.servlet.annotation.WebServlet;
@@ -11,7 +12,7 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import org.jasypt.util.password.StrongPasswordEncryptor;
+
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
 public class LoginServlet extends HttpServlet {

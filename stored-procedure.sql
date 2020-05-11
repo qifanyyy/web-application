@@ -1,111 +1,66 @@
-DROP PROCEDURE IF EXISTS add_movie;
-
+DROP PROCEDURE IF EXISTS add_movie2;
 DELIMITER $$
-CREATE PROCEDURE add_movie (
-    IN new_title VARCHAR(100),
-    IN new_year INTEGER,
-    IN new_director VARCHAR(100),
-    IN new_genre VARCHAR(32),
-    IN new_star VARCHAR(100),
-    IN new_dob DATE)
-BEGIN
-    DECLARE movies_count INTEGER;
-    DECLARE genres_count INTEGER;
-    DECLARE stars_count INTEGER;
-    DECLARE movie_id INTEGER;
-    DECLARE genre_id INTEGER;
-    DECLARE star_id INTEGER;
-    DECLARE genres_in_movies_count INTEGER;
-    DECLARE stars_in_movies_count INTEGER;
 
-    SET movies_count = (
-        SELECT count(*)
-        FROM movies
-        WHERE title = new_title
-        AND year = new_year
-        AND director = new_director);
+CREATE PROCEDURE add_movie2 (
+    IN newTitle VARCHAR(100),
+    IN newYear INTEGER,
+    IN newDirector VARCHAR(100),
+    IN newGenreName VARCHAR(32),
+    IN newStarName VARCHAR(100),
+    IN newStarBirthYear INTEGER,
+    OUT hasDupMovie BOOLEAN,
+    OUT hasDupStar BOOLEAN,
+    OUT hasDupGenre BOOLEAN
+)
 
-    SET movie_id = (
-        SELECT max(id)
-        FROM movies
-        WHERE title = new_title
-        AND year = new_year
-        AND director = new_director);
+this_procedure: BEGIN
+    DECLARE newMovieId INTEGER;
+    DECLARE newMovieIdStr VARCHAR(10);
+    DECLARE starIdStr VARCHAR(10);
+    DECLARE newStarId INTEGER;
+    DECLARE newStarIdStr VARCHAR(10);
+    DECLARE newGenreId INTEGER;
 
-    IF movies_count = 0 THEN
-        INSERT INTO movies (title, year, director)
-        VALUES (new_title, new_year, new_director);
+    SET hasDupMovie = FALSE;
+    SET hasDupStar = FALSE;
+    SET hasDupGenre = FALSE;
+
+    IF (SELECT COUNT(*) FROM movies WHERE title = newTitle AND year = newYear AND director = newDirector) > 0 THEN
+        SET hasDupMovie = TRUE;
+        LEAVE this_procedure;
     END IF;
 
-    SET genres_count = (
-        SELECT count(*)
-        FROM genres
-        WHERE name = new_genre);
+    SET newMovieId = (
+        SELECT COALESCE(MAX(CONVERT(SUBSTR(id, 3), UNSIGNED INTEGER)), -1) FROM movies WHERE id LIKE 'pm%'
+    ) + 1;
 
-    SET genre_id = (
-        SELECT max(id)
-        FROM genres
-        WHERE name = new_genre);
+    SET newMovieIdStr = CONCAT('pm', LPAD(newMovieId, 8, '0'));
 
-    IF genres_count = 0 THEN
-        INSERT INTO genres (name)
-        VALUES (new_genre);
-    END IF;
+    INSERT INTO movies VALUES (newMovieIdStr, newTitle, newYear, newDirector);
 
-    IF new_dob IS NULL THEN
-        SET stars_count = (
-            SELECT count(*)
-            FROM stars
-            WHERE name = new_star
-            AND birthYear IS NULL);
-
-        SET star_id = (
-            SELECT max(id)
-            FROM stars
-            WHERE name = new_star
-            AND birthYear IS NULL);
-
+    IF (SELECT COUNT(*) FROM stars WHERE name = newStarName AND (ISNULL(newStarBirthYear) OR birthYear = newStarBirthYear)) = 0 THEN
+        SET newStarId = (
+            SELECT COALESCE(MAX(CONVERT(SUBSTR(id, 3), UNSIGNED INTEGER)), -1) FROM stars WHERE id LIKE 'ps%'
+        ) + 1;
+        SET newStarIdStr = CONCAT('ps', LPAD(newStarId, 8, '0'));
+        INSERT INTO stars VALUES (newStarIdStr, newStarName, newStarBirthYear);
+        SET starIdStr = newStarIdStr;
     ELSE
-        SET stars_count = (
-            SELECT count(*)
-            FROM stars
-            WHERE name = new_star
-            AND birthYear = new_dob);
-
-        SET star_id = (
-            SELECT max(id)
-            FROM stars
-            WHERE name = new_star
-            AND birthYear = new_dob);
+        SET starIdStr = (SELECT id FROM stars WHERE name = newStarName AND (ISNULL(newStarBirthYear) OR birthYear = newStarBirthYear) LIMIT 1);
+        SET hasDupStar = TRUE;
     END IF;
 
-    IF stars_count = 0 THEN
-        INSERT INTO stars (name, birthYear)
-        VALUES (new_star, new_dob);
+    INSERT IGNORE INTO stars_in_movies VALUES (starIdStr, newMovieIdStr);
+
+    IF (SELECT COUNT(*) FROM genres WHERE name = newGenreName) = 0 THEN
+        SET newGenreId = (SELECT MAX(id) FROM genres) + 1;
+        INSERT INTO genres VALUES (newGenreId, newGenreName);
+    ELSE
+        SET newGenreId = (SELECT id FROM genres WHERE name = newGenreName);
+        SET hasDupGenre = TRUE;
     END IF;
 
-    SET genres_in_movies_count = (
-        SELECT count(*)
-        FROM genres_in_movies
-        WHERE genreId = genre_id
-        AND movieId = movie_id);
-
-    IF genres_in_movies_count = 0 THEN
-        INSERT INTO genres_in_movies (genreId, movieId)
-        VALUES (genre_id, movie_id);
-    END IF;
-
-    SET stars_in_movies_count = (
-        SELECT count(*)
-        FROM stars_in_movies
-        WHERE starId = star_id
-        AND movieId = movie_id);
-
-    IF stars_in_movies_count = 0 THEN
-        INSERT INTO stars_in_movies (starId, movieId)
-        VALUES (star_id, movie_id);
-    END IF;
-
+    INSERT IGNORE INTO genres_in_movies VALUES (newGenreId, newMovieIdStr);
 END
 $$
 
