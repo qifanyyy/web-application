@@ -18,12 +18,6 @@ html, body, #root {
     justify-content: space-between;
 }
 
-#header > h1 {
-    font-weight: normal;
-    font-size: 20px;
-    margin-left: 10px;
-}
-
 #header > button {
     background: none;
     color: #efefef;
@@ -41,5 +35,91 @@ html, body, #root {
 }
 
 #header > button:active {
-    transform: scale(0.99);
+    transform: scale(0.975);
+}
+
+#nav-area {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+}
+
+#nav-area > h1 {
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+#nav-area > button {
+    background: none;
+    font-size: 18px;
+    margin-left: 10px;
+    cursor: pointer;
+    border: none;
+    transition: color 250ms ease-in-out;
+}
+
+.active-btn {
+    color: #efefef;
+    text-decoration: underline #efefef;
+    text-decoration-thickness: 2px;
+    text-decoration-width: 2px;
+}
+
+.non-active-btn {
+    color: #bcbcbc;
+    transition: color 250ms ease-in-out;
+}
+
+.non-active-btn:hover {
+    color: #efefef;
+}
+
+#database-metadata {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.database-card {
+    border: 1px solid #c7c7c7;
+    border-radius: 5px;
+    width: 200px;
+    font-family: monospace;
+    margin: 25px;
+}
+
+.database-card-table-name {
+    font-size: 15px;
+    font-weight: bold;
+    padding: 10px 15px;
+    background-color: #343434;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.database-column {
+    padding: 5px 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid #4c4c4c;
+}
+
+.database-column:last-child {
+    border: none;
+}
+
+.database-column-type {
+    color: #cdcdcd;
+}
+
+.active-tab {
+    display: block;
+}
+
+.non-active-tab {
+    display: none;
 }

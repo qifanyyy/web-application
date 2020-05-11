@@ -8,13 +8,18 @@
 <body>
 <div id="root">
     <div id="header">
-        <h1>Fabflix Management Dashboard</h1>
-        <button>Log out</button>
+        <div id="nav-area">
+            <h1>Fabflix Management Dashboard</h1>
+            <button id="show-metadata-button" class="active-btn">Metadata</button>
+            <button id="show-add-star-button" class="non-active-btn">Add Star</button>
+            <button id="show-add-movie-button" class="non-active-btn">Add Movie</button>
+        </div>
+        <button id="logout-button">Log out</button>
     </div>
     <div id="main">
         <div id="database-metadata">
         </div>
-        <div id="add-star">
+        <div id="add-star" style="display: none">
             <form id="add-star-form">
                 <input type="text" name="db" value="stars" readonly style="display: none">
                 <label><input type="text" name="name" placeholder="name" required></label>
@@ -22,7 +27,7 @@
                 <input type="submit" value="add star">
             </form>
         </div>
-        <div id="add-movie">
+        <div id="add-movie" style="display: none">
             <form id="add-movie-form">
                 <input type="text" name="db" value="movies" readonly style="display: none">
                 <label><input type="text" name="title" placeholder="title" required></label>

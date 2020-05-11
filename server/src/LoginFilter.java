@@ -34,11 +34,13 @@ public class LoginFilter implements Filter {
 
         String requestURI;
 
-        if ((requestURI = httpRequest.getRequestURI()).endsWith("dashboard.html") ||
+        if ((requestURI = httpRequest.getRequestURI()).endsWith("api/logout")) {
+            filterChain.doFilter(servletRequest, servletResponse);
+        } else if ((requestURI.endsWith("dashboard.html") ||
                 requestURI.endsWith("dashboard.js") ||
                 requestURI.endsWith("dashboard.css") ||
                 requestURI.endsWith("api/dashboard")
-        ) {
+        )) {
             if (httpRequest.getSession().getAttribute("employee") == null) {
                 httpResponse.sendRedirect("/employee_login.html");
             } else {
