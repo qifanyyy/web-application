@@ -42,8 +42,8 @@ function handleResult(json) {
         return
     }
 
-    let showcaseRootDiv = document.getElementById('database-metadata')
-    showcaseRootDiv.innerHTML = json['tables'].reduce((html, table) => html + makeTableCard({...table}), '')
+    document.getElementById('database-metadata').innerHTML =
+        json['tables'].reduce((html, table) => html + makeTableCard({...table}), '')
 }
 
 const addStarForm = document.getElementById('add-star-form')

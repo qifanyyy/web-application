@@ -22,20 +22,20 @@
         <div id="add-star" style="display: none">
             <form id="add-star-form">
                 <input type="text" name="db" value="stars" readonly style="display: none">
-                <label><input type="text" name="name" placeholder="name" required></label>
-                <label><input type="number" name="birthYear" placeholder="birth year"></label>
-                <input type="submit" value="add star">
+                <input type="text" name="name" placeholder="name" required>
+                <input type="number" name="birthYear" min="0" placeholder="birth year">
+                <input type="submit" value="Add Star">
             </form>
         </div>
         <div id="add-movie" style="display: none">
             <form id="add-movie-form">
                 <input type="text" name="db" value="movies" readonly style="display: none">
-                <label><input type="text" name="title" placeholder="title" required></label>
-                <label><input type="number" name="year" placeholder="year" required></label>
-                <label><input type="text" name="director" placeholder="director" required></label>
-                <label><input type="text" name="starName" placeholder="star name" required></label>
-                <label><input type="text" name="genreName" placeholder="genre" required></label>
-                <input type="submit" value="add movie">
+                <input type="text" name="title" placeholder="title" required>
+                <input type="number" name="year" min="0" placeholder="year" required>
+                <input type="text" name="director" placeholder="director" required>
+                <input type="text" name="starName" placeholder="star name" required>
+                <input type="text" name="genreName" placeholder="genre" required>
+                <input type="submit" value="Add Movie">
             </form>
         </div>
     </div>
