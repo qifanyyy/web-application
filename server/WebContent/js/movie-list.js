@@ -9,6 +9,27 @@
  */
 
 
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown3 content */
+function myFunction3() {
+    document.getElementById("mydropdown3").classList.toggle("show");
+}
+
+// Close the dropdown3 if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn3')) {
+        var dropdown3s = document.getElementsByClassName("dropdown3-content");
+        var i;
+        for (i = 0; i < dropdown3s.length; i++) {
+            var opendropdown3 = dropdown3s[i];
+            if (opendropdown3.classList.contains('show')) {
+                opendropdown3.classList.remove('show');
+            }
+        }
+    }
+}
+
+
 function addMovieToCart(movie, btn) {
     const reqBody = movieObjectToURLSearchParams(movie)
 
