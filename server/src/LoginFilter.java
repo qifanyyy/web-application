@@ -34,7 +34,7 @@ public class LoginFilter implements Filter {
 
         String requestURI;
 
-        if ((requestURI = httpRequest.getRequestURI()).endsWith("api/logout")) {
+        if ((requestURI = httpRequest.getRequestURI()).endsWith("logout")) {
             filterChain.doFilter(servletRequest, servletResponse);
         } else if (requestURI.contains("dashboard")) {
             if (httpRequest.getSession().getAttribute("employee") == null) {

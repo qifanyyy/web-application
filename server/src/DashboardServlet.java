@@ -10,10 +10,7 @@ import javax.sql.DataSource;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 
 @WebServlet(name = "DashboardServlet", urlPatterns = "/api/dashboard")
 public class DashboardServlet extends HttpServlet {
@@ -151,6 +148,16 @@ public class DashboardServlet extends HttpServlet {
                     hasInvalidParam = true;
                 }
 
+                String starBirthYearStr = req.getParameter("birthYear");
+                Integer starBirthYear = null;
+                if (starBirthYearStr != null && (starBirthYearStr = starBirthYearStr.trim()).length() > 0) {
+                    try {
+                        starBirthYear = Integer.parseInt(starBirthYearStr);
+                    } catch (NumberFormatException e) {
+                        hasInvalidParam = true;
+                    }
+                }
+
                 if (hasInvalidParam) {
                     out.write(Util.makeGeneralErrorJsonObject("please check parameter values").toString());
                     out.close();
@@ -159,13 +166,41 @@ public class DashboardServlet extends HttpServlet {
                 }
 
                 assert year > 0;
-                // TODO: add movie using stored procedure
+
+                CallableStatement addMovieProcedureCall = connection.prepareCall("CALL add_movie2(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                addMovieProcedureCall.setString(1, title);
+                addMovieProcedureCall.setInt(2, year);
+                addMovieProcedureCall.setString(3, director);
+                addMovieProcedureCall.setString(4, genreName);
+                addMovieProcedureCall.setString(5, starName);
+                addMovieProcedureCall.setObject(6, starBirthYear);
+
+                addMovieProcedureCall.registerOutParameter(7, Types.BOOLEAN);
+                addMovieProcedureCall.registerOutParameter(8, Types.BOOLEAN);
+                addMovieProcedureCall.registerOutParameter(9, Types.BOOLEAN);
+
+                addMovieProcedureCall.executeUpdate();
+
+                boolean hasDupMovie, hasDupStar, hasDupGenre;
+
+                hasDupMovie = addMovieProcedureCall.getBoolean(7);
+                hasDupStar = addMovieProcedureCall.getBoolean(8);
+                hasDupGenre = addMovieProcedureCall.getBoolean(9);
+
                 JsonObject ret = new JsonObject();
                 ret.addProperty("status", "success");
-                ret.addProperty("properties", "title=" + title + ",year=" + year + ",director=" + director + ",starName=" + starName + ",genreName=" + genreName);
+                if (!hasDupMovie) {
+                    ret.addProperty("db_status", "updated");
+                    resp.setStatus(201);
+                } else {
+                    ret.addProperty("db_status", "not modified");
+                    resp.setStatus(200);
+                }
+                ret.addProperty("hasDupMovie", hasDupMovie);
+                ret.addProperty("hasDupStar", hasDupStar);
+                ret.addProperty("hasDupGenre", hasDupGenre);
                 out.write(ret.toString());
                 out.close();
-                resp.setStatus(201);
             } else {
                 out.write(Util.makeGeneralErrorJsonObject("invalid value for parameter db").toString());
                 out.close();

@@ -54,15 +54,10 @@ addMovieForm.addEventListener('submit', ev => onSubmit(ev, addMovieForm))
 
 document.getElementById('logout-button').addEventListener('click', ev => {
     ev.preventDefault()
-    fetch('api/logout', { method: 'POST' })
-        .then(response => response.json(), reason => console.error(reason))
-        .then(json => {
-            if (json['status'] !== 'success') {
-                jsonErrorMsgHandler(json)
-            } else {
-                window.location.href = 'login.html'
-            }
-        })
+    fetch('logout').then(response => {
+        console.log(response)
+        window.location.href = 'employee_login.html'
+    })
 })
 
 const showMetaDataButton = document.getElementById('show-metadata-button')
