@@ -40,17 +40,6 @@ function movieObjectToURLSearchParams(movie) {
     return new URLSearchParams(formData)
 }
 
-function setUpLogOutBtn() {
-    document.getElementById('logout-btn').addEventListener('click', ev => {
-        fetch('api/logout', { method: 'POST' })
-            .then(response => response.json(), reason => console.error(reason))
-            .then(json => {
-                console.log(json)
-                window.location.href = 'login.html'
-            })
-    })
-}
-
 function setUpSearchForm() {
     const searchBtn = document.querySelector('#search-form > button')
     const firstField = document.querySelector('#search-form > input:first-child')
