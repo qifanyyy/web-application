@@ -5,28 +5,19 @@
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/single-movie.css" rel="stylesheet">
-    <link href="./css/nav.css" rel="stylesheet">
+    <link href="./css/nav.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="./js/nav.js"></script>
+    <script src="./js/util.js"></script>
     <title id="title_info">Fabflix - </title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light" id="fabflix-nav">
-    <span id="title-area">
-        <a class="navbar-brand pr-2" href="index.html"><span class="h1">Fabflix</span></a>
+
+<div id="nav-placeholder"></div>
+<span id="title-area">
         <span id="move-list"><a class="navbar-brand pr-2" href="movie-list.html"><span class="h3">Movie List</span></a></span>
         <span id="movie_info"><span class="h2"></span></span>
-    </span>
-    <span>
-        <form id="search-form" class="form-inline my-2 my-lg-0" action="./movie-list.html" method="get">
-            <input id="search-title" required name="title" aria-label="Search" class="form-control mr-sm-2" placeholder="Title" type="search">
-            <input id="search-year" name="year" aria-label="Search" class="form-control mr-sm-2" placeholder="Year" min="1900" type="number">
-            <input id="search-director" name="director" aria-label="Search" class="form-control mr-sm-2" placeholder="Director" type="search">
-            <input id="search-star" name="star" aria-label="Search" class="form-control mr-sm-2" placeholder="Star" type="search">
-            <button id="search-btn" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <button id="checkout-btn" class="btn btn-primary">Checkout</button>
-        <button id="logout-btn" class="btn btn-outline-primary">Log out</button>
-    </span>
-</nav>
+</span>
 
 <table class="table table-striped table-bordered" id="movie_table">
     <thead class="thead-dark">
@@ -44,6 +35,6 @@
     <span id="price-info">Price: $2</span>
 </div>
 </body>
-<script src="./js/util.js"></script> <!-- for function getParameterByName -->
+
 <script src="./js/single-movie.js"></script>
 </html>

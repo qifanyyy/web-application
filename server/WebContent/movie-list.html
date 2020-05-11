@@ -5,29 +5,17 @@
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/movie-list.css" rel="stylesheet">
-    <link href="./css/nav.css" rel="stylesheet">
+    <link href="./css/nav.css" rel="stylesheet" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="./js/nav.js"></script>
+    <script src="./js/util.js"></script>
     <title>Fabflix</title>
-
-
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light" id="fabflix-nav">
-    <a class="navbar-brand pr-2" href="index.html"><span class="h1">Fabflix</span></a>
-    <span>
-        <form id="search-form" class="form-inline my-2 my-lg-0" action="./movie-list.html" method="get">
-            <input id="search-title" required name="title" aria-label="Search" class="form-control mr-sm-2" placeholder="Title" type="search">
-            <input id="search-year" name="year" aria-label="Search" class="form-control mr-sm-2" placeholder="Year" min="1900" type="number">
-            <input id="search-director" name="director" aria-label="Search" class="form-control mr-sm-2" placeholder="Director" type="search">
-            <input id="search-star" name="star" aria-label="Search" class="form-control mr-sm-2" placeholder="Star" type="search">
-            <button id="search-btn" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
-        </form>
-        <button id="checkout-btn" class="btn btn-primary">Checkout</button>
-        <button id="logout-btn" class="btn btn-outline-primary">Log out</button>
-    </span>
-    <span id="customer-first-name"></span>
-</nav>
 
+<span id="customer-first-name"></span>
+<div id="nav-placeholder"></div>
 <table class="table table-striped table-bordered" id="movie_table">
     <thead class="thead-dark">
     <tr>
@@ -68,14 +56,8 @@
     </div>
 </div>
 
-<div id="browse-by-title-wrapper">
-    <h2 class="h2">Page</h2>
-    <div id="title-wrapper">
-        <ul id="page"></ul>
-        <ul id="page2"></ul>
-    </div>
-</div>
+<div id="page"></div>
 </body>
-<script src="./js/util.js"></script>
+
 <script src="./js/movie-list.js"></script>
 </html>

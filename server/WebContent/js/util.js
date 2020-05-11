@@ -39,7 +39,6 @@ function movieObjectToURLSearchParams(movie) {
     }
     return new URLSearchParams(formData)
 }
-
 function setUpSearchForm() {
     const searchBtn = document.querySelector('#search-form > button')
     const firstField = document.querySelector('#search-form > input:first-child')
