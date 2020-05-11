@@ -25,10 +25,32 @@ BEGIN
         AND year = new_year
         AND director = new_director);
 
+    SET movie_id = (
+        SELECT max(id)
+        FROM movies
+        WHERE title = new_title
+        AND year = new_year
+        AND director = new_director);
+
+    IF movies_count = 0 THEN
+        INSERT INTO movies (title, year, director)
+        VALUES (new_title, new_year, new_director);
+    END IF;
+
     SET genres_count = (
         SELECT count(*)
         FROM genres
         WHERE name = new_genre);
+
+    SET genre_id = (
+        SELECT max(id)
+        FROM genres
+        WHERE name = new_genre);
+
+    IF genres_count = 0 THEN
+        INSERT INTO genres (name)
+        VALUES (new_genre);
+    END IF;
 
     IF new_dob IS NULL THEN
         SET stars_count = (
@@ -37,43 +59,6 @@ BEGIN
             WHERE name = new_star
             AND birthYear IS NULL);
 
-    ELSE
-        SET stars_count = (
-            SELECT count(*)
-            FROM stars
-            WHERE name = new_star
-            AND birthYear = new_dob);
-    END IF;
-
-    IF movies_count = 0 THEN
-        INSERT INTO movies (title, year, director)
-            VALUES (new_title, new_year, new_director);
-    END IF;
-
-    IF genres_count = 0 THEN
-        INSERT INTO genres (name)
-            VALUES (new_genre);
-    END IF;
-
-    IF stars_count = 0 THEN
-        INSERT INTO stars (name, birthYear)
-            VALUES (new_star, new_dob);
-    END IF;
-
-    SET movie_id = (
-        SELECT max(id)
-        FROM movies
-        WHERE title = new_title
-        AND year = new_year
-        AND director = new_director);
-
-    SET genre_id = (
-        SELECT max(id)
-        FROM genres
-        WHERE name = new_genre);
-
-
-    IF new_dob IS NULL IS NULL THEN
         SET star_id = (
             SELECT max(id)
             FROM stars
@@ -81,11 +66,22 @@ BEGIN
             AND birthYear IS NULL);
 
     ELSE
+        SET stars_count = (
+            SELECT count(*)
+            FROM stars
+            WHERE name = new_star
+            AND birthYear = new_dob);
+
         SET star_id = (
             SELECT max(id)
             FROM stars
             WHERE name = new_star
             AND birthYear = new_dob);
+    END IF;
+
+    IF stars_count = 0 THEN
+        INSERT INTO stars (name, birthYear)
+        VALUES (new_star, new_dob);
     END IF;
 
     SET genres_in_movies_count = (
@@ -95,7 +91,8 @@ BEGIN
         AND movieId = movie_id);
 
     IF genres_in_movies_count = 0 THEN
-        INSERT INTO genres_in_movies (genreId, movieId) VALUES (genre_id, movie_id);
+        INSERT INTO genres_in_movies (genreId, movieId)
+        VALUES (genre_id, movie_id);
     END IF;
 
     SET stars_in_movies_count = (
@@ -105,7 +102,8 @@ BEGIN
         AND movieId = movie_id);
 
     IF stars_in_movies_count = 0 THEN
-        INSERT INTO stars_in_movies (starId, movieId) VALUES (star_id, movie_id);
+        INSERT INTO stars_in_movies (starId, movieId)
+        VALUES (star_id, movie_id);
     END IF;
 
 END
