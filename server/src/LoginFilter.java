@@ -42,12 +42,12 @@ public class LoginFilter implements Filter {
                 requestURI.endsWith("api/dashboard")
         )) {
             if (httpRequest.getSession().getAttribute("employee") == null) {
-                httpResponse.sendRedirect("/employee_login.html");
+                httpResponse.sendRedirect("employee_login.html");
             } else {
                 filterChain.doFilter(servletRequest, servletResponse);
             }
         } else if (httpRequest.getSession().getAttribute("customer") == null) {
-            httpResponse.sendRedirect("/login.html");
+            httpResponse.sendRedirect("login.html");
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }
