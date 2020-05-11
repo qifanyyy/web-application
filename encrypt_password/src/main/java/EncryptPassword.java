@@ -21,7 +21,7 @@ public class EncryptPassword {
         System.out.println("altering customers table schema completed, " + alterResult + " rows affected");
 
         // get the ID and password for each customer
-        String query = "SELECT email, password FROM " + TABLE_NAME;
+        String query = "SELECT " + PRIMARY_KEY_COL + ", password FROM " + TABLE_NAME;
         ResultSet rs = statement.executeQuery(query);
 
         // we use the StrongPasswordEncryptor from jasypt library (Java Simplified Encryption)
@@ -32,7 +32,7 @@ public class EncryptPassword {
         System.out.println("encrypting password (this might take a while)");
         while (rs.next()) {
             // get the ID and plain text password from current table
-            String id = rs.getString("email");
+            String id = rs.getString(PRIMARY_KEY_COL);
             String password = rs.getString("password");
 
             // encrypt the password using StrongPasswordEncryptor
