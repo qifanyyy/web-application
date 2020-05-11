@@ -120,10 +120,12 @@ public class MoviesServlet extends HttpServlet {
             getStarcount = con.prepareStatement(starcountQuery);
 
 
-            if (!p) {
+            if (!p && !t) {
                 String spage = (String) session.getAttribute("page");
                 if (spage == null) spage = "1";
                 page = spage;
+            } else {
+                page = "1";
             }
 
             if (page.equals("0")) page = "1";
