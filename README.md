@@ -8,6 +8,8 @@ cs122b-spring20-team-12 created by GitHub Classroom
 mysql -umytestuser -p < createtable.sql
 mysql -umytestuser -p moviedb < movie-data.sql
 mysql -umytestuser -p moviedb < add-quantity-to-sales.sql
+mysql -umytestuser -p moviedb < set-missing-rating-to-zero.sql
+mysql -umytestuser -p moviedb < stored-procedure.sql
 ```
 
 ## Server
@@ -18,20 +20,36 @@ See [server/README.md](./server/README.md).
 
 See [xml_parsing/README.md](./xml_parsing/README.md).
 
+## Password Encryption
+
+See [encrypt_password/README.md](./encrypt_password/README.md)
+
 ## Project 3
+
+### XML Parsing Report
+
+With our first implementation, the parsing and insert took more than 8 minutes to complete (no exact time available since we just terminated our program and started working on improvement).
+
+Later, methods such as using a hash set to remove duplicates from xml files and adding indexes to speed up database-level duplication detection were added and the program tooks about 1 minute and 30 seconds to finish.
+
+Finally, methods such as multithreading and batch insert were added and the program took about 1 minute to finish.
+
+Go [here](./xml_parsing/report/inconsistency.txt) for inconsistency report.
 
 ### Project 3 Team Contribution
 
 Qifan Yu
-- register a domain for fabflix
-- add https, use prepared statement
-- use encrypted password
-- implement a dashboard using stored  procedure
+- Register a domain for fabflix
+- Add HTTPS
+- Use prepared statement
+- Encrypt password for `customers` table
+- Implement `add_movie` stored procedure
 
 Tongjie Wang
-- add reCAPTCHA
-- add prepare statement
-- import large XML data files into the Fabflix database
+- Add reCAPTCHA
+- Encrypt password for `employees` table
+- Implement a dashboard using stored procedure
+- Import large XML data files into the Fabflix database
 
 ## Project 2
 
