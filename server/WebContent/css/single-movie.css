@@ -17,6 +17,7 @@
     align-items: center;
 }
 
-#table_info {
-    display: inline-block;
+#block_container {
+    display: flex;
+    justify-content: center;
 }
