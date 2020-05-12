@@ -28,7 +28,8 @@ See [encrypt_password/README.md](./encrypt_password/README.md)
 
 ### Demo
 
-- https://www.ics.uci.edu/~tongjiew/cs122b_demo3.mov
+- https://www.ics.uci.edu/~tongjiew/cs122b_demo3.mov (backup, UCI ICS)
+- https://drive.google.com/open?id=1xz8mGC2ft5IaRERoabmVkIZx_HFCTNtj (backup, Google Drive, need UCI account)
 
 ### XML Parsing Report
 
