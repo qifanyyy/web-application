@@ -1,4 +1,4 @@
-function onSubmit(event, form) {
+function onSubmit(event, form, onSuccess) {
     event.preventDefault()
     fetch('api/dashboard', {
         method: 'POST',
@@ -9,9 +9,9 @@ function onSubmit(event, form) {
     }).then(json => {
         if (json['status'] !== 'success') {
             jsonErrorMsgHandler(json)
-            alert(`Failed to add`)
+            alert('Failed to add')
         } else {
-            alert(`Success!`)
+            onSuccess(json)
         }
     })
 }
@@ -47,10 +47,19 @@ function handleResult(json) {
 }
 
 const addStarForm = document.getElementById('add-star-form')
-addStarForm.addEventListener('submit', (ev) => onSubmit(ev, addStarForm))
+addStarForm.addEventListener('submit', (ev) => onSubmit(ev, addStarForm, json => {
+    alert(`Star (id=${json['retStarId']}) added`)
+}))
 
 const addMovieForm = document.getElementById('add-movie-form')
-addMovieForm.addEventListener('submit', ev => onSubmit(ev, addMovieForm))
+addMovieForm.addEventListener('submit', ev => onSubmit(ev, addMovieForm, json => {
+    if (json['hasDupMovie']) {
+        alert(`Adding duplicate movie (id=${json['retMovieId']}), rejected; no modification on database`)
+    } else {
+        let prompt = `Movie (id=${json['retMovieId']}) with star (${json['hasDupStar'] ? 'existed' : 'new'}, id=${json['retStarId']}) and genre (${json['hasDupGenre'] ? 'existed' : 'new'}, id=${json['retGenreId']}))`
+        alert(prompt)
+    }
+}))
 
 document.getElementById('logout-button').addEventListener('click', ev => {
     ev.preventDefault()
