@@ -119,6 +119,7 @@ public class DashboardServlet extends HttpServlet {
                 insertStarStatement.close();
                 JsonObject ret = new JsonObject();
                 ret.addProperty("status", "success");
+                ret.addProperty("retStarId", starId);
                 out.write(ret.toString());
                 out.close();
                 resp.setStatus(201);
@@ -167,7 +168,7 @@ public class DashboardServlet extends HttpServlet {
 
                 assert year > 0;
 
-                CallableStatement addMovieProcedureCall = connection.prepareCall("CALL add_movie(?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                CallableStatement addMovieProcedureCall = connection.prepareCall("CALL add_movie(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 addMovieProcedureCall.setString(1, title);
                 addMovieProcedureCall.setInt(2, year);
                 addMovieProcedureCall.setString(3, director);
@@ -178,14 +179,22 @@ public class DashboardServlet extends HttpServlet {
                 addMovieProcedureCall.registerOutParameter(7, Types.BOOLEAN);
                 addMovieProcedureCall.registerOutParameter(8, Types.BOOLEAN);
                 addMovieProcedureCall.registerOutParameter(9, Types.BOOLEAN);
+                addMovieProcedureCall.registerOutParameter(10, Types.VARCHAR);
+                addMovieProcedureCall.registerOutParameter(11, Types.VARCHAR);
+                addMovieProcedureCall.registerOutParameter(12, Types.INTEGER);
 
                 addMovieProcedureCall.executeUpdate();
 
                 boolean hasDupMovie, hasDupStar, hasDupGenre;
+                String retMovieId, retStarId;
+                int retGenreId;
 
                 hasDupMovie = addMovieProcedureCall.getBoolean(7);
                 hasDupStar = addMovieProcedureCall.getBoolean(8);
                 hasDupGenre = addMovieProcedureCall.getBoolean(9);
+                retMovieId = addMovieProcedureCall.getString(10);
+                retStarId = addMovieProcedureCall.getString(11);
+                retGenreId = addMovieProcedureCall.getInt(12);
 
                 JsonObject ret = new JsonObject();
                 ret.addProperty("status", "success");
@@ -199,6 +208,9 @@ public class DashboardServlet extends HttpServlet {
                 ret.addProperty("hasDupMovie", hasDupMovie);
                 ret.addProperty("hasDupStar", hasDupStar);
                 ret.addProperty("hasDupGenre", hasDupGenre);
+                ret.addProperty("retMovieId", retMovieId);
+                ret.addProperty("retStarId", retStarId);
+                ret.addProperty("retGenreId", retGenreId);
                 out.write(ret.toString());
                 out.close();
             } else {
