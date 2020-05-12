@@ -10,7 +10,10 @@ CREATE PROCEDURE add_movie (
     IN newStarBirthYear INTEGER,
     OUT hasDupMovie BOOLEAN,
     OUT hasDupStar BOOLEAN,
-    OUT hasDupGenre BOOLEAN
+    OUT hasDupGenre BOOLEAN,
+    OUT outMovieId VARCHAR(10),
+    OUT outStarId VARCHAR(10),
+    OUT outGenreId INTEGER
 )
 
 this_procedure: BEGIN
@@ -24,9 +27,13 @@ this_procedure: BEGIN
     SET hasDupMovie = FALSE;
     SET hasDupStar = FALSE;
     SET hasDupGenre = FALSE;
+    SET outMovieId = NULL;
+    SET outStarId = NULL;
+    SET outGenreId = NULL;
 
     IF (SELECT COUNT(*) FROM movies WHERE title = newTitle AND year = newYear AND director = newDirector) > 0 THEN
         SET hasDupMovie = TRUE;
+        SET outMovieId = (SELECT id FROM movies WHERE title = newTitle AND year = newYear AND director = newDirector LIMIT 1);
         LEAVE this_procedure;
     END IF;
 
@@ -37,6 +44,9 @@ this_procedure: BEGIN
     SET newMovieIdStr = CONCAT('pm', LPAD(newMovieId, 8, '0'));
 
     INSERT INTO movies VALUES (newMovieIdStr, newTitle, newYear, newDirector);
+    INSERT INTO ratings VALUES (newMovieIdStr, 0.0, 0);
+
+    SET outMovieId = newMovieIdStr;
 
     IF (SELECT COUNT(*) FROM stars WHERE name = newStarName AND (ISNULL(newStarBirthYear) OR birthYear = newStarBirthYear)) = 0 THEN
         SET newStarId = (
@@ -50,6 +60,7 @@ this_procedure: BEGIN
         SET hasDupStar = TRUE;
     END IF;
 
+    SET outStarId = starIdStr;
     INSERT IGNORE INTO stars_in_movies VALUES (starIdStr, newMovieIdStr);
 
     IF (SELECT COUNT(*) FROM genres WHERE name = newGenreName) = 0 THEN
@@ -60,6 +71,7 @@ this_procedure: BEGIN
         SET hasDupGenre = TRUE;
     END IF;
 
+    SET outGenreId = newGenreId;
     INSERT IGNORE INTO genres_in_movies VALUES (newGenreId, newMovieIdStr);
 END
 $$
