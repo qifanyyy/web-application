@@ -26,6 +26,10 @@ See [encrypt_password/README.md](./encrypt_password/README.md)
 
 ## Project 3
 
+### Demo
+
+- https://www.ics.uci.edu/~tongjiew/cs122b_demo3.mov
+
 ### XML Parsing Report
 
 With our first implementation, the parsing and insert took more than 8 minutes to complete (no exact time available since we just terminated our program and started working on improvement).

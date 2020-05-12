@@ -221,6 +221,7 @@ class MovieParser {
         Iterator<Set<String>> genresInMoviesIterator = GENRES_IN_MOVIES.iterator();
         for (i = 0; i < GENRES_IN_MOVIES.size(); ++i) {
             Set<String> genres = genresInMoviesIterator.next();
+            String movieId = movieIdIterator.next();
 
             PreparedStatement insertGenre = connection.prepareStatement(
                     "INSERT IGNORE INTO genres VALUES (NULL, ?)"
@@ -245,7 +246,7 @@ class MovieParser {
 
 
                 insertGenreInMovie.setInt(1, genreId);
-                insertGenreInMovie.setString(2, movieIdIterator.next());
+                insertGenreInMovie.setString(2, movieId);
                 insertGenreInMovie.addBatch();
             }
             insertGenreInMovie.executeBatch();
