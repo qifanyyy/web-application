@@ -128,8 +128,4 @@ function handleResult(resultData) {
             window.addEventListener('DOMContentLoaded', e => handleResult(json));
         }
     })
-
-    setUpOnCheckout()
-    setUpLogOutBtn()
-    setUpSearchForm()
 })()
