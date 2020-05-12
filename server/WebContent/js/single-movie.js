@@ -65,6 +65,7 @@ function handleResult(resultData) {
     // find the empty h3 body by id "movie_info"
     let pageTitleElement = document.getElementById("title_info");
     let movieInfoElement = document.getElementById('movie_info');
+    let posterInfoElement = document.getElementById('poster_info');
 
     // append two html <p> created to the h3 body, which will refresh the page
     let title = resultData["movie_title"] + " (" + resultData["movie_year"] + ")";
@@ -76,35 +77,20 @@ function handleResult(resultData) {
     let movieTableBodyElement = document.getElementById("movie_table_body");
 
 
-
-
-
-
-
-
-
     // Concatenate the html tags with resultData jsonObject to create table rows
+
+    posterInfoElement.innerHTML = '<img src="http://img.omdbapi.com/?i=' + movie['movie_id'] + '&apikey=49d674a2">'
+
+
     let rowHTML = "<tr><th>" + resultData["movie_director"] + "</th><th>";
 
 
-    var queryURL = "https://www.omdbapi.com/?t=" + resultData["movie_title"] + "&y=&apikey=49d674a2";
-
-    $.ajax({
-        url: queryURL,
-        method: "GET"
-    }).done(function(response) {
-
-        poster = response.Poster;
-
-        rowHTML += "ggggggggggg";
-
-    });
 
 
 
         for (let i = 0; i < resultData["movie_genre"].length; i++) {
             if (i !== 0) rowHTML += ", ";
-            rowHTML += `<a href="movie-list.html?genre=${resultData["movie_genre"][i]}">${resultData["movie_genre"][i]}</a>`;
+            rowHTML += '<a href="movie-list.html?genre=' + resultData["movie_genre"][i] + '">' + resultData["movie_genre"][i] + '</a>';
         }
 
         rowHTML +="</th><th>" + resultData["movie_rating"] + "</th><th>";

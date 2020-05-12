@@ -16,3 +16,7 @@
     flex-direction: row;
     align-items: center;
 }
+
+#poster_info {
+    display: inline-block;
+}
