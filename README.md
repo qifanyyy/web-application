@@ -28,6 +28,7 @@ See [encrypt_password/README.md](./encrypt_password/README.md)
 
 ### Demo
 
+- https://youtu.be/uRWX3kSkKsc (YouTube)
 - https://www.ics.uci.edu/~tongjiew/cs122b_demo3.mov (backup, UCI ICS)
 - https://drive.google.com/open?id=1xz8mGC2ft5IaRERoabmVkIZx_HFCTNtj (backup, Google Drive, need UCI account)
 
