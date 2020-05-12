@@ -75,8 +75,32 @@ function handleResult(resultData) {
     // Find the empty table body by id "movie_table_body"
     let movieTableBodyElement = document.getElementById("movie_table_body");
 
+
+
+
+
+
+
+
+
     // Concatenate the html tags with resultData jsonObject to create table rows
     let rowHTML = "<tr><th>" + resultData["movie_director"] + "</th><th>";
+
+
+    var queryURL = "https://www.omdbapi.com/?t=" + resultData["movie_title"] + "&y=&apikey=49d674a2";
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).done(function(response) {
+
+        poster = response.Poster;
+
+        rowHTML += "ggggggggggg";
+
+    });
+
+
 
         for (let i = 0; i < resultData["movie_genre"].length; i++) {
             if (i !== 0) rowHTML += ", ";

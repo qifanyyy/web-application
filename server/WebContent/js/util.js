@@ -26,12 +26,6 @@ function jsonErrorMsgHandler(json) {
     }
 }
 
-function setUpOnCheckout() {
-    document.getElementById('checkout-btn').addEventListener('click', ev => {
-        window.location.href = 'cart.html'
-    })
-}
-
 function movieObjectToURLSearchParams(movie) {
     let formData = new FormData()
     for (let key of Object.keys(movie)) {
