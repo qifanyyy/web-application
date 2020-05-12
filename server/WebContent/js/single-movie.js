@@ -75,6 +75,7 @@ function handleResult(resultData) {
     // Populate the movie table
     // Find the empty table body by id "movie_table_body"
     let movieTableBodyElement = document.getElementById("movie_table_body");
+    let movieTableBodyElement2 = document.getElementById("movie_table_body2");
 
 
     // Concatenate the html tags with resultData jsonObject to create table rows
@@ -83,6 +84,7 @@ function handleResult(resultData) {
 
 
     let rowHTML = "<tr><th>" + resultData["movie_director"] + "</th><th>";
+    let rowHTML2 = "<tr><th>";
 
 
 
@@ -93,20 +95,21 @@ function handleResult(resultData) {
             rowHTML += '<a href="movie-list.html?genre=' + resultData["movie_genre"][i] + '">' + resultData["movie_genre"][i] + '</a>';
         }
 
-        rowHTML +="</th><th>" + resultData["movie_rating"] + "</th><th>";
+        rowHTML +="</th><th>" + resultData["movie_rating"] + "</th></tr>";
     let starData = resultData["movie_star"];
     // Iterate through starData
     for (let i = 0; i < starData.length; i++) {
-        if (i !== 0) rowHTML += ", ";
-        rowHTML +=
+        if (i !== 0) rowHTML2 += ", ";
+        rowHTML2 +=
             // Add a link to single-star.html with id passed with GET url parameter
             '<a href=single-star.html?id=' + starData[i]["star_id"] + '>'
             + starData[i]["star_name"] + '</a>';
     }
-    rowHTML += "</th></tr>";
+    rowHTML2 += "</th></tr>";
 
     // Append the row created to the table body, which will refresh the page
     movieTableBodyElement.innerHTML += rowHTML;
+    movieTableBodyElement2.innerHTML += rowHTML2;
     prepareAddToShoppingCartButton(movie)
 }
 
