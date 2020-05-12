@@ -19,13 +19,5 @@
 
 #block_container {
     display: flex;
-}
-
-#poster {
-    width: 20%;
-    text-align: center;
-}
-
-#infos {
-    width: 75%;
+    justify-content: center;
 }
