@@ -36,6 +36,21 @@ Finally, methods such as multithreading and batch insert were added and the prog
 
 See [this issue](https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/issues/2) or [Google Drive link](https://drive.google.com/open?id=1DpzkE_DnSuwqXifNqH6XxaKOgUlZ8NRz) (need UCI account) for inconsistency report.
 
+### Queries with Prepared Statements
+
+Files that use prepare statement:
+- MoviesServlet
+- SingleMovieServlet
+- SingleStarServlet
+
+Link to the files on GitHub:
+- MoviesServlet:
+- https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/MoviesServlet.java
+- SingleMovieServlet:
+- https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/SingleMovieServlet.java
+- SingleStarServlet:
+- https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/SingleStarServlet.java
+
 ### Project 3 Team Contribution
 
 Qifan Yu
