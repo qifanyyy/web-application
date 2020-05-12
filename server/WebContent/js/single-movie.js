@@ -80,7 +80,7 @@ function handleResult(resultData) {
 
     // Concatenate the html tags with resultData jsonObject to create table rows
 
-    posterInfoElement.innerHTML = '<img src="http://img.omdbapi.com/?i=' + movie['movie_id'] + '&apikey=49d674a2">'
+    posterInfoElement.innerHTML = '<img src="http://img.omdbapi.com/?i=' + movie['movie_id'] + '&apikey=49d674a2" onerror="this.style.display=\'none\'"/>'
 
 
     let rowHTML = "<tr><th>" + resultData["movie_director"] + "</th><th>";
