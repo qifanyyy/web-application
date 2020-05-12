@@ -20,3 +20,11 @@
 #search-title, #search-director, #search-star {
     width: 100px;
 }
+#movielist{
+    vertical-align: bottom;
+    padding-bottom: 10px;
+}
+
+#index #movielist{
+    display: none;
+}
