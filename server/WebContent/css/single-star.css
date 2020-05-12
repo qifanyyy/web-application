@@ -1,9 +1,10 @@
-#title-area {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
 #star_info {
     margin: 10px 20px;
+}
+
+
+
+
+#movie_info {
+    padding: 20px;
 }

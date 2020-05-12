@@ -11,12 +11,6 @@
 }
 
 
-#title-area {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
 #block_container {
     display: flex;
 }
@@ -28,4 +22,8 @@
 
 #infos {
     width: 75%;
+}
+
+#movie_info {
+    padding: 20px;
 }
