@@ -48,7 +48,7 @@ public class Suggestion extends HttpServlet {
 			String[] fulltextarray = query.split(" ");
 			for (int i = 0; i < fulltextarray.length; i++) fulltext += "+" + fulltextarray[i] + "* ";
 
-			System.out.println("query:" + fulltext);
+
 			PreparedStatement getTitle = null;
 			String titleQuery = "SELECT * FROM movies WHERE match(title) against (? IN BOOLEAN MODE) LIMIT 10; ";
 
@@ -57,7 +57,9 @@ public class Suggestion extends HttpServlet {
 			Connection con = dataSource.getConnection();
 
 			getTitle = con.prepareStatement(titleQuery);
-			getTitle.setString(1, query);
+			getTitle.setString(1, fulltext);
+
+			System.out.println("query:" + getTitle);
 			ResultSet rs = getTitle.executeQuery();
 
 			if (!rs.next()) {
