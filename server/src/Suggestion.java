@@ -96,7 +96,7 @@ public class Suggestion extends HttpServlet {
 		jsonObject.addProperty("value", title);
 		
 		JsonObject additionalDataJsonObject = new JsonObject();
-		additionalDataJsonObject.addProperty("heroID", movieID);
+		additionalDataJsonObject.addProperty("movieID", movieID);
 		
 		jsonObject.add("data", additionalDataJsonObject);
 		return jsonObject;

@@ -74,8 +74,8 @@ function handleLookupAjaxSuccess(data, query, doneCallback) {
  */
 function handleSelectSuggestion(suggestion) {
 	// TODO: jump to the specific result page based on the selected suggestion
-	
-	console.log("you select " + suggestion["value"] + " with ID " + suggestion["data"]["heroID"])
+	window.location.href = "single-movie.html?id=" + suggestion['data']['movieID'];
+	console.log("you select " + suggestion["value"] + " with ID " + suggestion['data']['movieID'])
 }
 
 
