@@ -102,17 +102,10 @@ $('#autocomplete').autocomplete({
 
 	minChars: 3,
 
+	noCache: false,
+
     // there are some other parameters that you might want to use to satisfy all the requirements
 });
-
-
-/*
- * do normal full text search if no suggestion is selected 
- */
-function handleNormalSearch(query) {
-	console.log("doing normal search with query: " + query);
-	// TODO: you should do normal search here
-}
 
 // bind pressing enter key to a handler function
 $('#autocomplete').keypress(function(event) {
@@ -122,7 +115,3 @@ $('#autocomplete').keypress(function(event) {
 		handleNormalSearch($('#autocomplete').val())
 	}
 })
-
-// TODO: if you have a "search" button, you may want to bind the onClick event as well of that button
-
-
