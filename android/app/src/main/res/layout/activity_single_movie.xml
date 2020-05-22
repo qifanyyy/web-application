@@ -7,82 +7,92 @@
         android:layout_height="match_parent"
         tools:context=".SingleMovie">
 
-    <LinearLayout
-            android:orientation="vertical"
+    <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:padding="10dp">
+            app:layout_constraintBottom_toBottomOf="parent">
 
         <LinearLayout
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp">
+                android:layout_height="0dp">
 
             <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/movie_title"
+                            android:textSize="36sp"
+                            android:textColor="@android:color/black"
+                            android:textStyle="bold"
+                            android:gravity="center|start"/>
+
+                    <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/movie_director"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:gravity="center|start"/>
+
+                </LinearLayout>
 
                 <TextView
-                        android:text="Movie1"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/movie_title"
-                        android:textSize="36sp"
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold"
-                        android:gravity="center|start"/>
-
-                <TextView
-                        android:text="Director1"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/movie_director"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
-                        android:gravity="center|start"/>
-
+                        android:layout_height="match_parent"
+                        android:id="@+id/movie_rating"
+                        android:textSize="30sp"
+                        android:textColor="#E39000"
+                        android:gravity="center|end"
+                        android:textStyle="bold"/>
             </LinearLayout>
 
             <TextView
-                    android:text="9.5"
+                    android:text="@string/genres_heading"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/movie_rating"
-                    android:textSize="24sp"
-                    android:textColor="#E39000"
-                    android:gravity="center|end"
-                    />
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/genres_list_content"
+                    android:textColor="@android:color/black"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
+
+            <TextView
+                    android:text="@string/stars_heading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"/>
+
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/stars_list_content"
+                    android:textColor="@android:color/black"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"/>
+
         </LinearLayout>
-
-        <TextView
-                android:text="@string/genres_heading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"/>
-
-        <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/movie_genre_list"/>
-
-        <TextView
-                android:text="@string/stars_heading"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:textSize="20sp"/>
-
-        <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/movie_star_list"/>
-
-    </LinearLayout>
+    </ScrollView>
 </android.support.constraint.ConstraintLayout>
