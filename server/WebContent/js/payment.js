@@ -84,7 +84,6 @@ function updatePaymentFormWhenSuccess() {
     })
 
     // document.getElementById('card-expiration').setAttribute('min', new Date().toISOString().split('T')[0])
-    setUpLogOutBtn()
 
     fetch('api/cart')
         .then(response => response.json(), reason => console.error(reason))

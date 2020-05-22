@@ -27,8 +27,4 @@ function handleResult(resultData) {
     for (let i = 0; i < 26; ++i) {
         document.getElementById('title-uppercase').innerHTML += `<li><a href="movie-list.html?alnum=${String.fromCharCode(i + 'A'.charCodeAt(0))}">${String.fromCharCode(i + 'A'.charCodeAt(0))}</a></li>`
     }
-
-    setUpOnCheckout()
-    setUpLogOutBtn()
-    setUpSearchForm()
 })()

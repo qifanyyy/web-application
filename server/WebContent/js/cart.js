@@ -103,4 +103,3 @@ function handleResult(resultData) {
 document.getElementById('proceed-to-payment').addEventListener('click', ev => {
     window.location.href = 'payment.html'
 })
-setUpLogOutBtn()

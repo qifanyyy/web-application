@@ -167,7 +167,3 @@ fetch(`api/movies?title=${getParameterByName('title')}&year=${getParameterByName
         window.addEventListener('DOMContentLoaded', e => handleMovieResult(json));
     }
 });
-
-setUpOnCheckout()
-setUpLogOutBtn()
-setUpSearchForm()

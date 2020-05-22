@@ -29,6 +29,9 @@ public class Suggestion extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		try {
+			response.setContentType("application/json; charset=UTF-8"); // Response mime type
+			response.setCharacterEncoding("UTF-8");
+
 			// setup the response json arrray
 			JsonArray jsonArray = new JsonArray();
 			
@@ -44,9 +47,9 @@ public class Suggestion extends HttpServlet {
 
 			// TODO: in project 4, you should do full text search with MySQL to find the matches on movies and stars
 
-			String fulltext = "";
-			String[] fulltextarray = query.split(" ");
-			for (int i = 0; i < fulltextarray.length; i++) fulltext += "+" + fulltextarray[i] + "* ";
+			StringBuilder fulltext = new StringBuilder();
+			String[] fullTextArray = query.split(" ");
+			for (String s : fullTextArray) fulltext.append("+").append(s).append("* ");
 
 
 			PreparedStatement getTitle = null;
@@ -57,7 +60,7 @@ public class Suggestion extends HttpServlet {
 			Connection con = dataSource.getConnection();
 
 			getTitle = con.prepareStatement(titleQuery);
-			getTitle.setString(1, fulltext);
+			getTitle.setString(1, fulltext.toString());
 
 			System.out.println("query:" + getTitle);
 			ResultSet rs = getTitle.executeQuery();
@@ -78,10 +81,9 @@ public class Suggestion extends HttpServlet {
 
 			
 			response.getWriter().write(jsonArray.toString());
-			return;
 		} catch (Exception e) {
-			System.out.println(e);
-			response.sendError(500, e.getMessage());
+			response.getWriter().write(Util.exception2Json(e).toString());
+			response.setStatus(500);
 		}
 	}
 	

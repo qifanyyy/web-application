@@ -20,9 +20,17 @@
  */
 function handleLookup(query, doneCallback) {
 	console.log("autocomplete initiated")
-	console.log("sending AJAX request to backend Java Servlet")
+	// console.log("sending AJAX request to backend Java Servlet")
 	
-	// TODO: if you want to check past query results first, you can do it here
+	// if you want to check past query results first, you can do it here
+	let cacheRet
+	if ((cacheRet = sessionStorage.getItem(query)) !== null) {
+		const cachedResult = JSON.parse(cacheRet)
+		console.log('from cache')
+		console.log(cachedResult)
+		doneCallback(cachedResult)
+		return
+	}
 	
 	// sending the HTTP GET request to the Java Servlet endpoint hero-suggestion
 	// with the query data
@@ -51,18 +59,17 @@ function handleLookup(query, doneCallback) {
  * 
  */
 function handleLookupAjaxSuccess(data, query, doneCallback) {
-	console.log("lookup ajax successful")
-	
-	// parse the string into JSON
-	var jsonData = JSON.parse(data);
-	console.log(jsonData)
-	
-	// TODO: if you want to cache the result into a global variable you can do it here
+	// console.log("lookup ajax successful")
+	// if you want to cache the result into a global variable you can do it here
+	sessionStorage.setItem(query, JSON.stringify({ suggestions: data }))
 
 	// call the callback function provided by the autocomplete library
 	// add "{suggestions: jsonData}" to satisfy the library response format according to
 	//   the "Response Format" section in documentation
-	doneCallback( { suggestions: jsonData } );
+	const suggestionObj = { suggestions: data }
+	console.log('from server')
+	console.log(suggestionObj)
+	doneCallback(suggestionObj);
 }
 
 
@@ -73,7 +80,7 @@ function handleLookupAjaxSuccess(data, query, doneCallback) {
  * You can redirect to the page you want using the suggestion data.
  */
 function handleSelectSuggestion(suggestion) {
-	// TODO: jump to the specific result page based on the selected suggestion
+	// jump to the specific result page based on the selected suggestion
 	window.location.href = "single-movie.html?id=" + suggestion['data']['movieID'];
 	console.log("you select " + suggestion["value"] + " with ID " + suggestion['data']['movieID'])
 }
@@ -89,7 +96,8 @@ function handleSelectSuggestion(suggestion) {
  * 
  */
 // $('#autocomplete') is to find element by the ID "autocomplete"
-$('#autocomplete').autocomplete({
+const autoComplete = $('#autocomplete')
+autoComplete.autocomplete({
 	// documentation of the lookup function can be found under the "Custom lookup function" section
     lookup: function (query, doneCallback) {
     		handleLookup(query, doneCallback)
@@ -108,10 +116,10 @@ $('#autocomplete').autocomplete({
 });
 
 // bind pressing enter key to a handler function
-$('#autocomplete').keypress(function(event) {
+autoComplete.keypress(function(event) {
 	// keyCode 13 is the enter key
-	if (event.keyCode == 13) {
+	if (event.key === 'Enter') {
 		// pass the value of the input box to the handler function
-		handleNormalSearch($('#autocomplete').val())
+		$('search-btn').click()
 	}
 })
