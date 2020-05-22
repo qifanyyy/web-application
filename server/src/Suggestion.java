@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.HashMap;
 
 import javax.annotation.Resource;
 import javax.servlet.annotation.WebServlet;
@@ -16,7 +15,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 // server endpoint URL
-@WebServlet("/suggestion")
+@WebServlet(name = "Suggestion", urlPatterns = "/suggestion")
 public class Suggestion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -45,7 +44,7 @@ public class Suggestion extends HttpServlet {
 			}	
 			
 
-			// TODO: in project 4, you should do full text search with MySQL to find the matches on movies and stars
+			// in project 4, you should do full text search with MySQL to find the matches on movies and stars
 
 			StringBuilder fulltext = new StringBuilder();
 			String[] fullTextArray = query.split(" ");
