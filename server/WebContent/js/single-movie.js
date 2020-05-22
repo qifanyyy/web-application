@@ -86,10 +86,6 @@ function handleResult(resultData) {
     let rowHTML = "<tr><th>" + resultData["movie_director"] + "</th><th>";
     let rowHTML2 = "<tr><th>";
 
-
-
-
-
         for (let i = 0; i < resultData["movie_genre"].length; i++) {
             if (i !== 0) rowHTML += ", ";
             rowHTML += '<a href="movie-list.html?genre=' + resultData["movie_genre"][i] + '">' + resultData["movie_genre"][i] + '</a>';

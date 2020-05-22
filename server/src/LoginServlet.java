@@ -26,20 +26,23 @@ public class LoginServlet extends HttpServlet {
         response.setCharacterEncoding("UTF-8");
         PrintWriter out = response.getWriter();
 
-        String gRecaptchaResponse = req.getParameter("g-recaptcha-response");
-        try {
-            Util.verifyRecaptcha(gRecaptchaResponse);
-        } catch (Exception e) {
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("status", "fail");
-            jsonObject.addProperty("message", "reCaptcha authentication failed");
-            jsonObject.add("exception", Util.exception2Json(e));
-            out.write(jsonObject.toString());
-            out.close();
-            response.setStatus(400);
-            return;
-        }
 
+        String header = req.getHeader("User-Agent");
+        if (!header.startsWith("Dalvik")) {
+            String gRecaptchaResponse = req.getParameter("g-recaptcha-response");
+            try {
+                Util.verifyRecaptcha(gRecaptchaResponse);
+            } catch (Exception e) {
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("status", "fail");
+                jsonObject.addProperty("message", "reCaptcha authentication failed");
+                jsonObject.add("exception", Util.exception2Json(e));
+                out.write(jsonObject.toString());
+                out.close();
+                response.setStatus(400);
+                return;
+            }
+        }
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         String type = req.getParameter("type");
@@ -50,7 +53,6 @@ public class LoginServlet extends HttpServlet {
             response.setStatus(400);
             return;
         }
-
         try (Connection connection = dataSource.getConnection();
              PreparedStatement emailStatement = type.equals("customer") ?
                      connection.prepareStatement("SELECT * FROM customers WHERE email = ?") :
@@ -63,7 +65,11 @@ public class LoginServlet extends HttpServlet {
             if (!resultSet.next() || !new StrongPasswordEncryptor().checkPassword(password, resultSet.getString("password"))) {
                 ret.addProperty("status", "fail");
                 ret.addProperty("message", "invalid email address or password");
+                JsonObject jsonObject = Util.makeGeneralErrorJsonObject("invalid email address or password");
+                out.write(jsonObject.toString());
+                out.close();
                 response.setStatus(400);
+                return;
             } else {
                 if (type.equals("customer")) {
                     Customer customer = new Customer(
