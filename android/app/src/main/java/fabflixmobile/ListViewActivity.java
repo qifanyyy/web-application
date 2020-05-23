@@ -1,4 +1,4 @@
-package edu.uci.ics.fabflixmobile;
+package fabflixmobile;
 
 import android.app.Activity;
 import android.content.Intent;

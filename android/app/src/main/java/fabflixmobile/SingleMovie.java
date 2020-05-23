@@ -1,4 +1,4 @@
-package edu.uci.ics.fabflixmobile;
+package fabflixmobile;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
