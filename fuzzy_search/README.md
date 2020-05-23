@@ -10,17 +10,17 @@ compiler (we use Clang 10) and CMake (3.16 or newer) installed.
 Then, make sure that your current directory contains this `README.md`
 file.
 
-Create a build directory named `cmake-build-debug` in side current
+Create a build directory named `cmake-build` in side current
 working directory.
 
 ```shell script
-mkdir cmake-build-debug
+mkdir cmake-build
 ```
 
 Go to `cmake-build-debug` and start CMake.
 
 ```shell script
-cd cmake-build-debug
+cd cmake-build
 cmake ..
 ```
 
@@ -31,8 +31,8 @@ make
 ```
 
 You can find `main` and `libfuzzy_search.so` (`libfuzzy_search.dylib`
-on macOS) inside `cmake-build-debug` if build process succeeded.
+on macOS) inside `cmake-build` if build process succeeded.
 
 ## Clean
 
-Just remove the `cmake-build-debug` directory.
+Just remove the `cmake-build` directory.
