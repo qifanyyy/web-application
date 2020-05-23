@@ -17,7 +17,7 @@ working directory.
 mkdir cmake-build
 ```
 
-Go to `cmake-build-debug` and start CMake.
+Go to `cmake-build` and start CMake.
 
 ```shell script
 cd cmake-build
@@ -30,7 +30,7 @@ Finally, build the library.
 make
 ```
 
-You can find `main` and `libfuzzy_search.so` (`libfuzzy_search.dylib`
+You can find `libfuzzy_search.so` (`libfuzzy_search.dylib`
 on macOS) inside `cmake-build` if build process succeeded.
 
 ## Clean
