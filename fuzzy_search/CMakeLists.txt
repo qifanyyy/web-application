@@ -17,5 +17,3 @@ endif()
 
 add_library(fuzzy_search SHARED min_edit_distance.c min_edit_distance.h)
 target_include_directories(fuzzy_search PUBLIC ${MYSQL_INCLUDE})
-add_executable(main main.c)
-target_link_libraries(main fuzzy_search)
