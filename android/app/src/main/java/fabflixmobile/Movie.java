@@ -1,4 +1,4 @@
-package edu.uci.ics.fabflixmobile;
+package fabflixmobile;
 
 public class Movie {
     private String name;
