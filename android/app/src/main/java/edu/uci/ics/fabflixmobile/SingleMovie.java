@@ -116,6 +116,8 @@ public class SingleMovie extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_single_movie);
 
-        getMovieInfo("tt0126029");
+        Bundle extras = getIntent().getExtras();
+        assert extras != null;
+        getMovieInfo(extras.getString("movieId"));
     }
 }
