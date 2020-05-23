@@ -137,10 +137,8 @@ public class SearchServlet extends HttpServlet {
 
             String fulltext = "";
             if(t) {
-                String[] fulltextarray = title.split(" ");
-                for (int i = 0; i < fulltextarray.length; i++) fulltext += "+" + fulltextarray[i] + "* ";
-            }
 
+            }
 
 
 

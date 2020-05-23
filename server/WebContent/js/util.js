@@ -49,4 +49,9 @@ function setUpSearchForm() {
     })
 }
 
+function advance(){
+    $("#nav-placeholder").load("advance.html", () => {
+        setUpSearchForm()
+    });
+}
 
