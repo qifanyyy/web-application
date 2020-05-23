@@ -31,8 +31,8 @@ public class MoviesServlet extends HttpServlet {
         String sort     = request.getParameter("sort");
         String page     = request.getParameter("page");
         String display  = request.getParameter("display");
-        String type = request.getParameter("type");
-        System.out.println(type);
+        String fulltext = request.getParameter("fulltext");
+
 
         HttpSession session = request.getSession();
 
