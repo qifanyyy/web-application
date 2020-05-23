@@ -1,8 +1,21 @@
 cmake_minimum_required(VERSION 3.16)
 project(fuzzy_search)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_C_STANDARD 11)
 
-add_library(fuzzy_search SHARED edit_distance.cpp edit_distance.hpp)
-add_executable(main main.cpp)
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
+
+set(CMAKE_C_FLAGS "-Wall -Wextra -Werror")
+set(CMAKE_C_FLAGS_DEBUG "-DDEBUG -g ${CMAKE_CXX_FLAGS}")
+set(CMAKE_C_FLAGS_RELEASE "-O3 ${CMAKE_CXX_FLAGS}")
+
+if(NOT MYSQL_INCLUDE)
+    set(MYSQL_INCLUDE "/usr/include/mysql")
+endif()
+
+add_library(fuzzy_search SHARED min_edit_distance.c min_edit_distance.h)
+target_include_directories(fuzzy_search PUBLIC ${MYSQL_INCLUDE})
+add_executable(main main.c)
 target_link_libraries(main fuzzy_search)
