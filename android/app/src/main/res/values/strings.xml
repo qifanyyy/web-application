@@ -2,5 +2,8 @@
     <string name="app_name">FabflixMobile</string>
     <string name="genres_heading">Genres</string>
     <string name="stars_heading">Stars</string>
+    <string name="movie_title_hint">Movie Title</string>
+    <string name="fuzzy_switch_name">Fuzzy</string>
+    <string name="search_button_name">Search</string>
     <color name="red">#CC0000</color>
 </resources>
