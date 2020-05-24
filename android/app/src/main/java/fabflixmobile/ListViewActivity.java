@@ -23,7 +23,10 @@ public class ListViewActivity extends Activity {
 
     private EditText movieTitleInput;
     private Button searchButton;
+    private Button perviousButton;
+    private Button nextButton;
     private String url;
+    public int page;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +34,8 @@ public class ListViewActivity extends Activity {
 
         movieTitleInput = findViewById(R.id.movieTitleInput);
         searchButton = findViewById(R.id.searchButton);
+        perviousButton = findViewById(R.id.perviousButton);
+        nextButton = findViewById(R.id.nextButton);
         url = "https://10.0.2.2:8443/server_war/api/";
 
 
@@ -48,7 +53,26 @@ public class ListViewActivity extends Activity {
                 movies.clear();
                 adapter.notifyDataSetChanged();
                 search(movies, adapter);
+            }
+        });
 
+        perviousButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                page -= 1;
+                movies.clear();
+                adapter.notifyDataSetChanged();
+                search(movies, adapter);
+            }
+        });
+
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                page += 1;
+                movies.clear();
+                adapter.notifyDataSetChanged();
+                search(movies, adapter);
             }
         });
 
@@ -70,9 +94,17 @@ public class ListViewActivity extends Activity {
         // Use the same network queue across our application
         final RequestQueue queue = NetworkManager.sharedManager(this).queue;
         //request type is GET
-        String movieapi = String.format("movies?title=%1$s&year=null&director=null&star=null&genre=null&alnum=null&sort=null&page=null&display=20&fulltext=fulltextsearch",
-                movieTitleInput.getText().toString());
-
+        String display = "20";
+        String fulltext = "fulltextsearch";
+        String title = movieTitleInput.getText().toString();
+        if (page > 1) {
+            display = "null";
+            fulltext = "null";
+            title = "null";
+        }
+        String movieapi = String.format("movies?title=%1$s&year=null&director=null&star=null&genre=null&alnum=null&sort=null&page=%2$s&display=%3$s&fulltext=%4$s",
+               title , String.valueOf(page), display, fulltext);
+        Log.d("url:", movieapi);
         final StringRequest searchRequest = new StringRequest(Request.Method.GET, url + movieapi, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -82,7 +114,8 @@ public class ListViewActivity extends Activity {
                 try {
                     JSONObject responseJson = new JSONObject(response);
                     JSONArray moviesArray = responseJson.getJSONArray("movies");
-                    Log.d("responseJson", responseJson.getJSONObject("page").getString("page"));
+                    page = Integer.parseInt(responseJson.getJSONObject("page").getString("page"));
+                    Log.d("responseJson", String.valueOf(page));
                     for (int i = 0 ; i < moviesArray.length(); i++) {
                         JSONObject movie = moviesArray.getJSONObject(i);
                         String movieId = movie.getString("movieId");
