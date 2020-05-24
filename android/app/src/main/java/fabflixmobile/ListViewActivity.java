@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -83,6 +82,7 @@ public class ListViewActivity extends Activity {
                 try {
                     JSONObject responseJson = new JSONObject(response);
                     JSONArray moviesArray = responseJson.getJSONArray("movies");
+                    Log.d("responseJson", responseJson.getJSONObject("page").getString("page"));
                     for (int i = 0 ; i < moviesArray.length(); i++) {
                         JSONObject movie = moviesArray.getJSONObject(i);
                         String movieId = movie.getString("movieId");
@@ -104,8 +104,6 @@ public class ListViewActivity extends Activity {
                             movieStars += StarsArray.getJSONObject(j).getString("starName");
                             if (j != StarsArray.length() - 1) movieStars += ", ";
                         }
-
-                        Log.d("responseJson", movieStars);
 
                         movies.add(new Movie(movieId, movieTitle, Short.valueOf(movieYear), movieDirector, movieGenres, movieStars));
                         adapter.notifyDataSetChanged();
