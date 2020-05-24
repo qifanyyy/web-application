@@ -56,7 +56,5 @@ function advance() {
 }
 
 function goBackFullTextSearch() {
-    $("#nav-placeholder").load("nav.html", () => {
-        setUpSearchForm()
-    });
+    $("#nav-placeholder").load("nav.html");
 }
