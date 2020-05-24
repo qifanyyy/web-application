@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -26,7 +27,8 @@ public class ListViewActivity extends Activity {
     private Button perviousButton;
     private Button nextButton;
     private String url;
-    public int page;
+    private int page;
+    private Switch fuzzySwitch;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +38,7 @@ public class ListViewActivity extends Activity {
         searchButton = findViewById(R.id.searchButton);
         perviousButton = findViewById(R.id.perviousButton);
         nextButton = findViewById(R.id.nextButton);
+        fuzzySwitch = findViewById(R.id.fuzzySwitch);
         url = "https://10.0.2.2:8443/server_war/api/";
 
 
@@ -97,14 +100,21 @@ public class ListViewActivity extends Activity {
         String display = "20";
         String fulltext = "fulltextsearch";
         String title = movieTitleInput.getText().toString();
+        String fuzzy = "Fuzzyoff";
         if (page > 1) {
             display = "null";
             fulltext = "null";
             title = "null";
+            fuzzy = "null";
         }
-        String movieapi = String.format("movies?title=%1$s&year=null&director=null&star=null&genre=null&alnum=null&sort=null&page=%2$s&display=%3$s&fulltext=%4$s",
-               title , String.valueOf(page), display, fulltext);
-        Log.d("url:", movieapi);
+
+        if (fuzzySwitch.isChecked()) fuzzy = "Fuzzyon";
+
+
+        String movieapi = String.format("movies?title=%1$s&year=null&director=null&star=null&genre=null&alnum=null&sort=null&page=%2$s&display=%3$s&fulltext=%4$s&fuzzy=%5$s",
+               title , String.valueOf(page), display, fulltext, fuzzy);
+
+
         final StringRequest searchRequest = new StringRequest(Request.Method.GET, url + movieapi, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -115,7 +125,6 @@ public class ListViewActivity extends Activity {
                     JSONObject responseJson = new JSONObject(response);
                     JSONArray moviesArray = responseJson.getJSONArray("movies");
                     page = Integer.parseInt(responseJson.getJSONObject("page").getString("page"));
-                    Log.d("responseJson", String.valueOf(page));
                     for (int i = 0 ; i < moviesArray.length(); i++) {
                         JSONObject movie = moviesArray.getJSONObject(i);
                         String movieId = movie.getString("movieId");
