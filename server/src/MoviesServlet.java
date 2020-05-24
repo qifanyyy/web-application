@@ -39,9 +39,9 @@ public class MoviesServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         PreparedStatement getMovie = null;
-        PreparedStatement getGenre = null;
-        PreparedStatement getStar = null;
-        PreparedStatement getStarcount = null;
+        PreparedStatement getGenre;
+        PreparedStatement getStar;
+        PreparedStatement getStarcount;
 
         String movieQuery = "SELECT * FROM movies, ";
         String genreQuery = "SELECT name FROM genres_in_movies, genres WHERE movieId = ? AND id = genreID ORDER BY name LIMIT 3;";
@@ -49,15 +49,15 @@ public class MoviesServlet extends HttpServlet {
         String starcountQuery = "SELECT COUNT(*) FROM stars_in_movies WHERE Starid = ?;";
 
 
-        boolean t  = !title.equals("")    && !title.equals(null)    && !title.equals("null"),
-                y  = year.length() == 4   && !year.equals(null)     && !year.equals("null"),
-                s  = !star.equals("")     && !star.equals(null)     && !star.equals("null"),
-                d  = !director.equals("") && !director.equals(null) && !director.equals("null"),
-                a  = !alnum.equals("")    && !alnum.equals(null)    && !alnum.equals("null"),
-                g  = !genre.equals("")    && !genre.equals(null)    && !genre.equals("null"),
-                p  = !page.equals("")     && !page.equals(null)     && !page.equals("null"),
-                di = !display.equals("")  && !display.equals(null)  && !display.equals("null"),
-                st = !sort.equals("")     && !sort.equals(null)     && !sort.equals("null");
+        boolean t  = title != null    && !title.equals("")    && !title.equals("null"),
+                y  = year != null     && year.length() == 4   && !year.equals("null"),
+                s  = star != null     && !star.equals("")     && !star.equals("null"),
+                d  = director != null && !director.equals("") && !director.equals("null"),
+                a  = alnum != null    && !alnum.equals("")    && !alnum.equals("null"),
+                g  = genre != null    && !genre.equals("")    && !genre.equals("null"),
+                p  = page != null     && !page.equals("")     && !page.equals("null"),
+                di = display != null  && !display.equals("")  && !display.equals("null"),
+                st = sort != null     && !sort.equals("")     && !sort.equals("null");
 
 
         if (!di) {
@@ -105,12 +105,12 @@ public class MoviesServlet extends HttpServlet {
             genre    = (String) session.getAttribute("genre");
             alnum    = (String) session.getAttribute("alnum");
 
-            t = !title.equals("")    && !title.equals(null)    && !title.equals("null");
-            y = year.length() == 4   && !year.equals(null)     && !year.equals("null");
-            s = !star.equals("")     && !star.equals(null)     && !star.equals("null");
-            d = !director.equals("") && !director.equals(null) && !director.equals("null");
-            a = !alnum.equals("")    && !alnum.equals(null)    && !alnum.equals("null");
-            g = !genre.equals("")    && !genre.equals(null)    &&!genre.equals("null");
+            t = title != null    && !title.equals("")    && !title.equals("null");
+            y = year != null     && year.length() == 4   && !year.equals("null");
+            s = star != null     && !star.equals("")     && !star.equals("null");
+            d = director != null && !director.equals("") && !director.equals("null");
+            a = alnum != null    && !alnum.equals("")    && !alnum.equals("null");
+            g = genre != null    && !genre.equals("")    &&!genre.equals("null");
         } else {
             session.setAttribute("title", title);
             session.setAttribute("year", year);
@@ -137,7 +137,7 @@ public class MoviesServlet extends HttpServlet {
 
             String sortQuery = " ORDER BY ? LIMIT ? OFFSET ?;";
             String titleQuery = " AND movies.title LIKE ?";
-            String fuzzyQuery = " OR min_edit_distance('" + title + "', title) <=2";
+            String fuzzyQuery = " OR min_edit_distance('" + title + "', title) <= 2)";
 
 
 
@@ -151,7 +151,10 @@ public class MoviesServlet extends HttpServlet {
                 titleQuery = " AND match(title) against (? IN BOOLEAN MODE)";
             }
 
-            if (fuzzy.equals("Fuzzyon")) titleQuery += fuzzyQuery;
+            if (fuzzy.equals("Fuzzyon")) {
+                titleQuery = titleQuery.substring(0, 5) + '(' + titleQuery.substring(5);
+                titleQuery += fuzzyQuery;
+            }
 
             if (alnum.equals("*")) {
                 movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.title REGEXP '^[^a-z0-9]'";
@@ -434,7 +437,7 @@ public class MoviesServlet extends HttpServlet {
 
             getGenre.close();
             getStar.close();
-            getMovie.close();
+            if (getMovie != null) getMovie.close();
             con.close();
             // write JSON string to output
             out.write(ret.toString());

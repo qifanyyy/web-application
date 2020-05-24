@@ -67,7 +67,7 @@ public class Suggestion extends HttpServlet {
 
 			getTitle = con.prepareStatement(titleQuery);
 			getTitle.setString(1, fulltext.toString());
-			if (fuzzy.equals("Fuzzyon")) getTitle.setString(2, fulltext.toString());
+			if (fuzzy.equals("Fuzzyon")) getTitle.setString(2, query);
 
 			System.out.println("query:" + getTitle);
 			ResultSet rs = getTitle.executeQuery();
@@ -79,9 +79,9 @@ public class Suggestion extends HttpServlet {
 			}
 
 
-			while (rs.next()){
+			do {
 				jsonArray.add(generateJsonObject(rs.getString("id"), rs.getString("title")));
-			}
+			} while (rs.next());
 
 			rs.close();
 			con.close();

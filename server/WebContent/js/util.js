@@ -61,9 +61,9 @@ function goBackFullTextSearch() {
 
 
 function colorchange(id) {
-
-    var background = document.getElementById(id).style.backgroundColor;
-    if (background == "transparent") {
+    sessionStorage.clear()
+    let background = document.getElementById(id).style.backgroundColor;
+    if (background === "transparent") {
         document.getElementById(id).style.background = "#007bff";
         document.getElementById(id).style.color = "#ffffff";
         document.getElementById("fuzzyy").value = "Fuzzyon";
