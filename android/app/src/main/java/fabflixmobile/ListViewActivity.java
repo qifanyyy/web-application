@@ -56,11 +56,7 @@ public class ListViewActivity extends Activity {
 
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Movie movie = movies.get(position);
-            String message = String.format("Clicked on position: %d, name: %s, %d", position, movie.getId(), movie.getYear());
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-
-            // TODO: put corresponding movie id in this variable
-            String movieId = "tt0126029";
+            String movieId = movie.getId();
 
             Intent intent = new Intent(ListViewActivity.this, SingleMovie.class);
             intent.putExtra("movieId", movieId);
@@ -75,7 +71,7 @@ public class ListViewActivity extends Activity {
         // Use the same network queue across our application
         final RequestQueue queue = NetworkManager.sharedManager(this).queue;
         //request type is GET
-        String movieapi = String.format("movies?title=%1$s&year=null&director=null&star=null&genre=null&alnum=null&sort=null&page=null&display=null&fulltext=fulltextsearch",
+        String movieapi = String.format("movies?title=%1$s&year=null&director=null&star=null&genre=null&alnum=null&sort=null&page=null&display=20&fulltext=fulltextsearch",
                 movieTitleInput.getText().toString());
 
         final StringRequest searchRequest = new StringRequest(Request.Method.GET, url + movieapi, new Response.Listener<String>() {
@@ -86,17 +82,25 @@ public class ListViewActivity extends Activity {
 
                 try {
                     JSONObject responseJson = new JSONObject(response);
-                    JSONArray moviesArray = new JSONArray(responseJson.getString("movies"));
+                    JSONArray moviesArray = responseJson.getJSONArray("movies");
                     for (int i = 0 ; i < moviesArray.length(); i++) {
                         JSONObject movie = moviesArray.getJSONObject(i);
                         String movieId = movie.getString("movieId");
                         String movieTitle = movie.getString("movieTitle");
                         String movieYear = movie.getString("movieYear");
-                        String movieDirector = movie.getString("movieDirector");
-                        String movieGenres = movie.getString("movieGenres");
-                        String movieStars = movie.getString("movieStars");
-                        Log.d("responseJson", movieId);
-                        movies.add(new Movie(movieId, movieTitle, Short.valueOf(movieYear), movieDirector));
+                        String movieDirector = "Director: " + movie.getString("movieDirector");
+
+                        String movieGenres = "Genres: ";
+                        String movieStars = "Stars: ";
+
+                        JSONArray GenresArray = movie.getJSONArray("movieGenres");
+                            for (int j = 0 ; j < GenresArray.length(); j++) {
+                                movieGenres += GenresArray.getString(j);
+                                if (j != GenresArray.length() - 1) movieGenres += ", ";
+                            }
+                        Log.d("responseJson", movieGenres);
+
+                        movies.add(new Movie(movieId, movieTitle, Short.valueOf(movieYear), movieDirector, movieGenres, movieStars));
                         adapter.notifyDataSetChanged();
                     }
 

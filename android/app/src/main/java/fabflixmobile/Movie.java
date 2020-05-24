@@ -5,12 +5,16 @@ public class Movie {
     private String title;
     private short year;
     private String director;
+    private String genres;
+    private String stars;
 
-    public Movie(String id, String title, short year, String director) {
+    public Movie(String id, String title, short year, String director, String genres, String stars) {
         this.id = id;
         this.title = title;
         this.year = year;
         this.director = director;
+        this.genres = genres;
+        this.stars = stars;
     }
 
 
@@ -28,5 +32,13 @@ public class Movie {
 
     public String getDirector() {
         return director;
+    }
+
+    public String getGenres() {
+        return genres;
+    }
+
+    public String getStars() {
+        return stars;
     }
 }
