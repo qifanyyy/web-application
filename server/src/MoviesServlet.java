@@ -137,6 +137,11 @@ public class MoviesServlet extends HttpServlet {
 
             String sortQuery = " ORDER BY ? LIMIT ? OFFSET ?;";
             String titleQuery = " AND movies.title LIKE ?";
+            String fuzzyQuery = " OR min_edit_distance('" + title + "', title) <=2";
+
+
+
+
 
             String processedtitle = "%" + title + "%";
             if (fulltext.equals("fulltextsearch")) {
@@ -146,7 +151,9 @@ public class MoviesServlet extends HttpServlet {
                 titleQuery = " AND match(title) against (? IN BOOLEAN MODE)";
             }
 
-
+            if (fuzzy.equals("Fuzzyon")) {
+                titleQuery += fuzzyQuery;
+            }
 
             if (alnum.equals("*")) {
                 movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.title REGEXP '^[^a-z0-9]'";
@@ -235,8 +242,9 @@ public class MoviesServlet extends HttpServlet {
                 movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND name LIKE ?" + titleQuery;
                 movieQuery += sortQuery;
                 getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, processedtitle);
-                getMovie.setString(2, "%" + star + "%");
+
+                getMovie.setString(1, "%" + star + "%");
+                getMovie.setString(2, processedtitle);
                 getMovie.setString(3, orderby);
                 getMovie.setInt(4, Integer.parseInt(display));
                 getMovie.setInt(5, offset);
@@ -275,9 +283,10 @@ public class MoviesServlet extends HttpServlet {
                 movieQuery += "stars_in_movies, stars , ratings WHERE movies.id = ratings.movieId AND movies.id= stars_in_movies.movieid AND stars_in_movies.starId= stars.id AND movies.director LIKE ? AND name LIKE ?" + titleQuery;
                 movieQuery += sortQuery;
                 getMovie = con.prepareStatement(movieQuery);
-                getMovie.setString(1, processedtitle);
-                getMovie.setString(2, "%" + director + "%");
-                getMovie.setString(3, "%" + star + "%");
+
+                getMovie.setString(1, "%" + director + "%");
+                getMovie.setString(2, "%" + star + "%");
+                getMovie.setString(3, processedtitle);
                 getMovie.setString(4, orderby);
                 getMovie.setInt(5, Integer.parseInt(display));
                 getMovie.setInt(6, offset);
@@ -298,8 +307,8 @@ public class MoviesServlet extends HttpServlet {
                 movieQuery += sortQuery;
                 getMovie = con.prepareStatement(movieQuery);
                 getMovie.setString(1, year);
-                getMovie.setString(2, processedtitle);
-                getMovie.setString(3, "%" + star + "%");
+                getMovie.setString(2, "%" + star + "%");
+                getMovie.setString(3, processedtitle);
                 getMovie.setString(4, orderby);
                 getMovie.setInt(5, Integer.parseInt(display));
                 getMovie.setInt(6, offset);
@@ -321,8 +330,8 @@ public class MoviesServlet extends HttpServlet {
                 getMovie = con.prepareStatement(movieQuery);
                 getMovie.setString(1, "%" + director + "%");
                 getMovie.setString(2, year);
-                getMovie.setString(3, processedtitle);
-                getMovie.setString(4, "%" + star + "%");
+                getMovie.setString(3, "%" + star + "%");
+                getMovie.setString(4, processedtitle);
                 getMovie.setString(5, orderby);
                 getMovie.setInt(6, Integer.parseInt(display));
                 getMovie.setInt(7, offset);
