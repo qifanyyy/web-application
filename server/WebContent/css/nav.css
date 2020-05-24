@@ -13,6 +13,10 @@
     margin-left: 5px;
 }
 
+#fuzzy {
+    width: 65px;
+}
+
 #search-year {
     width: 80px;
 }
@@ -36,5 +40,7 @@
 .autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
 
 .autocomplete-searchbox {
-    width: 459px !important;
+    width: 390px !important;
 }
+
+

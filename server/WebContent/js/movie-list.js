@@ -155,7 +155,7 @@ window.addEventListener('click', ev => {
 
 
 
-fetch(`api/movies?title=${getParameterByName('title')}&year=${getParameterByName('year')}&director=${getParameterByName('director')}&star=${getParameterByName('star')}&genre=${getParameterByName('genre')}&alnum=${getParameterByName('alnum')}&sort=${getParameterByName('sort')}&page=${getParameterByName('page')}&display=${getParameterByName('display')}&fulltext=${getParameterByName('fulltext')}`, {  // getParameterByName defined in util.js
+fetch(`api/movies?title=${getParameterByName('title')}&year=${getParameterByName('year')}&director=${getParameterByName('director')}&star=${getParameterByName('star')}&genre=${getParameterByName('genre')}&alnum=${getParameterByName('alnum')}&sort=${getParameterByName('sort')}&page=${getParameterByName('page')}&display=${getParameterByName('display')}&fulltext=${getParameterByName('fulltext')}&fuzzy=${getParameterByName('fuzzy')}`, {  // getParameterByName defined in util.js
     headers: {
         'content-type': 'application/json;charset=UTF-8'
     },

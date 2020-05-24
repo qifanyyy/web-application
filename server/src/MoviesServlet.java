@@ -32,7 +32,9 @@ public class MoviesServlet extends HttpServlet {
         String page     = request.getParameter("page");
         String display  = request.getParameter("display");
         String fulltext = request.getParameter("fulltext");
+        String fuzzy    = request.getParameter("fuzzy");
 
+        System.out.println(fuzzy);
 
         HttpSession session = request.getSession();
 
@@ -40,8 +42,6 @@ public class MoviesServlet extends HttpServlet {
         PreparedStatement getGenre = null;
         PreparedStatement getStar = null;
         PreparedStatement getStarcount = null;
-
-
 
         String movieQuery = "SELECT * FROM movies, ";
         String genreQuery = "SELECT name FROM genres_in_movies, genres WHERE movieId = ? AND id = genreID ORDER BY name LIMIT 3;";
@@ -65,7 +65,6 @@ public class MoviesServlet extends HttpServlet {
             if (sdisplay == null) sdisplay = "25";
             display = sdisplay;
         }
-
 
         if (st) {
             session.setAttribute("sort", sort);

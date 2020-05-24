@@ -58,3 +58,19 @@ function advance() {
 function goBackFullTextSearch() {
     $("#nav-placeholder").load("nav.html");
 }
+
+
+function colorchange(id) {
+
+    var background = document.getElementById(id).style.backgroundColor;
+    if (background == "transparent") {
+        document.getElementById(id).style.background = "#007bff";
+        document.getElementById(id).style.color = "#ffffff";
+        document.getElementById("fuzzyy").value = "Fuzzyon";
+    } else {
+        document.getElementById(id).style.background = "transparent";
+        document.getElementById(id).style.color = "#007bff";
+        document.getElementById("fuzzyy").value = "FuzzyOff";
+    }
+
+}
