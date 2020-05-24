@@ -5,7 +5,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -70,8 +73,11 @@ public class ListViewActivity extends Activity {
 
         // Use the same network queue across our application
         final RequestQueue queue = NetworkManager.sharedManager(this).queue;
-        //request type is POST
-        final StringRequest searchRequest = new StringRequest(Request.Method.POST, url + "movies", new Response.Listener<String>() {
+        //request type is GET
+        String movieapi = String.format("movies?title=%1$s&year=null&director=null&star=null&genre=null&alnum=null&sort=null&page=null&display=null&fulltext=fulltextsearch",
+                movieTitleInput.getText().toString());
+
+        final StringRequest searchRequest = new StringRequest(Request.Method.GET, url + movieapi, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 //TODO should parse the json response to redirect to appropriate functions.
@@ -79,10 +85,9 @@ public class ListViewActivity extends Activity {
 
                 try {
                     JSONObject responseJson = new JSONObject(response);
-                    Log.d("responseJson", responseJson.getString("status"));
-                    if (responseJson.getString("status").equals("success")) {
-                        Log.d("search.success", response);
-                    }
+
+                    Log.d("search.success", response);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -101,7 +106,6 @@ public class ListViewActivity extends Activity {
                 // Post request form data
                 final Map<String, String> params = new HashMap<>();
                 params.put("title", movieTitleInput.getText().toString());
-                params.put("fulltext", "fulltextsearch");
                 return params;
             }
         };
