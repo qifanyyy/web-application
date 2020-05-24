@@ -14,8 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.json.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,18 +34,19 @@ public class ListViewActivity extends Activity {
         searchButton = findViewById(R.id.searchButton);
         url = "https://10.0.2.2:8443/server_war/api/";
 
+
+        //this should be retrieved from the database and the backend server
+        final ArrayList<Movie> movies = new ArrayList<>();
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search();
+                search(movies);
             }
         });
 
 
-        //this should be retrieved from the database and the backend server
-        final ArrayList<Movie> movies = new ArrayList<>();
-        movies.add(new Movie("The Terminal", (short) 2004));
-        movies.add(new Movie("The Final Season", (short) 2007));
+
 
         MovieListViewAdapter adapter = new MovieListViewAdapter(movies, this);
 
@@ -69,7 +69,7 @@ public class ListViewActivity extends Activity {
 
 
 
-    public void search() {
+    public void search(ArrayList<Movie> movies) {
 
         // Use the same network queue across our application
         final RequestQueue queue = NetworkManager.sharedManager(this).queue;
@@ -85,8 +85,18 @@ public class ListViewActivity extends Activity {
 
                 try {
                     JSONObject responseJson = new JSONObject(response);
+                    JSONArray moviesArray = new JSONArray(responseJson.getString("movies"));
+                    for (int i = 0 ; i < moviesArray.length(); i++) {
+                        JSONObject movie = moviesArray.getJSONObject(i);
+                        String movieTitle = movie.getString("movieTitle");
+                        String movieYear = movie.getString("movieYear");
+                        String movieDirector = movie.getString("movieDirector");
+                        String movieGenres = movie.getString("movieGenres");
+                        String movieStars = movie.getString("movieStars");
+                        Log.d("responseJson", movieTitle);
+                        movies.add(new Movie(movieTitle, Short.valueOf(movieYear)));
+                    }
 
-                    Log.d("search.success", response);
 
 
                 } catch (JSONException e) {
