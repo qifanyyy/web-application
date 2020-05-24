@@ -151,9 +151,7 @@ public class MoviesServlet extends HttpServlet {
                 titleQuery = " AND match(title) against (? IN BOOLEAN MODE)";
             }
 
-            if (fuzzy.equals("Fuzzyon")) {
-                titleQuery += fuzzyQuery;
-            }
+            if (fuzzy.equals("Fuzzyon")) titleQuery += fuzzyQuery;
 
             if (alnum.equals("*")) {
                 movieQuery += "ratings WHERE movies.id = ratings.movieId AND movies.title REGEXP '^[^a-z0-9]'";

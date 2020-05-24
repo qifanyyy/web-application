@@ -21,7 +21,10 @@
 function handleLookup(query, doneCallback) {
 	console.log("autocomplete initiated")
 	// console.log("sending AJAX request to backend Java Servlet")
-	
+
+
+	let fuzzy = document.getElementById("fuzzyy").value;
+
 	// if you want to check past query results first, you can do it here
 	let cacheRet
 	if ((cacheRet = sessionStorage.getItem(query)) !== null) {
@@ -38,7 +41,7 @@ function handleLookup(query, doneCallback) {
 		"method": "GET",
 		// generate the request url from the query.
 		// escape the query string to avoid errors caused by special characters 
-		"url": "suggestion?query=" + escape(query),
+		"url": "suggestion?query=" + escape(query) + "&fuzzy=" + fuzzy,
 		"success": function(data) {
 			// pass the data, query, and doneCallback function into the success handler
 			handleLookupAjaxSuccess(data, query, doneCallback) 

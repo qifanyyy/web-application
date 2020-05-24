@@ -36,7 +36,7 @@ public class Suggestion extends HttpServlet {
 			
 			// get the query string from parameter
 			String query = request.getParameter("query");
-			
+			String fuzzy = request.getParameter("fuzzy");
 			// return the empty json array if query is null or empty
 			if (query == null || query.trim().isEmpty()) {
 				response.getWriter().write(jsonArray.toString());
@@ -50,9 +50,16 @@ public class Suggestion extends HttpServlet {
 			String[] fullTextArray = query.split(" ");
 			for (String s : fullTextArray) fulltext.append("+").append(s).append("* ");
 
-
 			PreparedStatement getTitle = null;
-			String titleQuery = "SELECT * FROM movies WHERE match(title) against (? IN BOOLEAN MODE) LIMIT 10; ";
+
+
+
+			String titleQuery = "SELECT * FROM movies WHERE match(title) against (? IN BOOLEAN MODE)";
+			String fuzzyQuery = " OR min_edit_distance(?, title) <=2";
+
+			if (fuzzy.equals("Fuzzyon")) titleQuery += fuzzyQuery;
+
+			titleQuery += " LIMIT 10;";
 
 
 
@@ -60,6 +67,7 @@ public class Suggestion extends HttpServlet {
 
 			getTitle = con.prepareStatement(titleQuery);
 			getTitle.setString(1, fulltext.toString());
+			if (fuzzy.equals("Fuzzyon")) getTitle.setString(2, fulltext.toString());
 
 			System.out.println("query:" + getTitle);
 			ResultSet rs = getTitle.executeQuery();
