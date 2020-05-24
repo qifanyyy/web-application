@@ -98,7 +98,14 @@ public class ListViewActivity extends Activity {
                                 movieGenres += GenresArray.getString(j);
                                 if (j != GenresArray.length() - 1) movieGenres += ", ";
                             }
-                        Log.d("responseJson", movieGenres);
+
+                        JSONArray StarsArray = movie.getJSONArray("movieStars");
+                        for (int j = 0 ; j < StarsArray.length(); j++) {
+                            movieStars += StarsArray.getJSONObject(j).getString("starName");
+                            if (j != StarsArray.length() - 1) movieStars += ", ";
+                        }
+
+                        Log.d("responseJson", movieStars);
 
                         movies.add(new Movie(movieId, movieTitle, Short.valueOf(movieYear), movieDirector, movieGenres, movieStars));
                         adapter.notifyDataSetChanged();
