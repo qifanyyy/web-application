@@ -36,26 +36,27 @@ public class ListViewActivity extends Activity {
 
 
         //this should be retrieved from the database and the backend server
-        final ArrayList<Movie> movies = new ArrayList<>();
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                search(movies);
-            }
-        });
-
-
-
+        final ArrayList<Movie> movies = new ArrayList<Movie>();
 
         MovieListViewAdapter adapter = new MovieListViewAdapter(movies, this);
 
         ListView listView = findViewById(R.id.list);
         listView.setAdapter(adapter);
 
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                movies.clear();
+                adapter.notifyDataSetChanged();
+                search(movies, adapter);
+
+            }
+        });
+
+
         listView.setOnItemClickListener((parent, view, position, id) -> {
             Movie movie = movies.get(position);
-            String message = String.format("Clicked on position: %d, name: %s, %d", position, movie.getName(), movie.getYear());
+            String message = String.format("Clicked on position: %d, name: %s, %d", position, movie.getId(), movie.getYear());
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
 
             // TODO: put corresponding movie id in this variable
@@ -69,7 +70,7 @@ public class ListViewActivity extends Activity {
 
 
 
-    public void search(ArrayList<Movie> movies) {
+    public void search(ArrayList<Movie> movies, MovieListViewAdapter adapter) {
 
         // Use the same network queue across our application
         final RequestQueue queue = NetworkManager.sharedManager(this).queue;
@@ -88,15 +89,16 @@ public class ListViewActivity extends Activity {
                     JSONArray moviesArray = new JSONArray(responseJson.getString("movies"));
                     for (int i = 0 ; i < moviesArray.length(); i++) {
                         JSONObject movie = moviesArray.getJSONObject(i);
+                        String movieId = movie.getString("movieId");
                         String movieTitle = movie.getString("movieTitle");
                         String movieYear = movie.getString("movieYear");
                         String movieDirector = movie.getString("movieDirector");
                         String movieGenres = movie.getString("movieGenres");
                         String movieStars = movie.getString("movieStars");
-                        Log.d("responseJson", movieTitle);
-                        movies.add(new Movie(movieTitle, Short.valueOf(movieYear)));
+                        Log.d("responseJson", movieId);
+                        movies.add(new Movie(movieId, movieTitle, Short.valueOf(movieYear), movieDirector));
+                        adapter.notifyDataSetChanged();
                     }
-
 
 
                 } catch (JSONException e) {
