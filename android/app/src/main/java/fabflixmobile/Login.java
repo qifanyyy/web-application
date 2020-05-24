@@ -41,15 +41,7 @@ public class Login extends ActionBarActivity {
          * To connect to your machine, you need to use the below IP address
          * **/
         url = "https://10.0.2.2:8443/server_war/api/";
-
-
-
-
-        Intent listPage = new Intent(Login.this, ListViewActivity.class);
-        startActivity(listPage);
-
-
-
+        
 
 
         //assign a listener to call a function to handle the user request when clicking a button
