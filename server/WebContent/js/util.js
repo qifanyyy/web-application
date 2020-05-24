@@ -49,9 +49,14 @@ function setUpSearchForm() {
     })
 }
 
-function advance(){
+function advance() {
     $("#nav-placeholder").load("advance.html", () => {
         setUpSearchForm()
     });
 }
 
+function goBackFullTextSearch() {
+    $("#nav-placeholder").load("nav.html", () => {
+        setUpSearchForm()
+    });
+}
