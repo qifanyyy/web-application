@@ -2,9 +2,9 @@
 
 ## Build
 
-You may use CLion to view, edit, build and run this C++ project.
+You may use CLion to view, edit, build and run this C project.
 
-To build it from command line, make sure you have a modern C++
+To build it from command line, make sure you have a modern C
 compiler (we use Clang 10) and CMake (3.16 or newer) installed.
 
 Then, make sure that your current directory contains this `README.md`
