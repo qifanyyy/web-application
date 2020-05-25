@@ -33,6 +33,7 @@ public class MoviesServlet extends HttpServlet {
         String display  = request.getParameter("display");
         String fulltext = request.getParameter("fulltext");
         String fuzzy    = request.getParameter("fuzzy");
+        String manualPage = request.getParameter("manualPage");
 
         System.out.println(fuzzy);
 
@@ -93,7 +94,7 @@ public class MoviesServlet extends HttpServlet {
             if (spage == null) spage = "1";
             page = spage;
         }
-        if (t || page.equals("0")) page = "1";
+        if (manualPage == null && (t || page.equals("0"))) page = "1";
 
         session.setAttribute("page", page);
 

@@ -79,7 +79,7 @@
                     android:layout_marginLeft="30dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Page"
+                    android:text="Page 1"
                     android:id="@+id/page"
                     android:textColor="#000000"
                     android:textSize="30sp"/>
