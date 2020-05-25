@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin">
+                android:layout_height="match_parent">
 
     <LinearLayout
             android:orientation="vertical"
@@ -15,7 +11,11 @@
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp">
 
             <EditText
                     android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/fuzzySwitch"
-                    android:layout_weight="1"/>
+                    android:layout_weight="0"/>
 
             <Button
                     android:radius="8dp"
@@ -50,41 +50,47 @@
                 android:divider="@android:color/transparent"
                 android:dividerHeight="5dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginBottom="5dp"
                 android:layout_weight="1"/>
+
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp">
+
             <Button
                     android:radius="8dp"
                     android:textColor="#FFFFFF"
-                    android:background="#007BFF"
-                    android:text="Pervious"
+                    android:background="@drawable/btn_rounded"
+                    android:text="Previous"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/perviousButton"
                     android:layout_weight="1"/>
+
             <TextView
                     android:layout_marginTop="2dp"
                     android:layout_marginRight="30dp"
                     android:layout_marginLeft="30dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="Page"
                     android:id="@+id/page"
-                    android:layout_centerHorizontal="true"
                     android:textColor="#000000"
-                    android:textSize="30dp"/>
+                    android:textSize="30sp"/>
 
             <Button
                     android:radius="8dp"
                     android:textColor="#FFFFFF"
-                    android:background="#007BFF"
+                    android:background="@drawable/btn_rounded"
                     android:text="Next"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:id="@+id/nextButton"
                     android:layout_weight="1"/>
         </LinearLayout>
