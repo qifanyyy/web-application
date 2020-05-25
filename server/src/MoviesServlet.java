@@ -349,6 +349,7 @@ public class MoviesServlet extends HttpServlet {
             data.addProperty("sort", sort);
             data.addProperty("page", page);
             data.addProperty("display", display);
+            data.addProperty("fuzzy", fuzzy);
             JsonObject squery = (JsonObject) session.getAttribute("data");
 
             JsonObject ret = new JsonObject();

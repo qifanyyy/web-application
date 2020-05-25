@@ -87,6 +87,10 @@ int main(void)
     ret = min_edit_distance(NULL, &args, &is_null_ret, NULL);
     EXPECT_EQ(2, ret, pass_count, test_count);
 
+    set_udf_args(&args, "Impossible", "impossble");
+    ret = min_edit_distance(NULL, &args, &is_null_ret, NULL);
+    EXPECT_EQ(1, ret, pass_count, test_count);
+
     free_udf(&args);
 
     printf("%d / %d tests passed (%.1f%%)\n", pass_count, test_count, (pass_count * 100.0) / test_count);

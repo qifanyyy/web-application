@@ -138,6 +138,7 @@ public class ListViewActivity extends Activity {
         Log.d("movieList finalURL", finalUrl);
 
         final StringRequest searchRequest = new StringRequest(Request.Method.GET, finalUrl, response -> {
+            Log.d("movieListResp", response);
             enableButton(nextButton);
             enableButton(previousButton);
 
