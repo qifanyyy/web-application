@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SingleMovie extends ActionBarActivity {
-    private final static String url = "https://10.0.2.2:8443/server_war/api/single-movie?id=";
+    private final static String url = "https://10.0.2.2:8443/api/single-movie?id=";
     private Movie movie = null;
 
     private static class Movie {
@@ -104,7 +104,7 @@ public class SingleMovie extends ActionBarActivity {
 
         runOnUiThread(() -> {
             movieTitleTextView.setText(movie.title + " (" + movie.year + ')');
-            movieRatingTextView.setText(new DecimalFormat("#.0").format(movie.rating));
+            movieRatingTextView.setText(new DecimalFormat("#0.0").format(movie.rating));
             movieDirectorTextView.setText(movie.director);
             movieGenresTextView.setText(movie.getGenreDisplayString());
             movieStarsTextView.setText(movie.getStarDisplayString());
