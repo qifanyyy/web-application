@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class SingleMovie extends ActionBarActivity {
-    private final static String url = "https://10.0.2.2:8443/api/single-movie?id=";
+    private final static String url = Util.BASE_URL + "single-movie?id=";
     private Movie movie = null;
 
     private static class Movie {

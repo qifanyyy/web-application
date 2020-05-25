@@ -26,7 +26,6 @@ public class Login extends ActionBarActivity {
     private EditText username;
     private EditText password;
     private TextView message;
-    private String url;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,11 +40,6 @@ public class Login extends ActionBarActivity {
         password = findViewById(R.id.password);
         message = findViewById(R.id.message);
         Button loginButton = findViewById(R.id.login);
-
-        // In Android, localhost is the address of the device or the emulator.
-        // To connect to your machine, you need to use the below IP address
-
-        url = "https://10.0.2.2:8443/api/";
 
         //assign a listener to call a function to handle the user request when clicking a button
         loginButton.setOnClickListener(view -> {
@@ -63,7 +57,7 @@ public class Login extends ActionBarActivity {
         // Use the same network queue across our application
         final RequestQueue queue = NetworkManager.sharedManager(this).queue;
         //request type is POST
-        final StringRequest loginRequest = new StringRequest(Request.Method.POST, url + "login", response -> {
+        final StringRequest loginRequest = new StringRequest(Request.Method.POST, Util.BASE_URL + "login", response -> {
             try {
                 JSONObject responseJson = new JSONObject(response);
                 Log.d("response", response);

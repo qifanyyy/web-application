@@ -23,7 +23,6 @@ import java.util.Map;
 public class ListViewActivity extends Activity {
 
     private EditText movieTitleInput;
-    private String url;
     private int page = 1;
     private Switch fuzzySwitch;
     private Button previousButton;
@@ -70,8 +69,6 @@ public class ListViewActivity extends Activity {
         nextButton = findViewById(R.id.nextButton);
         fuzzySwitch = findViewById(R.id.fuzzySwitch);
         pageText = findViewById(R.id.page);
-
-        url = "https://10.0.2.2:8443/api/";
 
         //this should be retrieved from the database and the backend server
         final ArrayList<Movie> movies = new ArrayList<>();
@@ -137,7 +134,7 @@ public class ListViewActivity extends Activity {
             return;
         }
 
-        String finalUrl = url + movieapi;
+        String finalUrl = Util.BASE_URL + movieapi;
         Log.d("movieList finalURL", finalUrl);
 
         final StringRequest searchRequest = new StringRequest(Request.Method.GET, finalUrl, response -> {
