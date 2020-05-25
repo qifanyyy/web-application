@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FabflixMobile</string>
+    <string name="app_name">Fabflix</string>
     <string name="genres_heading">Genres</string>
     <string name="stars_heading">Stars</string>
     <string name="movie_title_hint">Movie Title</string>

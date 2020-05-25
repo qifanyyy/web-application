@@ -217,4 +217,12 @@ public class ListViewActivity extends Activity {
         // !important: queue.add is where the login request is actually sent
         queue.add(searchRequest);
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(getApplicationContext(), Login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("EXIT", true);
+        startActivity(intent);
+    }
 }

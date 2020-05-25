@@ -30,6 +30,10 @@ public class Login extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean("EXIT", false)) {
+            finish();
+        }
+
         super.onCreate(savedInstanceState);
         // upon creation, inflate and initialize the layout
         setContentView(R.layout.login);
