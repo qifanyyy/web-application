@@ -116,7 +116,7 @@ data-movie-title="${movieArray[i]["movieTitle"]}"
         movieTableBody.innerHTML="<tr><th>No Result</th><th></th><th></th><th></th><th></th><th></th><th></th></tr>";
     }
 
-    document.getElementById('page').innerHTML += `<center><b><a href="movie-list.html?page=${parseInt(page)-1}"><-Pervious</a>&nbsp;&nbsp;Page&nbsp;&nbsp;<a href="movie-list.html?page=${parseInt(page)+1}">Next-></a></b></center>`;
+    document.getElementById('page').innerHTML += `<center><b><a href="movie-list.html?${getParameterByName('title')}&year=${getParameterByName('year')}&director=${getParameterByName('director')}&star=${getParameterByName('star')}&genre=${getParameterByName('genre')}&alnum=${getParameterByName('alnum')}&sort=${getParameterByName('sort')}&display=${getParameterByName('display')}&fulltext=${getParameterByName('fulltext')}&fuzzy=${getParameterByName('fuzzy')}&page=${parseInt(page)-1}&manualPage="><-Pervious</a>&nbsp;&nbsp;Page&nbsp;&nbsp;<a href="movie-list.html?${getParameterByName('title')}&year=${getParameterByName('year')}&director=${getParameterByName('director')}&star=${getParameterByName('star')}&genre=${getParameterByName('genre')}&alnum=${getParameterByName('alnum')}&sort=${getParameterByName('sort')}&display=${getParameterByName('display')}&fulltext=${getParameterByName('fulltext')}&fuzzy=${getParameterByName('fuzzy')}&page=${parseInt(page)+1}&manualPage=">Next-></a></b></center>`;
 
     for (let btn of document.querySelectorAll('.movie-list-add-to-cart-btn')) {
         btn.addEventListener('click', ev => {
