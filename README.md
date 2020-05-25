@@ -24,6 +24,35 @@ See [xml_parsing/README.md](./xml_parsing/README.md).
 
 See [encrypt_password/README.md](./encrypt_password/README.md)
 
+
+## Project 4
+
+### Demo
+
+- https://youtu.be/4M5yHDaSDqQ (YouTube)
+- https://www.ics.uci.edu/~tongjiew/proj4_take2.mov (backup, UCI ICS)
+
+### Fuzzy Search
+
+We implemented Levenshtein distance (edit distance) algorithm in C using dynamic programming. See [fuzzy_search/README.md](./fuzzy_search/README.md) for build instructions. We used the same strategy shown in the lecture slides
+
+```mysql
+SELECT * FROM movies WHERE min_edit_distance('user_input', title) <= 2;
+```
+
+### Project 4 Team Contribution
+
+Qifan Yu
+- Full-text search
+- Autocomplete
+- Android login page and movie list page
+- Update servlet for fuzzy search
+
+Tongjie Wang
+- Autocomplete cache
+- Android single movie page
+- UDF
+
 ## Project 3
 
 ### Demo
