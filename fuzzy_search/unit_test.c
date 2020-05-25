@@ -24,13 +24,12 @@ static void init_udf(UDF_ARGS *args)
     args->args[1] = calloc(STR_MAX_LEN + 1, sizeof(char));
 }
 
-static UDF_ARGS *set_udf_args(UDF_ARGS *args, const char *s1, const char *s2)
+static void set_udf_args(UDF_ARGS *args, const char *s1, const char *s2)
 {
     strncpy(args->args[0], s1, STR_MAX_LEN);
     strncpy(args->args[1], s2, STR_MAX_LEN);
     args->lengths[0] = strlen(s1);
     args->lengths[1] = strlen(s2);
-    return args;
 }
 
 static void free_udf(UDF_ARGS *args)
