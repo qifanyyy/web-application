@@ -15,9 +15,8 @@ if(NOT MYSQL_INCLUDE)
     set(MYSQL_INCLUDE "/usr/include/mysql")
 endif()
 
-add_library(lib_fuzzy_search SHARED min_edit_distance.c min_edit_distance.h)
-target_include_directories(lib_fuzzy_search PUBLIC ${MYSQL_INCLUDE})
-set_target_properties(lib_fuzzy_search PROPERTIES OUTPUT_NAME "_fuzzy_search")
+add_library(fuzzy_search SHARED min_edit_distance.c min_edit_distance.h)
+target_include_directories(fuzzy_search PUBLIC ${MYSQL_INCLUDE})
 
 add_executable(unit_test unit_test.c unit_test.c)
-target_link_libraries(unit_test lib_fuzzy_search)
+target_link_libraries(unit_test fuzzy_search)

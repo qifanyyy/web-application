@@ -27,10 +27,10 @@ cmake ..
 Finally, build the library.
 
 ```shell script
-make lib_fuzzy_search
+make
 ```
 
-You can find `lib_fuzzy_search.so` (`lib_fuzzy_search.dylib`
+You can find `libfuzzy_search.so` (`libfuzzy_search.dylib`
 on macOS) inside `cmake-build` if build process succeeded.
 
 ## Clean
