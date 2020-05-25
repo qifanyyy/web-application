@@ -37,16 +37,21 @@ public class Login extends ActionBarActivity {
         password = findViewById(R.id.password);
         message = findViewById(R.id.message);
         Button loginButton = findViewById(R.id.login);
-        /**
-         * In Android, localhost is the address of the device or the emulator.
-         * To connect to your machine, you need to use the below IP address
-         * **/
-        url = "https://10.0.2.2:8443/api/";
-        
 
+        // In Android, localhost is the address of the device or the emulator.
+        // To connect to your machine, you need to use the below IP address
+
+        url = "https://10.0.2.2:8443/api/";
 
         //assign a listener to call a function to handle the user request when clicking a button
-        loginButton.setOnClickListener(view -> login());
+        loginButton.setOnClickListener(view -> {
+            if (username.getText().toString().trim().length() == 0 ||
+                    password.getText().toString().trim().length() == 0) {
+                message.setText("Please enter username and password");
+                return;
+            }
+            login();
+        });
     }
 
     public void login() {

@@ -5,5 +5,12 @@
     <string name="movie_title_hint">Movie Title</string>
     <string name="fuzzy_switch_name">Fuzzy</string>
     <string name="search_button_name">Search</string>
+    <string name="page_text">Page %1s</string>
+    <string name="previous_btn">Previous</string>
+    <string name="next_btn">Next</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="log_in_btn">Log in</string>
+    <string name="fabflix_logo_description">Fabflix Logo</string>
     <color name="red">#CC0000</color>
 </resources>
