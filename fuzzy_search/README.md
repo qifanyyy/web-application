@@ -10,7 +10,7 @@ compiler (we use Clang 10) and CMake (3.16 or newer) installed.
 Then, make sure that your current directory contains this `README.md`
 file.
 
-Create a build directory named `cmake-build` in side current
+Create a build directory named `cmake-build` inside current
 working directory.
 
 ```shell script
