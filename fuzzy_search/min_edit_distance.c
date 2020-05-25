@@ -1,16 +1,6 @@
 #include "min_edit_distance.h"
-#include <stdbool.h>
+#include <ctype.h>
 #include <string.h>
-
-bool char_equals_ignore_case(int c1, int c2)
-{
-    const int CASE_DIFF = 'a' - 'A';
-    if ('a' <= c1 && c1 <= 'z')
-        c1 -= CASE_DIFF;
-    if ('a' <= c2 && c2 <= 'z')
-        c2 -= CASE_DIFF;
-    return c1 == c2;
-}
 
 int min(int a, int b)
 {
@@ -23,6 +13,14 @@ int min3(int a, int b, int c) {
 
 int min_edit_distance_dp(const char *s1, const char *s2, size_t s1_len, size_t s2_len)
 {
+    char *s1_lower = strdup(s1), *s2_lower = strdup(s2);
+    for (size_t i = 0; i < s1_len; ++i) {
+        s1_lower[i] = (char) tolower(s1_lower[i]);
+    }
+    for (size_t i = 0; i < s2_len; ++i) {
+        s2_lower[i] = (char) tolower(s2_lower[i]);
+    }
+
     int dp[s1_len + 1][s2_len + 1];
     memset(dp, 0, sizeof(dp));
 
@@ -35,7 +33,7 @@ int min_edit_distance_dp(const char *s1, const char *s2, size_t s1_len, size_t s
 
     for (size_t i = 1; i < s1_len + 1; ++i) {
         for (size_t j = 1; j < s2_len + 1; ++j) {
-            if (char_equals_ignore_case(s1[i - 1], s2[j - 1]))
+            if (s1_lower[i - 1] == s2_lower[j - 1])
                 dp[i][j] = dp[i - 1][j - 1];
             else
                 dp[i][j] = 1 + min3(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]);
