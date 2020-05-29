@@ -9,7 +9,7 @@ clean_css_cmd = 'cleancss -O2 {} -o {}'
 uglify_js_cmd = 'uglifyjs {} -o {} --compress --mangle'
 
 
-def _get_output_file_name(input_file: Path) -> Path:
+def _get_output_file_name(input_file):
     if len(sys.argv) < 2 or sys.argv[1] != '--deploy':
         return input_file.parent / (input_file.stem + '.min' + input_file.suffix)
     return input_file
