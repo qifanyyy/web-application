@@ -1,7 +1,5 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import javax.annotation.Resource;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.servlet.ServletException;
@@ -32,7 +30,7 @@ public class GenresServlet extends HttpServlet {
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:/comp/env");
             DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
-            
+
             Connection connection = ds.getConnection();
             PreparedStatement genreStatement = connection.prepareStatement("SELECT * FROM genres");
             ResultSet resultSet = genreStatement.executeQuery();

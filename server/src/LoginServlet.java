@@ -55,6 +55,7 @@ public class LoginServlet extends HttpServlet {
             Context envContext = (Context) initContext.lookup("java:/comp/env");
             DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
             Connection connection = ds.getConnection();
+
             PreparedStatement emailStatement = type.equals("customer") ?
                     connection.prepareStatement("SELECT * FROM customers WHERE email = ?") :
                     connection.prepareStatement("SELECT * FROM employees WHERE email = ?");

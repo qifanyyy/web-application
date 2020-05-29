@@ -1,7 +1,7 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,9 +14,6 @@ import java.sql.*;
 
 @WebServlet(name = "DashboardServlet", urlPatterns = "/api/dashboard")
 public class DashboardServlet extends HttpServlet {
-    @Resource(name = "jdbc/moviedb")
-    private DataSource dataSource;
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.setContentType("application/json; charset=UTF-8"); // Response mime type
@@ -24,11 +21,17 @@ public class DashboardServlet extends HttpServlet {
 
         PrintWriter out = resp.getWriter();
 
-        try (Connection connection = dataSource.getConnection()) {
+        try {
+            // the following few lines are for connection pooling
+            // Obtain our environment naming context
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
+
+            Connection connection = ds.getConnection();
+
             Statement dbMetadataQuery = connection.createStatement();
-            ResultSet tableRS = dbMetadataQuery.executeQuery(
-                    "SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'moviedb'"
-            );
+            ResultSet tableRS = dbMetadataQuery.executeQuery("SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA = 'moviedb'");
 
             JsonObject ret = new JsonObject();
             ret.addProperty("status", "success");
@@ -77,7 +80,14 @@ public class DashboardServlet extends HttpServlet {
         String db = req.getParameter("db");
         int nextStarId = 0;
 
-        try (Connection connection = dataSource.getConnection()) {
+        try {
+            // the following few lines are for connection pooling
+            // Obtain our environment naming context
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
+            Connection connection = ds.getConnection();
+
             if (db.equals("stars")) {
                 String name = req.getParameter("name");
 

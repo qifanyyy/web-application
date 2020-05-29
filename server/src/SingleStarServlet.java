@@ -1,6 +1,8 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import javax.sql.DataSource;
@@ -11,16 +13,6 @@ import java.sql.*;
 // Declaring a WebServlet called SingleStarServlet, which maps to url "/api/single-star"
 @WebServlet(name = "SingleStarServlet", urlPatterns = "/api/single-star")
 public class SingleStarServlet extends HttpServlet {
-    private static final long serialVersionUID = 3L;
-
-    // Create a dataSource which registered in web.xml
-    @Resource(name = "jdbc/moviedb")
-    private DataSource dataSource;
-
-    /**
-     * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-     * response)
-     */
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8"); // Response mime type
         response.setCharacterEncoding("UTF-8");
@@ -35,7 +27,14 @@ public class SingleStarServlet extends HttpServlet {
         String query = "SELECT * from stars, stars_in_movies, movies WHERE movies.id = movieId AND starId = stars.id AND stars.id = ? ORDER BY year DESC, title ASC;";
 
         try {
-            Connection con = dataSource.getConnection();
+
+            // the following few lines are for connection pooling
+            // Obtain our environment naming context
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
+
+            Connection con = ds.getConnection();
 
             statement = con.prepareStatement(query);
 

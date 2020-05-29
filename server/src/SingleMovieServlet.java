@@ -1,6 +1,8 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import javax.sql.DataSource;
@@ -15,10 +17,6 @@ import java.util.Comparator;
 @WebServlet(name = "SingleMovieServlet", urlPatterns = "/api/single-movie")
 public class SingleMovieServlet extends HttpServlet {
     private static final long serialVersionUID = 2L;
-
-    // Create a dataSource which registered in web.xml
-    @Resource(name = "jdbc/moviedb")
-    private DataSource dataSource;
 
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -46,8 +44,13 @@ public class SingleMovieServlet extends HttpServlet {
         String countQuery = "SELECT COUNT(*) FROM stars_in_movies WHERE Starid = ?;";
 
         try {
+            // the following few lines are for connection pooling
+            // Obtain our environment naming context
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
 
-            Connection con = dataSource.getConnection();
+            Connection con = ds.getConnection();
 
             getMovie = con.prepareStatement(movieQuery);
             getMovie.setString(1,id);

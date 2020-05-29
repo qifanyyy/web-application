@@ -1,7 +1,5 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import javax.annotation.Resource;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
@@ -44,9 +42,9 @@ public class PaymentServlet extends HttpServlet {
             Context envContext = (Context) initContext.lookup("java:/comp/env");
             DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
             Connection connection = ds.getConnection();
+
             PreparedStatement creditCardIdStatement = connection.prepareStatement("SELECT * FROM creditcards WHERE id = ?");
-            PreparedStatement insertIntoSaleStatement = connection.prepareStatement(
-                    "INSERT INTO sales (customerId, movieId, saleDate, quantity) VALUES (?, ?, ?, ?)",
+            PreparedStatement insertIntoSaleStatement = connection.prepareStatement("INSERT INTO sales (customerId, movieId, saleDate, quantity) VALUES (?, ?, ?, ?)",
                     PreparedStatement.RETURN_GENERATED_KEYS);
 
             creditCardIdStatement.setString(1, id);
