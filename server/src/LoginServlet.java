@@ -1,7 +1,7 @@
 import com.google.gson.JsonObject;
 import org.jasypt.util.password.StrongPasswordEncryptor;
-
-import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +16,6 @@ import java.sql.ResultSet;
 
 @WebServlet(name = "LoginServlet", urlPatterns = "/api/login")
 public class LoginServlet extends HttpServlet {
-    @Resource(name = "jdbc/moviedb")
-    private DataSource dataSource;
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse response) throws IOException {
         req.getSession().invalidate();
@@ -53,11 +50,14 @@ public class LoginServlet extends HttpServlet {
             response.setStatus(400);
             return;
         }
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement emailStatement = type.equals("customer") ?
-                     connection.prepareStatement("SELECT * FROM customers WHERE email = ?") :
-                     connection.prepareStatement("SELECT * FROM employees WHERE email = ?")
-        ) {
+        try {
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
+            Connection connection = ds.getConnection();
+            PreparedStatement emailStatement = type.equals("customer") ?
+                    connection.prepareStatement("SELECT * FROM customers WHERE email = ?") :
+                    connection.prepareStatement("SELECT * FROM employees WHERE email = ?");
             emailStatement.setString(1, email);
             ResultSet resultSet = emailStatement.executeQuery();
             JsonObject ret = new JsonObject();

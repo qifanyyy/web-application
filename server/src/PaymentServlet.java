@@ -2,6 +2,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import javax.annotation.Resource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +20,6 @@ import java.util.TimeZone;
 
 @WebServlet(name = "PaymentServlet", urlPatterns = "/api/payment")
 public class PaymentServlet extends HttpServlet {
-    @Resource(name = "jdbc/moviedb")
-    private DataSource dataSource;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -37,12 +37,18 @@ public class PaymentServlet extends HttpServlet {
             return;
         }
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement creditCardIdStatement = connection.prepareStatement("SELECT * FROM creditcards WHERE id = ?");
-             PreparedStatement insertIntoSaleStatement = connection.prepareStatement(
-                     "INSERT INTO sales (customerId, movieId, saleDate, quantity) VALUES (?, ?, ?, ?)",
-                     PreparedStatement.RETURN_GENERATED_KEYS
-             )) {
+        try {
+            // the following few lines are for connection pooling
+            // Obtain our environment naming context
+            Context initContext = new InitialContext();
+            Context envContext = (Context) initContext.lookup("java:/comp/env");
+            DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
+            Connection connection = ds.getConnection();
+            PreparedStatement creditCardIdStatement = connection.prepareStatement("SELECT * FROM creditcards WHERE id = ?");
+            PreparedStatement insertIntoSaleStatement = connection.prepareStatement(
+                    "INSERT INTO sales (customerId, movieId, saleDate, quantity) VALUES (?, ?, ?, ?)",
+                    PreparedStatement.RETURN_GENERATED_KEYS);
+
             creditCardIdStatement.setString(1, id);
             ResultSet resultSet = creditCardIdStatement.executeQuery();
 
