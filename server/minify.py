@@ -24,11 +24,11 @@ if __name__ == '__main__':
         print('minifying {}'.format(f.name))
         f = f.absolute()
         if f.suffix == '.html':
-            if ret = os.system(html_minify_cmd.format(f, _get_output_file_name(f))) != 0:
-                exit(ret)
+            if os.system(html_minify_cmd.format(f, _get_output_file_name(f))) != 0:
+                exit(os.system(html_minify_cmd.format(f, _get_output_file_name(f))))
         elif f.suffix == '.css':
-            if ret = os.system(clean_css_cmd.format(f, _get_output_file_name(f))) != 0:
-                exit(ret)
+            if os.system(clean_css_cmd.format(f, _get_output_file_name(f))) != 0:
+                exit(os.system(clean_css_cmd.format(f, _get_output_file_name(f))))
         else:  # .js
-            if ret = os.system(uglify_js_cmd.format(f, _get_output_file_name(f))) != 0:
-                exit(ret)
+            if os.system(uglify_js_cmd.format(f, _get_output_file_name(f))) != 0:
+                exit(os.system(uglify_js_cmd.format(f, _get_output_file_name(f))))
