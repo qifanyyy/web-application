@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <Context>
-
-    <!-- Defines a Data Source Connecting to localhost moviedb-->
     <Resource name="jdbc/moviedb"
               auth="Container"
               driverClassName="com.mysql.cj.jdbc.Driver"
@@ -11,5 +9,5 @@
               maxTotal="100" maxIdle="30" maxWaitMillis="10000"
               username="mytestuser"
               password="mypassword"
-              url="jdbc:mysql://localhost:3306/moviedb?autoReconnect=true&amp;useSSL=false&amp;cachePrepStmts=true&amp;allowPublicKeyRetrieval=true"/>
+              url="jdbc:mysql://172.31.20.16:7002/moviedb?autoReconnect=true&amp;useSSL=false&amp;cachePrepStmts=true&amp;allowPublicKeyRetrieval=true"/>
 </Context>
