@@ -5,10 +5,19 @@ import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import javax.sql.DataSource;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -16,6 +25,8 @@ import java.util.Comparator;
 @WebServlet(name = "MoviesServlet", urlPatterns = "/api/movies")
 public class MoviesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        long timerTSStart = System.nanoTime();
+
         response.setContentType("application/json; charset=UTF-8"); // Response mime type
         response.setCharacterEncoding("UTF-8");
         String title    = request.getParameter("title");
@@ -120,6 +131,7 @@ public class MoviesServlet extends HttpServlet {
 
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
+        long timerTJStart = System.nanoTime();
 
         try {
             // the following few lines are for connection pooling
@@ -455,5 +467,24 @@ public class MoviesServlet extends HttpServlet {
             response.setStatus(500);
         }
         out.close();
+
+        JsonObject logObj = new JsonObject();
+        long timerEnd = System.nanoTime();
+        logObj.addProperty("TS", timerEnd - timerTSStart);
+        logObj.addProperty("TJ", timerEnd - timerTJStart);
+        logObj.addProperty("timestamp", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(LocalDateTime.now()));
+        String urlQueryString = request.getQueryString();
+        logObj.addProperty("url", request.getRequestURL().toString() + (urlQueryString == null ? "" : "?" + urlQueryString));
+        try {
+            final Path path = Paths.get(getServletContext().getRealPath("/") + "moviesServletLog.txt");
+            Files.write(
+                    path,
+                    Collections.singletonList(logObj.toString()),
+                    StandardCharsets.UTF_8,
+                    Files.exists(path) ? StandardOpenOption.APPEND : StandardOpenOption.CREATE
+            );
+        } catch (final IOException e) {
+            e.printStackTrace();
+        }
     }
 }
