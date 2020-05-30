@@ -40,7 +40,7 @@ public class PaymentServlet extends HttpServlet {
             // Obtain our environment naming context
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
+            DataSource ds = (DataSource) envContext.lookup("jdbc/rw");
             Connection connection = ds.getConnection();
 
             PreparedStatement creditCardIdStatement = connection.prepareStatement("SELECT * FROM creditcards WHERE id = ?");

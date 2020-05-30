@@ -53,7 +53,7 @@ public class LoginServlet extends HttpServlet {
         try {
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
+            DataSource ds = (DataSource) envContext.lookup("jdbc/r");
             Connection connection = ds.getConnection();
 
             PreparedStatement emailStatement = type.equals("customer") ?

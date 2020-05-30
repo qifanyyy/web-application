@@ -32,7 +32,7 @@ public class SingleStarServlet extends HttpServlet {
             // Obtain our environment naming context
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
+            DataSource ds = (DataSource) envContext.lookup("jdbc/r");
 
             Connection con = ds.getConnection();
 
