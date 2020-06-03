@@ -26,7 +26,7 @@ public class DashboardServlet extends HttpServlet {
             // Obtain our environment naming context
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource) envContext.lookup("jdbc/r");
+            DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
 
             Connection connection = ds.getConnection();
 
@@ -85,7 +85,7 @@ public class DashboardServlet extends HttpServlet {
             // Obtain our environment naming context
             Context initContext = new InitialContext();
             Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource) envContext.lookup("jdbc/rw");
+            DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
             Connection connection = ds.getConnection();
 
             if (db.equals("stars")) {
