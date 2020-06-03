@@ -105,6 +105,54 @@ TEST_CASES = [
             True
         )
     ]),
+    TestCaseInfo('Scaled Case 1: HTTP 1 Thread', 'scaled_case_1_http_1_thread.jmx', [
+        ServerInfo(
+            'ubuntu',
+            '~/.ssh/US_Amazon.pem',
+            'master.fabflix.live',
+            '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
+            True
+        ),
+        ServerInfo(
+            'ubuntu',
+            '~/.ssh/US_Amazon.pem',
+            'slave.fabflix.live',
+            '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
+            True
+        )
+    ]),
+    TestCaseInfo('Scaled Case 2: HTTP 10 Threads', 'scaled_case_2_http_10_threads.jmx', [
+        ServerInfo(
+            'ubuntu',
+            '~/.ssh/US_Amazon.pem',
+            'master.fabflix.live',
+            '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
+            True
+        ),
+        ServerInfo(
+            'ubuntu',
+            '~/.ssh/US_Amazon.pem',
+            'slave.fabflix.live',
+            '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
+            True
+        )
+    ]),
+    TestCaseInfo('Scaled Case 3: HTTP 10 Threads w/o Connection Pooling', 'scaled_case_3_http_10_threads_no_cp.jmx', [
+        ServerInfo(
+            'ubuntu',
+            '~/.ssh/US_Amazon.pem',
+            '54.151.78.141',
+            '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
+            True
+        ),
+        ServerInfo(
+            'ubuntu',
+            '~/.ssh/US_Amazon.pem',
+            '54.215.94.69',
+            '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
+            True
+        )
+    ]),
 ]
 
 
