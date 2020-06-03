@@ -16,6 +16,9 @@ import java.util.Comparator;
 // Declaring a WebServlet called SingleMovieServlet, which maps to url "/api/single-movie"
 @WebServlet(name = "SingleMovieServlet", urlPatterns = "/api/single-movie")
 public class SingleMovieServlet extends HttpServlet {
+    @Resource(name = "jdbc/moviedb")
+    private DataSource dataSource;
+
     private static final long serialVersionUID = 2L;
 
     /**
@@ -46,11 +49,11 @@ public class SingleMovieServlet extends HttpServlet {
         try {
             // the following few lines are for connection pooling
             // Obtain our environment naming context
-            Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
+            // Context initContext = new InitialContext();
+            // Context envContext = (Context) initContext.lookup("java:/comp/env");
+            // DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
 
-            Connection con = ds.getConnection();
+            Connection con = dataSource.getConnection();
 
             getMovie = con.prepareStatement(movieQuery);
             getMovie.setString(1,id);

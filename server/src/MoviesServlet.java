@@ -1,5 +1,7 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
+import javax.annotation.Resource;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +26,9 @@ import java.util.Comparator;
 // Declaring a WebServlet called MoviesServlet, which maps to url "/api/movies"
 @WebServlet(name = "MoviesServlet", urlPatterns = "/api/movies")
 public class MoviesServlet extends HttpServlet {
+    @Resource(name = "jdbc/moviedb")
+    private DataSource dataSource;
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         long timerTSStart = System.nanoTime();
 
@@ -136,10 +141,10 @@ public class MoviesServlet extends HttpServlet {
         try {
             // the following few lines are for connection pooling
             // Obtain our environment naming context
-            Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
-            Connection con = ds.getConnection();
+            // Context initContext = new InitialContext();
+            // Context envContext = (Context) initContext.lookup("java:/comp/env");
+            // DataSource ds = (DataSource) envContext.lookup("jdbc/moviedb");
+            Connection con = dataSource.getConnection();
 
             getGenre = con.prepareStatement(genreQuery);
             getStar = con.prepareStatement(starQuery);

@@ -4,9 +4,7 @@
     <Resource name="jdbc/moviedb"
               auth="Container"
               driverClassName="com.mysql.cj.jdbc.Driver"
-              factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
               type="javax.sql.DataSource"
-              maxTotal="100" maxIdle="30" maxWaitMillis="100000"
               username="mytestuser"
               password="mypassword"
               url="jdbc:mysql://localhost:3306/moviedb?useSSL=false&amp;cachePrepStmts=true&amp;allowPublicKeyRetrieval=true&amp;autoReconnect=true"/>
