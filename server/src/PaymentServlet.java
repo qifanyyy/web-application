@@ -1,5 +1,7 @@
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
+import javax.annotation.Resource;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
@@ -18,6 +20,8 @@ import java.util.TimeZone;
 
 @WebServlet(name = "PaymentServlet", urlPatterns = "/api/payment")
 public class PaymentServlet extends HttpServlet {
+    @Resource(name = "jdbc/rw")
+    private DataSource rwDataSource;
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -38,10 +42,10 @@ public class PaymentServlet extends HttpServlet {
         try {
             // the following few lines are for connection pooling
             // Obtain our environment naming context
-            Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource) envContext.lookup("jdbc/rw");
-            Connection connection = ds.getConnection();
+            // Context initContext = new InitialContext();
+            // Context envContext = (Context) initContext.lookup("java:/comp/env");
+            // DataSource ds = (DataSource) envContext.lookup("jdbc/rw");
+            Connection connection = rwDataSource.getConnection();
 
             PreparedStatement creditCardIdStatement = connection.prepareStatement("SELECT * FROM creditcards WHERE id = ?");
             PreparedStatement insertIntoSaleStatement = connection.prepareStatement("INSERT INTO sales (customerId, movieId, saleDate, quantity) VALUES (?, ?, ?, ?)",

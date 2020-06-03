@@ -18,6 +18,9 @@ import java.util.Comparator;
 public class SingleMovieServlet extends HttpServlet {
     private static final long serialVersionUID = 2L;
 
+    @Resource(name = "jdbc/r")
+    private DataSource rDataSource;
+
     /**
      * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
      * response)
@@ -46,11 +49,11 @@ public class SingleMovieServlet extends HttpServlet {
         try {
             // the following few lines are for connection pooling
             // Obtain our environment naming context
-            Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource) envContext.lookup("jdbc/r");
+            // Context initContext = new InitialContext();
+            // Context envContext = (Context) initContext.lookup("java:/comp/env");
+            // DataSource ds = (DataSource) envContext.lookup("jdbc/r");
 
-            Connection con = ds.getConnection();
+            Connection con = rDataSource.getConnection();
 
             getMovie = con.prepareStatement(movieQuery);
             getMovie.setString(1,id);

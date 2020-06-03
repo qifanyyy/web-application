@@ -13,6 +13,9 @@ import java.sql.*;
 // Declaring a WebServlet called SingleStarServlet, which maps to url "/api/single-star"
 @WebServlet(name = "SingleStarServlet", urlPatterns = "/api/single-star")
 public class SingleStarServlet extends HttpServlet {
+    @Resource(name = "jdbc/r")
+    private DataSource rDataSource;
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json; charset=UTF-8"); // Response mime type
         response.setCharacterEncoding("UTF-8");
@@ -30,11 +33,11 @@ public class SingleStarServlet extends HttpServlet {
 
             // the following few lines are for connection pooling
             // Obtain our environment naming context
-            Context initContext = new InitialContext();
-            Context envContext = (Context) initContext.lookup("java:/comp/env");
-            DataSource ds = (DataSource) envContext.lookup("jdbc/r");
+            // Context initContext = new InitialContext();
+            // Context envContext = (Context) initContext.lookup("java:/comp/env");
+            // DataSource ds = (DataSource) envContext.lookup("jdbc/r");
 
-            Connection con = ds.getConnection();
+            Connection con = rDataSource.getConnection();
 
             statement = con.prepareStatement(query);
 

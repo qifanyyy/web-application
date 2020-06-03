@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.annotation.Resource;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.servlet.annotation.WebServlet;
@@ -21,15 +22,18 @@ public class Suggestion extends HttpServlet {
         super();
     }
 
+	@Resource(name = "jdbc/r")
+	private DataSource rDataSource;
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		try {
 
 			// the following few lines are for connection pooling
 			// Obtain our environment naming context
-			Context initContext = new InitialContext();
-			Context envContext = (Context) initContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource) envContext.lookup("jdbc/r");
-			Connection con = ds.getConnection();
+			// Context initContext = new InitialContext();
+			// Context envContext = (Context) initContext.lookup("java:/comp/env");
+			// DataSource ds = (DataSource) envContext.lookup("jdbc/r");
+			Connection con = rDataSource.getConnection();
 
 			response.setContentType("application/json; charset=UTF-8"); // Response mime type
 			response.setCharacterEncoding("UTF-8");
