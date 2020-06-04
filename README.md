@@ -12,8 +12,6 @@ mysql -umytestuser -p moviedb < set-missing-rating-to-zero.sql
 mysql -umytestuser -p moviedb < stored-procedure.sql
 ```
 
-
-
 ## Server
 
 See [server/README.md](./server/README.md).
@@ -25,87 +23,6 @@ See [xml_parsing/README.md](./xml_parsing/README.md).
 ## Password Encryption
 
 See [encrypt_password/README.md](./encrypt_password/README.md)
-
-## Project 5
-
-- # General
-    - #### Team#:12
-
-    - #### Names:Qifan Yu, Tongjie Wang
-
-    - #### Project 5 Video Demo Link:
-
-    - #### Instruction of deployment:
-
-    - #### Collaborations and Work Distribution:
-    Qifan Yu
-    - Connection Pooling
-    - Master/slave
-    - Load balancing
-
-    Tongjie Wang
-    - Log Processing Script
-    - JMeter TS/TJ Time Measurement Report
-    - Log files
-
-
-
-
-- # Connection Pooling
-    - #### Include the filename/path of all code/configuration files in GitHub of using JDBC Connection Pooling.
-    - MoviesServlet:
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/MoviesServlet.java
-    - SingleMovieServlet:
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/SingleMovieServlet.java
-    - SingleStarServlet:
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/SingleStarServlet.java
-    - GenresServlet
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/GenresServlet.java
-    - LoginServlet
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/LoginServlet.java
-    - PaymentServlet
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/PaymentServlet.java
-    - DashboardServlet
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/DashboardServlet.java
-    - SingleStarServlet
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/SingleStarServlet.java
-    - Suggestion
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/Suggestion.java
-
-    - #### Explain how Connection Pooling is utilized in the Fabflix code.
-    - We created MySQL connection pools in context.xml.
-    - In every servlet that talks to the database, we pull an idle connection from the appropriate connection pool.
-
-    - #### Explain how Connection Pooling works with two backend SQL.
-    - We implemented two connections pools (master, slave) in the code base.
-    - As the names suggest, master is the connection pool for the master database, while slave is the connection pool for the slave database.
-    - We used the private ip addresses of master instance and slave instance to allow tomcat on both instances to talk to each other’s database.
-
-
-- # Master/Slave
-    - #### Include the filename/path of all code/configuration files in GitHub of routing queries to Master/Slave SQL.
-
-    - #### How read/write requests were routed to Master/Slave SQL?
-
-
-- # JMeter TS/TJ Time Logs
-    - #### Instructions of how to use the `log_processing.*` script to process the JMeter logs.
-
-
-- # JMeter TS/TJ Time Measurement Report
-
-| **Single-instance Version Test Plan**          | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
-|------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------|--------------|
-| Case 1: HTTP/1 thread                          | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 2: HTTP/10 threads                        | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 3: HTTPS/10 threads                       | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 4: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-
-| **Scaled Version Test Plan**                   | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
-|------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------|--------------|
-| Case 1: HTTP/1 thread                          | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 2: HTTP/10 threads                        | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 3: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
 
 
 ## Project 4
