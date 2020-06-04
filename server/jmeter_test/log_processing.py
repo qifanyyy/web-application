@@ -56,13 +56,16 @@ def get_avg_time(log_lines: Iterable[str]) -> Tuple[Optional[int], Optional[int]
     """get average ts/tj time from log lines (unit is nanosecond)"""
     ts_times, tj_times = [], []
 
-    for line in log_lines:
+    for line_no, line in enumerate(log_lines):
         line = line.strip()
         if len(line) == 0:
             continue
-        log_entry = json.loads(line)
-        ts_times.append(log_entry['TS'])
-        tj_times.append(log_entry['TJ'])
+        try:
+            log_entry = json.loads(line)
+            ts_times.append(log_entry['TS'])
+            tj_times.append(log_entry['TJ'])
+        except json.JSONDecodeError:
+            print(f'[WARNING] bad line {line_no + 1} when parsing JSON; skipped')
 
     return sum(ts_times) / len(ts_times) if len(ts_times) > 0 else None, \
         sum(tj_times) / len(tj_times) if len(tj_times) > 0 else None
@@ -209,14 +212,13 @@ if __name__ == '__main__':
                 stdout = e.ret.stdout.decode(encoding='utf-8')
                 stderr = e.ret.stderr.decode(encoding='utf-8')
                 print(
-                    f'[ERROR] failed to get logs for test "{test.name} from server {server.hostname}"; abort',
+                    f'[ERROR] failed to get logs for test "{test.name} from server {server.hostname}"; skipped',
                     file=sys.stderr
                 )
                 print('====stdout====')
                 print(stdout)
                 print('====stderr====', file=sys.stderr)
                 print(stderr, file=sys.stderr)
-                exit(1)
 
         # get avg TS/TJ
         print(f'[INFO] start parsing log files for "{test.name}"')
