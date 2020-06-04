@@ -69,7 +69,7 @@ def get_avg_time(log_lines: Iterable[str]) -> Tuple[Optional[int], Optional[int]
 
 
 TEST_CASES = [
-    TestCaseInfo('Single Case 1: HTTP 1 Thread', 'single_case_1_http_1_thread.jmx', [
+    TestCaseInfo('single_case_1_http_1_thread', 'single_case_1_http_1_thread.jmx', [
         ServerInfo(
             'ubuntu',
             '~/.ssh/US_Amazon.pem',
@@ -78,7 +78,7 @@ TEST_CASES = [
             True
         )
     ]),
-    TestCaseInfo('Single Case 2: HTTP 10 Threads', 'single_case_2_http_10_threads.jmx', [
+    TestCaseInfo('single_case_2_http_10_threads', 'single_case_2_http_10_threads.jmx', [
         ServerInfo(
             'ubuntu',
             '~/.ssh/US_Amazon.pem',
@@ -87,7 +87,7 @@ TEST_CASES = [
             True
         )
     ]),
-    TestCaseInfo('Single Case 3: HTTPS 10 Threads', 'single_case_3_https_10_threads.jmx', [
+    TestCaseInfo('single_case_3_https_10_threads', 'single_case_3_https_10_threads.jmx', [
         ServerInfo(
             'ubuntu',
             '~/.ssh/US_Amazon.pem',
@@ -96,7 +96,7 @@ TEST_CASES = [
             True
         )
     ]),
-    TestCaseInfo('Single Case 4: HTTP 10 Threads w/o Connection Pooling', 'single_case_4_http_10_threads_no_cp.jmx', [
+    TestCaseInfo('single_case_4_http_10_threads_no_cp', 'single_case_4_http_10_threads_no_cp.jmx', [
         ServerInfo(
             'ubuntu',
             '~/.ssh/US_Amazon.pem',
@@ -105,7 +105,7 @@ TEST_CASES = [
             True
         )
     ]),
-    TestCaseInfo('Scaled Case 1: HTTP 1 Thread', 'scaled_case_1_http_1_thread.jmx', [
+    TestCaseInfo('scaled_case_1_http_1_thread', 'scaled_case_1_http_1_thread.jmx', [
         ServerInfo(
             'ubuntu',
             '~/.ssh/US_Amazon.pem',
@@ -121,7 +121,7 @@ TEST_CASES = [
             True
         )
     ]),
-    TestCaseInfo('Scaled Case 2: HTTP 10 Threads', 'scaled_case_2_http_10_threads.jmx', [
+    TestCaseInfo('scaled_case_2_http_10_threads', 'scaled_case_2_http_10_threads.jmx', [
         ServerInfo(
             'ubuntu',
             '~/.ssh/US_Amazon.pem',
@@ -137,7 +137,7 @@ TEST_CASES = [
             True
         )
     ]),
-    TestCaseInfo('Scaled Case 3: HTTP 10 Threads w/o Connection Pooling', 'scaled_case_3_http_10_threads_no_cp.jmx', [
+    TestCaseInfo('scaled_case_3_http_10_threads_no_cp', 'scaled_case_3_http_10_threads_no_cp.jmx', [
         ServerInfo(
             'ubuntu',
             '~/.ssh/US_Amazon.pem',
@@ -157,6 +157,9 @@ TEST_CASES = [
 
 
 if __name__ == '__main__':
+    log_folder = Path('./logs')
+    log_folder.mkdir(exist_ok=True)
+
     for test in TEST_CASES:
         # clear logs between tests
 
@@ -192,9 +195,16 @@ if __name__ == '__main__':
 
         print(f'[INFO] start gathering logs for test case "{test.name}"')
         log = ''
+
+        test_log_folder = log_folder / test.name
+        test_log_folder.mkdir(exist_ok=True)
+
         for server in test.servers:
             try:
-                log += server.get_log()
+                server_log = server.get_log()
+                with (test_log_folder / f'{server.hostname}.txt').open('w') as log_file:
+                    log_file.write(server_log)
+                log += server_log
             except RemoteServerError as e:
                 stdout = e.ret.stdout.decode(encoding='utf-8')
                 stderr = e.ret.stderr.decode(encoding='utf-8')
