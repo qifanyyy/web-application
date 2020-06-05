@@ -146,14 +146,14 @@ TEST_CASES = [
             '~/.ssh/dhfhdsfhd.pem',
             '54.153.83.22',
             '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
-            True
+            False
         ),
         ServerInfo(
             'ubuntu',
             '~/.ssh/dhfhdsfhd.pem',
             '54.151.45.206',
             '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
-            True
+            False
         )
     ]),
 ]
