@@ -98,6 +98,8 @@ See [encrypt_password/README.md](./encrypt_password/README.md)
 
 `log_processing.py` (inside `server/jmeter_test`) has two modes: automatic and manual. To run it in automatic mode, in which the script will automatic run JMeter in command line mode, use `python log_processing.py --automatic`. To run it in manual mode, in which the script will open the JMeter GUI, use `python log_processing.py`. The average TS/TJ time will be shown in the output.
 
+The `logs` folder is at [`server/jmeter_test/logs`](./server/jmeter_test/logs); `img` folder is at [`server/jmeter_test/img`](./server/jmeter_test/img).
+
 #### JMeter TS/TJ Time Measurement Report
 
 | **Single-instance Version Test Plan**         | **Graph Results Screenshot**                                 | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis**                                                 |
