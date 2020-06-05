@@ -111,47 +111,47 @@ TEST_CASES = [
     TestCaseInfo('scaled_case_1_http_1_thread', 'scaled_case_1_http_1_thread.jmx', [
         ServerInfo(
             'ubuntu',
-            '~/.ssh/US_Amazon.pem',
-            'master.fabflix.live',
+            '~/.ssh/dhfhdsfhd.pem',
+            '13.57.239.61',
             '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
-            True
+            False
         ),
         ServerInfo(
             'ubuntu',
-            '~/.ssh/US_Amazon.pem',
-            'slave.fabflix.live',
+            '~/.ssh/dhfhdsfhd.pem',
+            '3.101.72.192',
             '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
-            True
+            False
         )
     ]),
     TestCaseInfo('scaled_case_2_http_10_threads', 'scaled_case_2_http_10_threads.jmx', [
         ServerInfo(
             'ubuntu',
-            '~/.ssh/US_Amazon.pem',
-            'master.fabflix.live',
+            '~/.ssh/dhfhdsfhd.pem',
+            '13.57.239.61',
             '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
-            True
+            False
         ),
         ServerInfo(
             'ubuntu',
-            '~/.ssh/US_Amazon.pem',
-            'slave.fabflix.live',
+            '~/.ssh/dhfhdsfhd.pem',
+            '3.101.72.192',
             '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
-            True
+            False
         )
     ]),
     TestCaseInfo('scaled_case_3_http_10_threads_no_cp', 'scaled_case_3_http_10_threads_no_cp.jmx', [
         ServerInfo(
             'ubuntu',
-            '~/.ssh/US_Amazon.pem',
-            '54.151.78.141',
+            '~/.ssh/dhfhdsfhd.pem',
+            '54.153.83.22',
             '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
             True
         ),
         ServerInfo(
             'ubuntu',
-            '~/.ssh/US_Amazon.pem',
-            '54.215.94.69',
+            '~/.ssh/dhfhdsfhd.pem',
+            '54.151.45.206',
             '/home/ubuntu/tomcat/webapps/ROOT/moviesServletLog.txt',
             True
         )
@@ -195,7 +195,11 @@ if __name__ == '__main__':
                 print(f'[ERROR] JMeter exited abnormally in test case "{test.name}"; abort', file=sys.stderr)
                 exit(1)
         else:
-            input(f'[INFO] {test.name}: please run JMeter manually (file: {test.jml_path}); press enter when finish')
+            jmeter_ret = subprocess.run(
+                ['jmeter', '-t', test.jml_path],
+                stdout=sys.stdout, stderr=sys.stderr
+            )
+            print(f'[INFO] JMeter exited with status code {jmeter_ret.returncode}')
 
         # get results
 
