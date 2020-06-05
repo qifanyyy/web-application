@@ -183,16 +183,19 @@ if __name__ == '__main__':
 
         # run JMeter
 
-        print(f'[INFO] start JMeter for test case "{test.name}"')
-        test_file_name_stem = test.get_test_case_file_name_stem()
-        jmeter_ret = subprocess.run(
-            ['jmeter', '-n', '-t', test.jml_path, '-l', f'{test_file_name_stem}.jtl'],
-            stdout=sys.stdout, stderr=sys.stderr
-        )
+        if len(sys.argv) == 2 and sys.argv[1] == '--automatic':
+            print(f'[INFO] start JMeter for test case "{test.name}"')
+            test_file_name_stem = test.get_test_case_file_name_stem()
+            jmeter_ret = subprocess.run(
+                ['jmeter', '-n', '-t', test.jml_path, '-l', f'{test_file_name_stem}.jtl'],
+                stdout=sys.stdout, stderr=sys.stderr
+            )
 
-        if jmeter_ret.returncode != 0:
-            print(f'[ERROR] JMeter exited abnormally in test case "{test.name}"; abort', file=sys.stderr)
-            exit(1)
+            if jmeter_ret.returncode != 0:
+                print(f'[ERROR] JMeter exited abnormally in test case "{test.name}"; abort', file=sys.stderr)
+                exit(1)
+        else:
+            input(f'[INFO] {test.name}: please run JMeter manually (file: {test.jml_path}); press enter when finish')
 
         # get results
 
