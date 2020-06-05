@@ -31,8 +31,8 @@ See [encrypt_password/README.md](./encrypt_password/README.md)
 - Team: 12
 - Names: Qifan Yu, Tongjie Wang
 - Project 5 Video Demo Link
-    - YouTube:
-    - UCI ICS (backup):
+    - YouTube: https://youtu.be/nwRz9DHRw5M
+    - UCI ICS (backup): https://www.ics.uci.edu/~tongjiew/cs122b_proj5.mov
 - Instruction of deployment: See [server/README.md](./server/README.md).
 - Collaborations and Work Distribution:
     - Qifan Yu
