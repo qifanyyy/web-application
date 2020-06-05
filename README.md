@@ -12,8 +12,6 @@ mysql -umytestuser -p moviedb < set-missing-rating-to-zero.sql
 mysql -umytestuser -p moviedb < stored-procedure.sql
 ```
 
-
-
 ## Server
 
 See [server/README.md](./server/README.md).
@@ -28,91 +26,92 @@ See [encrypt_password/README.md](./encrypt_password/README.md)
 
 ## Project 5
 
-- # General
-    - #### Team#:12
+### General
 
-    - #### Names:Qifan Yu, Tongjie Wang
+- Team: 12
+- Names: Qifan Yu, Tongjie Wang
+- Project 5 Video Demo Link
+    - YouTube:
+    - UCI ICS (backup):
+- Instruction of deployment: See [server/README.md](./server/README.md).
+- Collaborations and Work Distribution:
+    - Qifan Yu
+        - Connection Pooling
+        - Master/slave
+        - Load balancing
+    - Tongjie Wang
+        - Log Processing Script
+        - JMeter TS/TJ Time Measurement Report
+        - Log files
 
-    - #### Project 5 Video Demo Link:
-
-    - #### Instruction of deployment:
-
-    - #### Collaborations and Work Distribution:
-    Qifan Yu
-    - Connection Pooling
-    - Master/slave
-    - Load balancing
-
-    Tongjie Wang
-    - Log Processing Script
-    - JMeter TS/TJ Time Measurement Report
-    - Log files
-
-
-
-
-- # Connection Pooling
-    - #### Include the filename/path of all code/configuration files in GitHub of using JDBC Connection Pooling.
+### Connection Pooling
+- Include the filename/path of all code/configuration files in GitHub of using JDBC Connection Pooling.
     - MoviesServlet:
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/MoviesServlet.java
+
+        - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/MoviesServlet.java
     - SingleMovieServlet:
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/SingleMovieServlet.java
+      - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/SingleMovieServlet.java
     - SingleStarServlet:
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/SingleStarServlet.java
+    
+        - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/SingleStarServlet.java
     - GenresServlet
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/GenresServlet.java
+      - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/GenresServlet.java
     - LoginServlet
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/LoginServlet.java
+    
+        - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/LoginServlet.java
     - PaymentServlet
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/PaymentServlet.java
+      - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/PaymentServlet.java
     - DashboardServlet
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/DashboardServlet.java
+    
+        - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/DashboardServlet.java
     - SingleStarServlet
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/SingleStarServlet.java
+      - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/SingleStarServlet.java
     - Suggestion
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/Suggestion.java
-
-    - #### Explain how Connection Pooling is utilized in the Fabflix code.
-    - Connection Pooling is utilized by adding the mysql connection pools to context.xml file.
-    - It helps to get an indolent connection from the corresponding connection pool for each servlet that needs to talk to the database,
-
-    - #### Explain how Connection Pooling works with two backend SQL.
-    - Two connection Pooling are created to work with two backend (master, slave) SQL . A connection pool is created for master database
-    - The other connection pool is created for slave database.
-    - The ip addresses of master instance and slave instance are utilized to allow Tomcat on both instances to talk to each other’s database.
+    
+        - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/src/Suggestion.java
+    - `context.xml`
+        - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/server/WebContent/META-INF/context.xml
 
 
-- # Master/Slave
-    - #### Include the filename/path of all code/configuration files in GitHub of routing queries to Master/Slave SQL.
-    - mysqlrouter.conf
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/configuration_files/mysqlrouter.conf
-    - 000-default.conf
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/configuration_files/000-default.conf
-    - #### How read/write requests were routed to Master/Slave SQL?
-    - I use MySQL Router to receive all the read and write requests from mysql database and only balanced send read request to master and slave database,
-    - and all the write request will be send to master database
-    - A diagram of how read/write requests were routed to Master/Slave SQL:
-    - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/Diagram.png
+#### How Connection Pooling is utilized in the Fabflix code
+- Connection Pooling is utilized by adding the mysql connection pools to `context.xml` file.
+- It helps to get an indolent connection from the corresponding connection pool for each servlet that needs to talk to the database,
 
-- # JMeter TS/TJ Time Logs
-    - #### Instructions of how to use the `log_processing.*` script to process the JMeter logs.
+#### How Connection Pooling works with two backend SQL
+- Two connection Pooling are created to work with two backend (master, slave) SQL . A connection pool is created for master database
+- The other connection pool is created for slave database.
+- The ip addresses of master instance and slave instance are utilized to allow Tomcat on both instances to talk to each other’s database.
 
 
-- # JMeter TS/TJ Time Measurement Report
+### Master/Slave
+- Include the filename/path of all code/configuration files in GitHub of routing queries to Master/Slave SQL.
+- `000-default.conf.2` (renamed to `000-default.conf` when deployed)
+  - https://github.com/UCI-Chenli-teaching/cs122b-spring20-team-12/blob/master/configuration_files/000-default.conf.2
 
-| **Single-instance Version Test Plan**          | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
-|------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------|--------------|
-| Case 1: HTTP/1 thread                          | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 2: HTTP/10 threads                        | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 3: HTTPS/10 threads                       | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 4: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
+#### How read/write requests were routed to Master/Slave SQL
 
-| **Scaled Version Test Plan**                   | **Graph Results Screenshot** | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
-|------------------------------------------------|------------------------------|----------------------------|-------------------------------------|---------------------------|--------------|
-| Case 1: HTTP/1 thread                          | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 2: HTTP/10 threads                        | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
-| Case 3: HTTP/10 threads/No connection pooling  | ![](path to image in img/)   | ??                         | ??                                  | ??                        | ??           |
+![Diagram](./Diagram.png)
 
+### JMeter
+
+#### `log_processing.*` Instruction
+
+`log_processing.py` (inside `server/jmeter_test`) has two modes: automatic and manual. To run it in automatic mode, in which the script will automatic run JMeter in command line mode, use `python log_processing.py --automatic`. To run it in manual mode, in which the script will open the JMeter GUI, use `python log_processing.py`. The average TS/TJ time will be shown in the output.
+
+#### JMeter TS/TJ Time Measurement Report
+
+| **Single-instance Version Test Plan**         | **Graph Results Screenshot**                                 | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
+| --------------------------------------------- | ------------------------------------------------------------ | -------------------------- | ----------------------------------- | ------------------------- | ------------ |
+| Case 1: HTTP/1 thread                         | ![single-case-1](./server/jmeter_test/img/single-case-1.png) | 14                         | 2.8762337346707043                  | 2.842608534065102         |              |
+| Case 2: HTTP/10 threads                       | ![single-case-2](./server/jmeter_test/img/single-case-2.png) | 28                         | 17.01773006926571                   | 16.98955548675246         |              |
+| Case 3: HTTPS/10 threads                      | ![single-case-3](./server/jmeter_test/img/single-case-3.png) | 31                         | 19.060555562074185                  | 19.02501352649508         |              |
+| Case 4: HTTP/10 threads/No connection pooling | ![single-case-4](./server/jmeter_test/img/single-case-4.png) | 42                         | 29.922458720666164                  | 29.873295538228618        |              |
+
+| **Scaled Version Test Plan**                  | **Graph Results Screenshot**                                 | **Average Query Time(ms)** | **Average Search Servlet Time(ms)** | **Average JDBC Time(ms)** | **Analysis** |
+| --------------------------------------------- | ------------------------------------------------------------ | -------------------------- | ----------------------------------- | ------------------------- | ------------ |
+| Case 1: HTTP/1 thread                         | ![scaled-case-1](./server/jmeter_test/img/scaled-case-1.png) | 16                         | 3.1062640738077216                  | 3.0541733289174866        |              |
+| Case 2: HTTP/10 threads                       | ![scaled-case-2](./server/jmeter_test/img/scaled-case-2.png) | 18                         | 5.2324613266464794                  | 5.205029690386071         |              |
+| Case 3: HTTP/10 threads/No connection pooling | ![scaled-case-3](./server/jmeter_test/img/scaled-case-3.png) | 28                         | 15.761717186908815                  | 15.610764665153235        |              |
 
 ## Project 4
 
